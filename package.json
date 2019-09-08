@@ -1,0 +1,22 @@
+{
+  "name": "neo",
+  "version": "1.0.0",
+  "description": "A scripting language for Neopets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EthanThatOneKid/neo.git"
+  },
+  "keywords": [
+    "neopets"
+  ],
+  "author": "EthanThatOneKid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EthanThatOneKid/neo/issues"
+  },
+  "homepage": "https://github.com/EthanThatOneKid/neo#readme"
+}
