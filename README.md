@@ -98,14 +98,6 @@ The `sel` keyword sets a select element to a specified or random option.
 
 The `title` keyword is used for detail-oriented purposes during runtime and in the data collection.
 
-## 🌎 Global Variables
-### `SECRET_USERNAME` and `SECRET_PASSWORD`
-These global variables should be manually defined in the relative [.env file](#env). The variables are provided in order to log in to Neopets during runtime.
-### `PET_NAME`
-This global variable represents the name of the Neopet currently in play.
-### `NEO_...`
-Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
-
 ## 🔍 Reference
 ### Required
 Some arguments are required for certain keywords.
@@ -117,6 +109,14 @@ A .env file (literally named ".env") is a file that contains secret information 
 SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
 SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 ```
+
+## 🌎 Global Variables
+### `SECRET_USERNAME` and `SECRET_PASSWORD`
+These global variables should be manually defined in the relative [.env file](#env). The variables are provided in order to log in to Neopets during runtime.
+### `PET_NAME`
+This global variable represents the name of the Neopet currently in play.
+### `NEO_...`
+Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
 
 ## ✏ Developer's Note
 I really like Neopets, but sometimes, I am short on time and I am unable to do all my dailies manually. I created this language so I could script out all of my Neopets dailies and also because I thought it would be a fun project since I enjoy recreational programming.
