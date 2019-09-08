@@ -100,11 +100,11 @@ The `title` keyword is used for detail-oriented purposes during runtime and in t
 
 ## 🌎 Global Variables
 ### `SECRET_USERNAME` and `SECRET_PASSWORD`
-These global variables should be manually defined in the relative [.env file](#.env). The variables are provided in order to log in to Neopets during runtime.
+These global variables should be manually defined in the relative [.env file](#env). The variables are provided in order to log in to Neopets during runtime.
 ### `PET_NAME`
 This global variable represents the name of the Neopet currently in play.
 ### `NEO_...`
-Any variables defined in the [.env file](#.env) that are prefaced with "NEO_" will be included as a global variable.
+Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
 
 ## 🔍 Reference
 ### Required
