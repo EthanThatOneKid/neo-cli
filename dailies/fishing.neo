@@ -1,0 +1,7 @@
+title Ye Olde Fishing Vortex
+err unable to fish today
+eachpet err unable to fish with PET_NAME
+goto http://www.neopets.com/water/fishing.phtml
+await
+rew #reward-el
+endeach

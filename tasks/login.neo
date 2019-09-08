@@ -1,0 +1,4 @@
+title Logging In
+err failed to login as SECRET_USERNAME
+login SECRET_USERNAME, SECRET_PASSWORD
+log successfully logged in as SECRET_USERNAME
