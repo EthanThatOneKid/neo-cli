@@ -1,6 +1,8 @@
 # 🐱‍👤 Neo
 > Neo, a scripting language for Neopets
 
+---
+
 ## 📃 Documentation
 ### `>`
 * usage: `> arg1`
@@ -48,7 +50,7 @@ The `log` keyword allows for descriptions to be made as the script is running. I
 * [*](#required) `arg1` is the represents the account's username.
 * [*](#required) `arg2` is the represents the account's password.
 
-The `login` keyword logs the current webpage instance in to Neopets. It is recommended that the global variables [SECRET_USERNAME](#secret_username) and [SECRET_PASSWORD](#secret_password) are used in place of `arg1` and `arg2` respectively if possible.
+The `login` keyword logs the current webpage instance in to Neopets. It is recommended that the global variables [SECRET_USERNAME and SECRET_PASSWORD](#secret_username-and-secret_password) are used in place of `arg1` and `arg2` respectively if possible.
 
 ### `neo`
 * usage: `neo arg1`
@@ -98,6 +100,8 @@ The `sel` keyword sets a select element to a specified or random option.
 
 The `title` keyword is used for detail-oriented purposes during runtime and in the data collection.
 
+---
+
 ## 🔍 Reference
 ### Required
 Some arguments are required for certain keywords.
@@ -109,6 +113,8 @@ A .env file (literally named ".env") is a file that contains secret information 
 SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
 SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 ```
+
+---
 
 ## 🌎 Global Variables
 ### `SECRET_USERNAME` and `SECRET_PASSWORD`
