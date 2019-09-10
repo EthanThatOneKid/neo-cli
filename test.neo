@@ -1,6 +1,10 @@
 title Tests
 err how could, this fail?
 eachpet
-log hello from inside the loop
+    log 1
+    rep
+        log 2
+    until 10
+    log 1
 endeach
 log Hello World

@@ -5,4 +5,4 @@ const Neo = require('./lib/Neo');
 // Main Process
 const entryFilePath = "./test.neo";
 const neo = Neo.load(entryFilePath);
-console.log(neo.instructions);
+console.log(JSON.stringify(neo.instructions, null, 2));
