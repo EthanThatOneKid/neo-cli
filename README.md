@@ -22,6 +22,12 @@ The `await` keyword is to be used after a form submission. This allows the follo
 
 The `click` keyword clicks a specified html element on the current page.
 
+#### `depo`
+* usage: `depo arg1`
+* `arg1` is an integer specifying how much NP shall be deposited into the bank.
+
+The `depo` keyword is used to deposit NP into the bank. If `arg1` is not given, all of the current NP will be deposited.
+
 #### `eachpet` and `endeach`
 * usage: `eachpet ... endeach`
 * alternate usage: `eachpet err arg1 ... endeach`
@@ -89,12 +95,23 @@ The `rew` keyword is meant to save the reward text from the task that is being e
 
 The `sav` keyword saves a desirable datapoint to the data collection for further detailing.
 
+#### `savstat`
+* usage: `savstat`
+
+The `savstat` keyword records the current number of NP in the bank and the current number of unique items in the safety deposit box.
+
 #### `sel`
 * usage: `sel arg1, arg2`
 * [*](#required) `arg1` is the [css selector](#css-selectors) representing the select element being operated on.
 * `arg2` is the option text to be selected. If `arg2` is not given or unavailable, a random option will be chosen.
 
 The `sel` keyword sets a select element to a specified or random option.
+
+#### `swap`
+* usage: `swap arg1`
+* `arg1` is the name of neopet that is being swapped into.
+
+The `swap` keyword sets the neopet in play to the one specified by `arg1`. If `arg1` is not given, the process will choose a random one.
 
 #### `title`
 * usage: `title arg1`
