@@ -6,10 +6,10 @@
 ## 📃 Documentation
 
 ### 🔑 Keywords
-#### `>`
-* usage: `> arg1`
+#### `~~`
+* usage: `~~ arg1`
 
-The `>` keyword is this language's commenting solution. The line will be ignored in compilation.
+The `~~` keyword is this language's commenting solution. The line will be ignored in compilation.
 
 #### `await`
 * usage: `await`

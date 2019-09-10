@@ -1,3 +1,6 @@
 title Tests
-err how could this fail?
+err how could, this fail?
+eachpet
+log hello from inside the loop
+endeach
 log Hello World
