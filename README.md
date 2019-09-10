@@ -47,6 +47,13 @@ The `err` keyword specifies an error message to be used in the case that the fol
 
 The `goto` keyword takes the page to a specified url.
 
+#### `field`
+* usage: `field arg1, arg2`
+* `arg1` represents the [css selector](#css-selectors) of an input element which will be filled.
+* `arg2` represents the content that the input field will be filled with.
+
+The `field` keyword allows input fields on the webpage to be filled with whatever.
+
 #### `log`
 * usage: `log arg1`
 * `arg1` is a custom message to be viewed during runtime.
@@ -58,7 +65,7 @@ The `log` keyword allows for descriptions to be made as the script is running. I
 * [*](#required) `arg1` is the represents the account's username.
 * [*](#required) `arg2` is the represents the account's password.
 
-The `login` keyword logs the current webpage instance in to Neopets. It is recommended that the global variables [SECRET_USERNAME and SECRET_PASSWORD](#secret_username-and-secret_password) are used in place of `arg1` and `arg2` respectively if possible.
+The `login` keyword logs the current webpage instance in to Neopets. It is recommended that the global variables [NEO_USERNAME and NEO_PASSWORD](#secret_username-and-secret_password) are used in place of `arg1` and `arg2` respectively if possible.
 
 #### `neo`
 * usage: `neo arg1`
@@ -120,10 +127,12 @@ The `swap` keyword sets the neopet in play to the one specified by `arg1`. If `a
 The `title` keyword is used for detail-oriented purposes during runtime and in the data collection.
 
 ### 🌎 Global Variables
-#### `SECRET_USERNAME` and `SECRET_PASSWORD`
+#### `NEO_USERNAME` and `NEO_PASSWORD`
 These global variables should be manually defined in the relative [.env file](#env). The variables are provided in order to log in to Neopets during runtime.
 #### `PET_NAME`
 This global variable represents the name of the Neopet currently in play.
+#### `DATE`
+This global variable represents the date that the script is being ran on.
 #### `NEO_...`
 Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
 
