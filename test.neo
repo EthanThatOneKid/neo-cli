@@ -1,10 +1,8 @@
-title Tests
-err how could, this fail?
-eachpet
+title Test
+rep
     log 1
     rep
-        log 2
-    until 10
-    log 1
-endeach
+        log 11
+    until 2
+until 2
 log Hello World

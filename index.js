@@ -2,7 +2,17 @@
 const puppeteer = require('puppeteer');
 const Neo = require('./lib/Neo');
 
-// Main Process
+// Globals
 const entryFilePath = "./test.neo";
-const neo = Neo.load(entryFilePath);
-console.log(JSON.stringify(neo.instructions, null, 2));
+
+// Main Process
+(async () => {
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    const neo = Neo.load(entryFilePath);
+    neo.setPage(page);
+    await neo.run();
+    process.exit();
+
+})();

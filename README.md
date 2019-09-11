@@ -41,18 +41,18 @@ In the case of an error, you may wish to specify a special error message if it o
 
 The `err` keyword specifies an error message to be used in the case that the following instructions cannot execute properly. If `arg1` is not defined,  the error message provided by the compiler will be the default error message.
 
-#### `goto`
-* usage: `goto arg1`
-* [*](#required) `arg1` is a url that the page is taken to.
-
-The `goto` keyword takes the page to a specified url.
-
 #### `field`
 * usage: `field arg1, arg2`
 * `arg1` represents the [css selector](#css-selectors) of an input element which will be filled.
 * `arg2` represents the content that the input field will be filled with.
 
 The `field` keyword allows input fields on the webpage to be filled with whatever.
+
+#### `goto`
+* usage: `goto arg1`
+* [*](#required) `arg1` is a url that the page is taken to.
+
+The `goto` keyword takes the page to a specified url.
 
 #### `log`
 * usage: `log arg1`
