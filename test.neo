@@ -1,8 +1,7 @@
-title Test
-rep
-    log 1
-    rep
-        log 11
-    until 2
-until 2
-log Hello World
+log Logging in...
+login NEO_USERNAME, NEO_PASSWORD
+log Signed in as NEO_USERNAME
+eachpet
+    log pet = PET_NAME
+endeach
+log all done

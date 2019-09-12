@@ -35,12 +35,6 @@ The `depo` keyword is used to deposit NP into the bank. If `arg1` is not given, 
 The `eachpet` keyword begins a loop that executes the instructions following the keyword up to the usage of the `endeach` keyword for each neopet owned.
 In the case of an error, you may wish to specify a special error message if it occurs within the loop. To do this, follow the conventions of the [`err`](#err) keyword in the same line as the `eachpet` keyword (as seen in the alternate usage above).
 
-#### `err`
-* usage: `err arg1`
-* `arg1` is a custom error message to be used in the case that the script cannot execute properly.
-
-The `err` keyword specifies an error message to be used in the case that the following instructions cannot execute properly. If `arg1` is not defined,  the error message provided by the compiler will be the default error message.
-
 #### `field`
 * usage: `field arg1, arg2`
 * `arg1` represents the [css selector](#css-selectors) of an input element which will be filled.
@@ -72,6 +66,12 @@ The `login` keyword logs the current webpage instance in to Neopets. It is recom
 * `arg1` can represent one of two things. If it is the relative path to a directory, it will loop through each file with the `.neo` extention. If it is a relative path to a file with the `.neo` extention, it will execute the instructions within that file.
 
 The `neo` keyword is this language's object orientation solution. It allows for smaller modules/abstractions to be defined in organized files for better readabilty/design.
+
+#### `pause`
+* usage: `pause arg1`
+* `arg1` represents the number of milliseconds to pause the instructions for.
+
+The `pause` keyword is like the `await` keyword in that it pauses the time between the next instruction for a specified number of milliseconds. This can be used instead of `await` if the webpage has janky loading.
 
 #### `read`
 * usage: `read arg1`
@@ -114,17 +114,31 @@ The `savstat` keyword records the current number of NP in the bank and the curre
 
 The `sel` keyword sets a select element to a specified or random option.
 
+#### `shoot`
+* usage `shoot arg1`
+* `arg1` is the relative path that the screen shot shall be stored.
+
+The `shoot` keyword is meant for debugging purposes. It takes a screenshot of the current screen and saves it to a specified relative path.
+
 #### `swap`
 * usage: `swap arg1`
-* `arg1` is the name of neopet that is being swapped into.
+* [*](#required) `arg1` is the name of neopet that is being swapped into.
 
 The `swap` keyword sets the neopet in play to the one specified by `arg1`. If `arg1` is not given, the process will choose a random one.
 
 #### `title`
 * usage: `title arg1`
-* `arg1` is the title overlooking all of the following instructions.
+* [*](#required) `arg1` is the title overlooking all of the following instructions.
 
 The `title` keyword is used for detail-oriented purposes during runtime and in the data collection.
+
+#### `var`
+* usage: `var arg1, arg2, arg3`
+* [*](#required) `arg1` represents the datatype being stored. It can either be `int` or `string`. Defaults to `string`.
+* [*](#required) `arg2` represents the name that the data will be stored under.
+* [*](#required) `arg3` is the [css selector](#css-selectors) that holds the desired data.
+
+The `var` keyword is used to create variables that can be accessed by later calls. It is suggested that the variable name does not conflict with any keywords.
 
 ### 🌎 Global Variables
 #### `NEO_USERNAME` and `NEO_PASSWORD`
