@@ -1,4 +1,4 @@
 log Logging in...
 login NEO_USERNAME, NEO_PASSWORD
 log Signed in as NEO_USERNAME
-neo tasks
+neo dailies/anchor.neo

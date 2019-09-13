@@ -1,8 +1,7 @@
 title Anchor Management
-err already defeated sea monster today
 goto http://www.neopets.com/pirates/anchormanagement.phtml
-log aiming cannon at seamonster
-click #form-fire-cannon
+log Aiming Cannon at Seamonster
+click #btn-fire > a
 await
-rew #reward-text-el
+read #reward-text-el
 
