@@ -1,0 +1,8 @@
+title Deposit NP
+goto http://www.neopets.com/bank.phtml
+var int, CURRENT_NP, #npanchor
+log Depositing CURRENT_NP NP
+dialog accept
+field input[name='amount'], CURRENT_NP
+click input[value='Deposit']
+log Successfully Deposited CURRENT_NP NP Into the Bank

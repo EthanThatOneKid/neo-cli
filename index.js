@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const Neo = require('./lib/Neo');
 
 // Globals
-const entryFilePath = "./test.neo";
+const entryFilePath = "./index.neo";
 
 // Main Process
 (async () => {

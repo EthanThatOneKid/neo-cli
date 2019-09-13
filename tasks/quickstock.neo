@@ -1,0 +1,9 @@
+title Quick Stock
+goto http://www.neopets.com/quickstock.phtml
+rep
+    click #content > table > tbody > tr > td.content > form > table > tbody > tr:nth-child(19) > td:nth-child(3) > input[type=radio]
+    click input[type="submit"][value="Submit"]
+    pause 100
+until form[name="quickstock"] b, Object Name
+log Quick Stock Complete
+log Inventory Has Been Emptied

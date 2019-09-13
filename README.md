@@ -22,11 +22,11 @@ The `await` keyword is to be used after a form submission. This allows the follo
 
 The `click` keyword clicks a specified html element on the current page.
 
-#### `depo`
-* usage: `depo arg1`
-* `arg1` is an integer specifying how much NP shall be deposited into the bank.
+#### `dialog`
+* usage: `dialog arg1`
+* `arg1` is either *accept* or *dismiss*
 
-The `depo` keyword is used to deposit NP into the bank. If `arg1` is not given, all of the current NP will be deposited.
+The `dialog` keyword prepares the script to handle a dialog box as specified. If `arg1` is invalid, it will default to *accept*. Note: this keyword must come before any action that invokes a dialog box since the keyword merely prepares the script.
 
 #### `eachpet` and `endeach`
 * usage: `eachpet ... endeach`
