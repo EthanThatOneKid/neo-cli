@@ -166,6 +166,11 @@ SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 
 ---
 
+## ✅ Todo
+* Gotta pivot to a general use language; not just for Neopets
+
+---
+
 ## ✏ Developer's Note
 I really like Neopets, but sometimes, I am short on time and I am unable to do all my dailies manually. I created this language so I could script out all of my Neopets dailies and also because I thought it would be a fun project since I enjoy recreational programming.
 
