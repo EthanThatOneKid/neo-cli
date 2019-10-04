@@ -1,12 +1,12 @@
 # 🐱‍👤 Neo
-> Neo, a scripting language for Neopets
+> Neo, a scripting language for ~~Neopets~~ web automation
 
 ---
 
 ## 📃 Documentation
 
 ### 🔑 Keywords
-#### `~~`
+#### `~~` ❌
 * usage: `~~ arg1`
 
 The `~~` keyword is this language's commenting solution. The line will be ignored in compilation.
@@ -28,7 +28,7 @@ The `click` keyword clicks a specified html element on the current page.
 
 The `dialog` keyword prepares the script to handle a dialog box as specified. If `arg1` is invalid, it will default to *accept*. Note: this keyword must come before any action that invokes a dialog box since the keyword merely prepares the script.
 
-#### `eachpet` and `endeach`
+#### `eachpet` and `endeach` ❌
 * usage: `eachpet ... endeach`
 * alternate usage: `eachpet err arg1 ... endeach`
 
@@ -54,7 +54,7 @@ The `goto` keyword takes the page to a specified url.
 
 The `log` keyword allows for descriptions to be made as the script is running. It is recommended to use this keyword for debugging. By default, `arg1` will be a generic log.
 
-#### `login`
+#### `login` ❌
 * usage: `login arg1, arg2`
 * [*](#required) `arg1` is the represents the account's username.
 * [*](#required) `arg2` is the represents the account's password.
@@ -89,20 +89,20 @@ This argument is only required if `arg1` is a [css selector](#css-selector).
 The `rep` keyword starts a loop that executes the instructions between itself and the following `until` keyword. It can either execute a set of instructions a specified number of times, or keep executing a set of instructions until an element on the page *does not* match a specified string.
 In the case of an error, you may wish to specify a special error message if it occurs within the loop. To do this, follow the conventions of the [`err`](#err) keyword in the same line as the `rep` keyword (as seen in the alternate usage above).
 
-#### `rew`
+#### `rew` ❌
 * usage: `rew arg1`
 * [*](#required) `arg1` is a [css selector](#css-selectors) representing the element that contains the reward text.
 
 The `rew` keyword is meant to save the reward text from the task that is being executed. It is recommended to use this keyword for further detailing the data collection.
 
-#### `sav`
+#### `sav` ❌
 * usage: `sav arg1, arg2`
 * [*](#required) `arg1` is the name arbitrarily given to the value that is being saved.
 * [*](#required) `arg2` is the a [css selector](#css-selectors) representing the element containing the desired text.
 
 The `sav` keyword saves a desirable datapoint to the data collection for further detailing.
 
-#### `savstat`
+#### `savstat` ❌
 * usage: `savstat`
 
 The `savstat` keyword records the current number of NP in the bank and the current number of unique items in the safety deposit box.
@@ -120,7 +120,7 @@ The `sel` keyword sets a select element to a specified or random option.
 
 The `shoot` keyword is meant for debugging purposes. It takes a screenshot of the current screen and saves it to a specified relative path.
 
-#### `swap`
+#### `swap` ❌
 * usage: `swap arg1`
 * [*](#required) `arg1` is the name of neopet that is being swapped into.
 
@@ -141,9 +141,9 @@ The `title` keyword is used for detail-oriented purposes during runtime and in t
 The `var` keyword is used to create variables that can be accessed by later calls. It is suggested that the variable name does not conflict with any keywords.
 
 ### 🌎 Global Variables
-#### `NEO_USERNAME` and `NEO_PASSWORD`
+#### `NEO_USERNAME` and `NEO_PASSWORD` ❌
 These global variables should be manually defined in the relative [.env file](#env). The variables are provided in order to log in to Neopets during runtime.
-#### `PET_NAME`
+#### `PET_NAME` ❌
 This global variable represents the name of the Neopet currently in play.
 #### `DATE`
 This global variable represents the date that the script is being ran on.
@@ -157,7 +157,7 @@ Any variables defined in the [.env file](#env) that are prefaced with "NEO_" wil
 Some arguments are required for certain keywords.
 ### CSS Selectors
 CSS Selectors are strings of text used to target certain HTML elements. In the case of this language, they are used to select an element to be operated on or read.
-### .env
+### .env ❌
 A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository. The contents of the file should look like this:
 ```
 SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
