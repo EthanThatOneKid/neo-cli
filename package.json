@@ -4,7 +4,7 @@
   "description": "A scripting language for Neopets",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js index.neo",
+    "start": "node index.js sample\\index.neo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

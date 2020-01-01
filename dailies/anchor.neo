@@ -1,7 +1,0 @@
-title Anchor Management
-goto http://www.neopets.com/pirates/anchormanagement.phtml
-log Aiming Cannon at Seamonster
-click #btn-fire > a
-await
-read #reward-text-el
-
