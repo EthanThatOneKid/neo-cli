@@ -1,5 +1,5 @@
 # 🐱‍👤 Neo
-> Neo, a scripting language for ~~Neopets~~ web automation
+> Neo, a scripting language for web automation ~~
 
 ---
 
@@ -83,7 +83,7 @@ The `read` keyword is meant to be used for debugging or descriptive purposes and
 * usage: `rep ... until arg1, arg2`
 * alternate usage: `rep err arg3 ... until arg1, arg2`
 * [*](#required) `arg1` can represent one of two things. If it is an integer, the following instructions will execute that many times until the `until` keyword is used. If `arg1` is a [css selector](#css-selector), then the loop will continue until the text inside of the css selector's element is *not* equivalent to `arg2`.
-* `arg2` is the text being used to test against `arg1`'s element's inner text. 
+* `arg2` is the text being used to test against `arg1`'s element's inner text.
 
 This argument is only required if `arg1` is a [css selector](#css-selector).
 The `rep` keyword starts a loop that executes the instructions between itself and the following `until` keyword. It can either execute a set of instructions a specified number of times, or keep executing a set of instructions until an element on the page *does not* match a specified string.
