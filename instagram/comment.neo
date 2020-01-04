@@ -1,0 +1,9 @@
+neo ./instagram/login.neo
+title Comment
+log Commenting on a post
+goto NEO_INSTAGRAM_POST_PAGE_B6wAhFanYIJ
+pause 3e3
+field NEO_INSTAGRAM_POST_COMMENT_FIELD, I hope you are having a wonderful day 😊
+click NEO_INSTAGRAM_POST_COMMENT_BUTTON
+pause 3e3
+shoot

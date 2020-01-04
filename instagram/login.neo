@@ -8,5 +8,4 @@ click NEO_INSTAGRAM_LOGIN_BUTTON
 log Submitted login request
 await
 pause 5e3
-shoot
 log Logged in
