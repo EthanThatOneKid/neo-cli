@@ -41,6 +41,13 @@ The `field` keyword allows input fields on the webpage to be filled with whateve
 
 The `goto` keyword takes the page to a specified url.
 
+#### `load`
+* usage: `load arg1, arg2`
+* [*](#required) `arg1` is a relative file path that contains the desired data.
+* `arg2` is the variable name that is associated with the incoming list.
+
+The path given by `arg2` should point to a file with either a `txt` or a `json` extention. When loading a `txt` file, the generated list's items are each line of the text file (deliminated by line breaks). When loading a `json` file, all of the top-level key-value pairs are saved as global variables.
+
 #### `log`
 * usage: `log arg1`
 * `arg1` is a custom message to be viewed during runtime.
@@ -132,13 +139,23 @@ SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 
 ---
 
-## ✅ Todo
-* Gotta pivot to a general use language; not just for Neopets
+## ✏ Developer's Note
+I really like Neopets, but sometimes, I am short on time and I am unable to do all my dailies manually. I created this language so I could script out all of my Neopets dailies and also because I thought it would be a fun project since I enjoy recreational programming.
+
+Edit 1/18/20: During the development of this project, Neopets started using a security feature that makes puppeteer interaction entirely impossible. Because of this, instead of making this language exclusively for Neopets scripting, I decided to make it an all-purpose web-scripting language.
 
 ---
 
-## ✏ Developer's Note
-I really like Neopets, but sometimes, I am short on time and I am unable to do all my dailies manually. I created this language so I could script out all of my Neopets dailies and also because I thought it would be a fun project since I enjoy recreational programming.
+## ✅ Todo
+* [ ] implement `load` keyword
+    * Created: 1/18/20
+    * Completed: TBA
+* [ ] documentation for using the language as a JavaScript API
+    * Created: 1/18/20
+    * Completed: TBA
+* [ ] documentation for using the language in the command line
+    * Created: 1/18/20
+    * Completed: TBA
 
 ---
 
