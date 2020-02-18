@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Dependencies
 const puppeteer = require('puppeteer');
 const Neo = require('./lib/Neo');

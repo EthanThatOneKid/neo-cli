@@ -2,6 +2,9 @@
   "name": "neo",
   "version": "1.0.0",
   "description": "A scripting language for Neopets",
+  "bin": {
+    "neo": "index.js"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js sample\\index.neo",
