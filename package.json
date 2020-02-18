@@ -1,7 +1,7 @@
 {
   "name": "neo",
   "version": "1.0.0",
-  "description": "A scripting language for Neopets",
+  "description": "Scripting language for web automation",
   "bin": {
     "neo": "index.js"
   },

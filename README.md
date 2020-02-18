@@ -123,7 +123,7 @@ Any variables defined in the [.env file](#env) that are prefaced with "NEO_" wil
 
 ---
 
-## 💻 Using Neo in the Command Line
+## 💻 Running Neo Files from the Command Line
 ### ⚡ Installation
 > Install Neo to your machine using [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/)
 ```shell
