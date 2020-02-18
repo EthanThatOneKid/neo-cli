@@ -6,10 +6,6 @@
 ## 📃 Documentation
 
 ### 🔑 Keywords
-#### `~~` ❌
-* usage: `~~ arg1`
-
-The `~~` keyword is this language's commenting solution. The line will be ignored in compilation.
 
 #### `await`
 * usage: `await`
@@ -115,6 +111,8 @@ The `title` keyword is used for detail-oriented purposes during runtime and in t
 
 The `var` keyword is used to create variables that can be accessed by later calls. It is suggested that the variable name does not conflict with any keywords.
 
+---
+
 ### 🌎 Global Variables
 #### `DATE`
 This global variable represents the date that the script is being ran on.
@@ -122,6 +120,21 @@ This global variable represents the date that the script is being ran on.
 This global variable represents the relative path based on where the interpreter was ran.
 #### `NEO_...`
 Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
+
+## 💻 Using Neo in the Command Line
+### ⚡ Installation
+> Install Neo to your machine using NPM, requiring [NodeJS](https://nodejs.org/en/)
+```bash
+git clone https://github.com/EthanThatOneKid/neo
+cd neo
+npm i # Installing dependencies
+npm i -g # Globally install Neo module
+```
+### 🐹 Usage
+> After following the installation steps, the `neo` keyword should be accessible from anywhere on your machine
+```bash
+neo path/to/neo-file.neo
+```
 
 ---
 
@@ -153,9 +166,9 @@ Edit 1/18/20: During the development of this project, Neopets started using a se
 * [ ] documentation for using the language as a JavaScript API
     * Created: 1/18/20
     * Completed: TBA
-* [ ] documentation for using the language in the command line
+* [x] documentation for using the language in the command line
     * Created: 1/18/20
-    * Completed: TBA
+    * Completed: 2/18/20
 
 ---
 
