@@ -121,18 +121,20 @@ This global variable represents the relative path based on where the interpreter
 #### `NEO_...`
 Any variables defined in the [.env file](#env) that are prefaced with "NEO_" will be included as a global variable.
 
+---
+
 ## 💻 Using Neo in the Command Line
 ### ⚡ Installation
-> Install Neo to your machine using NPM, requiring [NodeJS](https://nodejs.org/en/)
-```bash
-git clone https://github.com/EthanThatOneKid/neo
-cd neo
+> Install Neo to your machine using [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/)
+```shell
+git clone https://github.com/EthanThatOneKid/neo # Clone this repository
+cd neo # Navigate to this repository
 npm i # Installing dependencies
 npm i -g # Globally install Neo module
 ```
 ### 🐹 Usage
 > After following the installation steps, the `neo` keyword should be accessible from anywhere on your machine
-```bash
+```shell
 neo path/to/neo-file.neo
 ```
 
