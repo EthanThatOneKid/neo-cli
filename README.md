@@ -171,6 +171,9 @@ Edit 1/18/20: During the development of this project, Neopets started using a se
 * [x] documentation for using the language in the command line
     * Created: 1/18/20
     * Completed: 2/18/20
+* [ ] rewrite puppeteer to [playwrite](https://github.com/microsoft/playwright)
+    * Created: 2/23/20
+    * Completed: TBA
 
 ---
 
