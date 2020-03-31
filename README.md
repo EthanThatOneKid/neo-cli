@@ -177,6 +177,9 @@ Edit 1/18/20: During the development of this project, Neopets started using a se
 * [ ] rewrite codebase to [TypeScript](https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project)
     * Created: 3/31/20
     * Completed: TBA
+* [ ] allow for URLs to be fetched in `neo` function
+    * Created: 3/31/20
+    * Completed: TBA
 
 ---
 
