@@ -61,7 +61,7 @@ const keywords = {
     required: [true, true]
   },
   SELECT: {
-    token: "sel",
+    token: "select",
     arguments: [types.SELECTOR, types.TEXT],
     required: [true, false]
   },

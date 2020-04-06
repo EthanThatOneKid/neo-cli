@@ -13,7 +13,7 @@ const types = {
   },
   ELEMENT: {
     token: "el",
-    make: document.querySelector
+    make: sel => document.querySelector(sel.value)
   },
   URL: {
     token: "url",
