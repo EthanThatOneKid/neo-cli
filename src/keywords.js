@@ -8,11 +8,11 @@ export default keywords = {
   NEO: "neo",
   PAUSE: "pause",
   READ: "read",
-  REP: "rep",
-  SAV: "sav",
-  SEL: "sel",
+  REPEAT: "rep",
+  SAVE: "sav",
+  SELECT: "sel",
   SHOOT: "shoot",
   TITLE: "title",
   UNTIL: "until",
-  VAR: "var"
+  VARIABLE: "var"
 };

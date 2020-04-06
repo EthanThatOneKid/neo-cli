@@ -2,7 +2,7 @@
 
 // Dependencies
 const { chromium } = require('playwright');
-const Neo = require('./lib/Neo');
+const Neo = require('./src/Neo');
 
 // Globals
 const entryFilePath = process.argv[2] || "./index.neo";
