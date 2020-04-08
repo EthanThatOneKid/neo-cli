@@ -25,7 +25,7 @@ const types = {
   },
   LIST: {
     token: "list",
-    make: Array
+    make: list => [...list]
   }
 };
 

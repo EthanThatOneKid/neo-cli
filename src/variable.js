@@ -11,9 +11,9 @@ const getTypeObject = token => {
 
 const Variable = (
   typeToken,
-  rawValue,
+  value,
   type = getTypeObject(typeToken),
-  value = type.make(rawValue)
-) => ({ type, value });
+  make = () => this.type.make(this.value)
+) => ({ value, type, make });
 
-module.exports = Variable;
+module.exports = { Variable };

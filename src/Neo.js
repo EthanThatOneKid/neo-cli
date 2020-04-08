@@ -3,10 +3,10 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const urlExpansionPack = require('./urls.js');
+const urlExpansionPack = require('./maps/urls.js');
 
 // Globals
-const validKeywords = new Set(["~~", "await", "click", "dialog", "field", "goto", "log", "neo", "pause", "read", "rep", "sav", "sel", "shoot", "title", "until", "var"]);
+const validKeywords = new Set(["await", "click", "dialog", "field", "goto", "log", "neo", "pause", "read", "rep", "sav", "sel", "shoot", "title", "until", "var"]);
 const begLoopKeywords = new Set(["rep"]);
 const endLoopKeywords = new Set(["until"]);
 const validDataTypes = new Set(["int", "string"]);

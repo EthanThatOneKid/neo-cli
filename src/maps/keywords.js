@@ -1,5 +1,4 @@
 const { types } = require('./types');
-const { constants } = require('./constants');
 
 const keywords = {
   AWAIT: {
@@ -13,7 +12,7 @@ const keywords = {
   },
   DIALOG: {
     token: "dialog",
-    arguments: [[constants.ACCEPT, constants.DISMISS]],
+    arguments: [types.TEXT],
     required: [false]
   },
   FIELD: {
