@@ -1,6 +1,7 @@
 const { constants } = require('./constants');
 const { keywords } = require('./keywords');
 const { types } = require('./types');
+const { classifyMessageMap } = require('./helpers');
 
 const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   BAD_LIST_DECLARATION: () => `Type ${types.LIST.token} must be declared with ${keywords.LOAD.token} keyword.`,

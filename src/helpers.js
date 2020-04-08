@@ -1,10 +1,8 @@
-const classifyMessageMap = (token, messageMap) => {
-  return Object.entries(messageMap)
-    .reduce((result, [key, make]) => {
-      result[key] = (...args) => ({ token, message: make(...args)});
-      return result;
-    }, {});
-};
+const fs = require('fs');
+const path = require('path');
+const { constants } = require('./maps/constants');
+const { warnings } = require('./maps/warnings');
+const { errors } = require('./maps/errors');
 
 const checkArgumentIsType = (targetType, argumentType) => {
   if (argumentType instanceof Array) {
@@ -40,8 +38,25 @@ const determineViolation = (
   return;
 };
 
+const stripComments = source => {
+  const rePattern = `${constants.COMMENT_TOKEN}.*?${constants.NEW_LINE}`;
+  const re = new RegExp(rePattern, 'g');
+  return source.replace(re, constants.NEW_LINE);
+};
+
+const loadSource = async targetPath => {
+  const { dir, root, base, name, ext } = path.parse(targetPath);
+  return path.parse(targetPath);
+};
+
+const loadGlobalScope = () => {
+
+};
+
 module.exports = {
-  classifyMessageMap,
   checkArgumentIsType,
-  determineViolation
+  determineViolation,
+  stripComments,
+  loadSource,
+  loadGlobalScope
 };
