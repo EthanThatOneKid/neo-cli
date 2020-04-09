@@ -11,7 +11,7 @@ const neo2 = Neo({
 });
 
 const neo3 = Neo({
-  path: "https://github.com/EthanThatOneKid/neo/index.neo",
+  path: "https://raw.githubusercontent.com/EthanThatOneKid/neo/master/sample/index.neo",
   page: null
 });
 

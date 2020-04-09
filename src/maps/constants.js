@@ -11,7 +11,8 @@ const constants = {
   COMMENT_TOKEN: "~~",
   TOKENIZOR_REGEX: /\s*([^\s\,]+|\,)\s*/g,
   NEW_LINE: "\n",
-  NEO_FILE_EXTENTION: ".neo"
+  NEO_FILE_EXTENTION: "neo",
+  IGNORE_PREFIX: "_"
 };
 
 module.exports = { constants };
