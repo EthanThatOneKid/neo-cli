@@ -52,10 +52,11 @@ const checkIsURL = url => {
     return false;
   }
   return true;
-}
+};
+
+const getFileExt = path => path.split(".").pop();
 
 const loadSource = async targetPath => {
-  const { dir, root, base, name, ext } = path.parse(targetPath);
   if (checkIsURL(targetPath)) {
     const req = await fetch(targetPath);
     if (req.statusText === "OK") {
@@ -68,26 +69,34 @@ const loadSource = async targetPath => {
     const resolvedPath = isRelativePath
       ? path.join(process.cwd(), normalizedPath)
       : normalizedPath;
-    const stats = await fs.promises.stat(resolvedPath);
-    if (stats.isDirectory()) {
-      return (await fs.promises.readdir(resolvedPath))
-        .reduce((result, fileName) => {
-          const ext = fileName.split(".").pop(),
-                prefix = fileName[0]; 
-          if (ext === constants.NEO_FILE_EXTENTION && prefix !== constants.IGNORE_PREFIX) {
-            const fileContent = fs.readFileSync(
-              path.join(resolvedPath, fileName)
-            );
-            return result.concat(fileContent);
-          }
-          return result;
-        }, [])
-        .join("\n");
-    } else if (stats.isFile()) {
-      const fileContent = await fs.promises.readFile(resolvedPath);
-      return fileContent;
+    if (fs.existsSync(resolvedPath)) {
+      const stats = fs.statSync(resolvedPath);
+      if (stats.isDirectory()) {
+        return fs.readdirSync(resolvedPath)
+          .reduce((result, fileName) => {
+            const ext = getFileExt(fileName),
+                  prefix = fileName[0]; 
+            if (ext === constants.NEO_FILE_EXTENTION && prefix !== constants.IGNORE_PREFIX) {
+              const fileContent = fs.readFileSync(
+                path.join(resolvedPath, fileName)
+              );
+              return result.concat(fileContent);
+            }
+            return result;
+          }, [])
+          .join("\n");
+      } else if (stats.isFile()) {
+        const ext = getFileExt(resolvedPath);
+        if (ext === constants.NEO_FILE_EXTENTION) {
+          const fileContent = fs.readFileSync(resolvedPath);
+          return fileContent;
+        }
+        return errors.BAD_FILE_EXTENTION(resolvedPath);
+      } else {
+        return errors.UNKNOWN_FILE_MISHAP(resolvedPath);
+      }
     } else {
-      // error: unknown file circumstance
+      return errors.NO_SUCH_FILE_OR_DIR(resolvedPath);
     }
   }
 };
