@@ -1,18 +1,15 @@
-const { loadSource, loadGlobalScope } = require('./helpers');
+const { loadSource, loadGlobalScope, logMessage } = require('./helpers');
 const { constants } = require("./maps/constants");
 const { parse } = require('./parse');
 
 const Neo = async ({ path, page }) => {
-  const source = await loadSource(path);
-  if (source.hasOwnProperty("type")) {
-    if (source.type === constants.ERROR_TOKEN) {
-      
-    }
+  const { source, error } = await loadSource(path);
+  if (error !== undefined) {
+    return logMessage(error);
   }
-  console.log({source})
   const scope = {};
-  const instructions = [];
-
+  const instructions = parse(source);
+  console.log(JSON.stringify(instructions, null, 2))
 };
 
 module.exports = { Neo };

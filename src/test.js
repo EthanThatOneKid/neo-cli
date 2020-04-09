@@ -1,23 +1,12 @@
 const { Neo } = require('./neo2');
 
-const neo1 = Neo({
-  path: "../sample/index.neo",
-  page: null
-});
+(async () => {
+  
+  const neo1 = await Neo({
+    path: "./src/test.neo",
+    page: null
+  });
 
-const neo2 = Neo({
-  path: "../sample/",
-  page: null
-});
+  console.log({neo1});
 
-const neo3 = Neo({
-  path: "https://raw.githubusercontent.com/EthanThatOneKid/neo/master/sample/index.neo",
-  page: null
-});
-
-const neo4 = Neo({
-  path: "../sample/_test.neo",
-  page: null
-});
-
-console.log({neo1,neo2,neo3,neo4});
+})();

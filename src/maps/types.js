@@ -17,7 +17,7 @@ const types = {
   },
   URL: {
     token: "url",
-    make: URL
+    make: String
   },
   SELECTOR: {
     token: "sel",

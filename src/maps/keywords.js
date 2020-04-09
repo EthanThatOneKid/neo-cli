@@ -52,7 +52,8 @@ const keywords = {
   },
   REPEAT: {
     token: "rep",
-    arguments: []
+    arguments: [],
+    encapsulator: "until"
   },
   SAVE: {
     token: "sav",

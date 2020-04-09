@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const chalk = require('chalk');
 const { constants } = require('./maps/constants');
+const { keywords } = require('./maps/keywords');
 const { warnings } = require('./maps/warnings');
 const { errors } = require('./maps/errors');
 
@@ -56,13 +58,15 @@ const checkIsURL = url => {
 
 const getFileExt = path => path.split(".").pop();
 
-const loadSource = async targetPath => {
+const loadSource = async (targetPath, targetFileExt) => {
   if (checkIsURL(targetPath)) {
     const req = await fetch(targetPath);
     if (req.statusText === "OK") {
-      return await req.text();
+      const source = await req.text();
+      return { source };
     }
-    return errors.BAD_URL(targetPath);
+    const error = errors.BAD_URL(targetPath);
+    return { error };
   } else {
     const normalizedPath = path.normalize(targetPath);
     const isRelativePath = normalizedPath === path.resolve(targetPath);
@@ -72,31 +76,33 @@ const loadSource = async targetPath => {
     if (fs.existsSync(resolvedPath)) {
       const stats = fs.statSync(resolvedPath);
       if (stats.isDirectory()) {
-        return fs.readdirSync(resolvedPath)
+        const source = fs.readdirSync(resolvedPath)
           .reduce((result, fileName) => {
             const ext = getFileExt(fileName),
                   prefix = fileName[0]; 
-            if (ext === constants.NEO_FILE_EXTENTION && prefix !== constants.IGNORE_PREFIX) {
-              const fileContent = fs.readFileSync(
-                path.join(resolvedPath, fileName)
-              );
+            if (ext === targetFileExt && prefix !== constants.IGNORE_PREFIX) {
+              const fileContent = String(fs.readFileSync(path.join(resolvedPath, fileName)));
               return result.concat(fileContent);
             }
             return result;
           }, [])
           .join("\n");
+        return { source };
       } else if (stats.isFile()) {
         const ext = getFileExt(resolvedPath);
         if (ext === constants.NEO_FILE_EXTENTION) {
-          const fileContent = fs.readFileSync(resolvedPath);
-          return fileContent;
+          const source = String(fs.readFileSync(resolvedPath));
+          return { source };
         }
-        return errors.BAD_FILE_EXTENTION(resolvedPath);
+        const error = errors.BAD_FILE_EXTENTION(resolvedPath, targetFileExt);
+        return { error };
       } else {
-        return errors.UNKNOWN_FILE_MISHAP(resolvedPath);
+        const error = errors.UNKNOWN_FILE_MISHAP(resolvedPath);
+        return { error };
       }
     } else {
-      return errors.NO_SUCH_FILE_OR_DIR(resolvedPath);
+      const error = errors.NO_SUCH_FILE_OR_DIR(resolvedPath);
+      return { error };
     }
   }
 };
@@ -105,10 +111,30 @@ const loadGlobalScope = () => {
 
 };
 
+const logMessage = ({ token, message }) => {
+  const toLog = `${token}: ${message}`;
+  if (token === constants.ERROR_TOKEN) {
+    console.log(chalk[constants.ERROR_COLOR](toLog));
+  } else if (token === constants.WARNING_TOKEN) {
+    console.log(chalk[constants.WARNING_COLOR](toLog));
+  } else if (token === constants.OK_TOKEN) {
+    console.log(chalk[constants.OK_COLOR](toLog));
+  } else {
+    logMessage(warnings.UNEXPECTED_MESSAGE_TYPE(token, message));
+  }
+};
+
+const getKeywordObjectFromToken = targetToken => {
+  return Object.values(keywords)
+    .find(({ token }) => token === targetToken);
+};
+
 module.exports = {
   checkArgumentIsType,
   determineViolation,
   stripComments,
   loadSource,
-  loadGlobalScope
+  loadGlobalScope,
+  logMessage,
+  getKeywordObjectFromToken
 };
