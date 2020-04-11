@@ -77,16 +77,14 @@ const keywords = {
   },
   UNTIL: {
     token: "until",
-    arguments: [[types.INTEGER, types.SELECTOR], types.TEXT],
-    required: [true, false]
+    // max thresh, the element, the check
+    arguments: [types.INTEGER, types.SELECTOR, types.TEXT],
+    required: [true, false, false]
   },
   VARIABLE: {
     token: "var",
-    arguments: [
-      [Object.values(types).map(({ token }) => token)],
-      types.TEXT,
-      types.SELECTOR
-    ]
+    arguments: [types.TEXT, types.TEXT, types.SELECTOR],
+    required: [true, true, true]
   }
 };
 

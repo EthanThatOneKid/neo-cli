@@ -1,7 +1,7 @@
 const types = {
   INTEGER: {
     token: "int",
-    make: Number
+    make: n => Math.floor(Number(n.replace(/\D/g, "")))
   },
   TEXT: {
     token: "text",
@@ -10,10 +10,6 @@ const types = {
   BOOLEAN: {
     token: "bool",
     make: Boolean
-  },
-  ELEMENT: {
-    token: "el",
-    make: sel => document.querySelector(sel.value)
   },
   URL: {
     token: "url",

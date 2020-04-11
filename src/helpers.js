@@ -2,10 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
+const { Variable } = require('./Variable');
 const { constants } = require('./maps/constants');
 const { keywords } = require('./maps/keywords');
 const { warnings } = require('./maps/warnings');
 const { errors } = require('./maps/errors');
+const { types } = require('./maps/types');
 
 const checkArgumentIsType = (targetType, argumentType) => {
   if (argumentType instanceof Array) {
@@ -21,28 +23,30 @@ const checkArgumentIsType = (targetType, argumentType) => {
 
 const determineViolation = (
   {
+    token,
     arguments: targetArgTypes,
     required: requiredArgLookup
   },
   givenArgs
 ) => {
+  console.log({token,targetArgTypes,requiredArgLookup,givenArgs});
   for (let i = 0; i < targetArgTypes.length; i++) {
-    if (i < givenArgTypes.length) {
+    if (i < givenArgs.length) {
       if (!checkArgumentIsType(givenArgs[i].type, targetArgTypes[i])) {
-        if (requiredArgLookup[i]) {
-          return errors.EXPECTED_ANOTHER(givenArgs[i].type.token, targetArgTypes[i].token);
+        if (requiredArgLookup !== undefined && requiredArgLookup[i]) {
+          return errors.EXPECTED_ANOTHER(token, givenArgs[i].type.token, i + 1, targetArgTypes[i].token);
         }
-        return warnings.BAD_UNECESSARY_ARGUMENT_TYPE(givenArgs[i].type.token, i + 1);
+        return warnings.BAD_UNECESSARY_ARGUMENT_TYPE(token, givenArgs[i].type.token, i + 1);
       }
-    } else if (requiredArgLookup[i]) {
-      return errors.MISSING_EXPECTED(i + 1, targetArgTypes[i].token);
+    } else if (requiredArgLookup !== undefied && requiredArgLookup[i]) {
+      return errors.MISSING_EXPECTED(token, i + 1, targetArgTypes[i].token);
     }
   }
   return;
 };
 
 const stripComments = source => {
-  const rePattern = `${constants.COMMENT_TOKEN}.*?${constants.NEW_LINE}`;
+  const rePattern = `${constants.COMMENT_TOKEN}.*?(${constants.NEW_LINE}|$)`;
   const re = new RegExp(rePattern, 'g');
   return source.replace(re, constants.NEW_LINE);
 };
@@ -58,15 +62,20 @@ const checkIsURL = url => {
 
 const getFileExt = path => path.split(".").pop();
 
+const loadSourceFromURL = async targetPath => {
+  const req = await fetch(targetPath);
+  if (req.statusText === "OK") {
+    const source = await req.text();
+    const root = process.cwd();
+    return { source, root };
+  }
+  const error = errors.BAD_URL(targetPath);
+  return { error };
+};
+
 const loadSource = async (targetPath, targetFileExt) => {
   if (checkIsURL(targetPath)) {
-    const req = await fetch(targetPath);
-    if (req.statusText === "OK") {
-      const source = await req.text();
-      return { source };
-    }
-    const error = errors.BAD_URL(targetPath);
-    return { error };
+    return await loadSourceFromURL(targetPath);
   } else {
     const normalizedPath = path.normalize(targetPath);
     const isRelativePath = normalizedPath === path.resolve(targetPath);
@@ -87,12 +96,13 @@ const loadSource = async (targetPath, targetFileExt) => {
             return result;
           }, [])
           .join("\n");
-        return { source };
+        return { source, root: resolvedPath };
       } else if (stats.isFile()) {
         const ext = getFileExt(resolvedPath);
         if (ext === constants.NEO_FILE_EXTENTION) {
           const source = String(fs.readFileSync(resolvedPath));
-          return { source };
+          const root = path.dirname(resolvedPath);
+          return { source, root };
         }
         const error = errors.BAD_FILE_EXTENTION(resolvedPath, targetFileExt);
         return { error };
@@ -108,16 +118,18 @@ const loadSource = async (targetPath, targetFileExt) => {
 };
 
 const loadGlobalScope = () => {
-
+  return {};
 };
 
 const logMessage = ({ token, message }) => {
-  const toLog = `${token}: ${message}`;
   if (token === constants.ERROR_TOKEN) {
+    const toLog = `${token} ${chalk.bold(constants.ERROR_PREFIX)}: ${message}`;
     console.log(chalk[constants.ERROR_COLOR](toLog));
   } else if (token === constants.WARNING_TOKEN) {
+    const toLog = `${token} ${chalk.bold(constants.WARNING_PREFIX)}: ${message}`;
     console.log(chalk[constants.WARNING_COLOR](toLog));
   } else if (token === constants.OK_TOKEN) {
+    const toLog = `${token} ${chalk.bold(constants.OK_PREFIX)}: ${message}`;
     console.log(chalk[constants.OK_COLOR](toLog));
   } else {
     logMessage(warnings.UNEXPECTED_MESSAGE_TYPE(token, message));
@@ -129,6 +141,23 @@ const getKeywordObjectFromToken = targetToken => {
     .find(({ token }) => token === targetToken);
 };
 
+const variablifyArguments = ({ token, arguments }) => {
+  const keywordObject = getKeywordObjectFromToken(token);
+  const { arguments: targetArgTypes } = keywordObject;
+  return arguments.map((value, i) => Variable(value, targetArgTypes[i]));
+};
+
+const beforeErrorShoot = ({
+  async beforeErrorShoot() {
+    const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
+    const instruction = {
+      keyword: keywords.SHOOT.token,
+      arguments: [Variable(screenshotPath, types.URL)]
+    };
+    await this[keywords.SHOOT.token](instruction);
+  }
+});
+
 module.exports = {
   checkArgumentIsType,
   determineViolation,
@@ -136,5 +165,7 @@ module.exports = {
   loadSource,
   loadGlobalScope,
   logMessage,
-  getKeywordObjectFromToken
+  getKeywordObjectFromToken,
+  variablifyArguments,
+  beforeErrorShoot
 };

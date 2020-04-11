@@ -1,12 +1,20 @@
-const { Neo } = require('./neo2');
+const { Neo } = require('./Neo2');
+const { chromium } = require('playwright');
 
 (async () => {
+
+  const browser = await chromium.launch();
+  const context = await browser.newContext();
+  const page = await context.newPage();
   
   const neo1 = await Neo({
+    page,
     path: "./src/test.neo",
-    page: null
+    // path: "https://raw.githubusercontent.com/EthanThatOneKid/neo/master/sample/index.neo",
+    // path: "https://raw.githubusercontent.com/EthanThatOneKid/neo/master/sample/test.html",
   });
 
-  console.log({neo1});
+  await neo1.run();
+  process.exit(1);
 
 })();
