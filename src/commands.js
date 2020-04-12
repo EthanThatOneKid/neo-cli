@@ -5,9 +5,7 @@ const { keywords } = require("./maps/keywords");
 const { errors } = require("./maps/errors");
 const { warnings } = require("./maps/warnings");
 const { constants } = require("./maps/constants");
-const { evaluations } = require("./evaluations");
 const { loadSource } = require("./helpers");
-const NEO_MAPS = { types, errors, warnings, keywords, constants };
 
 const now = () => +new Date();
 
@@ -36,12 +34,12 @@ const commands = {
   //  \ \_____\  \ \_____\  \ \_\  \ \_____\  \ \_\ \_\ 
   //   \/_____/   \/_____/   \/_/   \/_____/   \/_/\/_/ 
   async [keywords.CLICK.token]({ arguments }) {
-    const argValues = arguments.map(arg => arg.make(this.scope));
-    const evaluation = evaluations[keywords.CLICK.token]
-      .bind(null, argValues, NEO_MAPS);
-    const error = await this.page.evaluate(evaluation);
-    if (error !== undefined) {
-      return error;
+    const [selVar] = arguments;
+    const sel = selVar.make(this.scope);
+    try {
+      await this.page.click(sel);
+    } catch (_) {
+      return errors.ELEMENT_INEXISTENT(sel);
     }
     return;
   },
@@ -54,8 +52,11 @@ const commands = {
   async [keywords.GOTO.token]({ arguments }) {
     const [url] = arguments;
     const urlValue = url.make(this.scope);
-    console.log({url,urlValue})
-    await this.page.goto(url.make(this.scope));
+    try {
+      await this.page.goto(urlValue);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
     return;
   },
 
@@ -65,7 +66,9 @@ const commands = {
   //  \ \_\    \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\ 
   //   \/_/     \/_/\/_/   \/_____/   \/_____/   \/_____/
   async [keywords.PAUSE.token]({ arguments }) {
-
+    const [_timeout] = arguments;
+    const timeout = _timeout !== undefined ? timeout : 0;
+    return await new Promise(resolve => setTimeout(resolve, timeout));
   },
 
   //  ______     __  __     ______     ______     ______  
@@ -74,11 +77,12 @@ const commands = {
   //  \/\_____\  \ \_\ \_\  \ \_____\  \ \_____\    \ \_\ 
   //   \/_____/   \/_/\/_/   \/_____/   \/_____/     \/_/
   async [keywords.SHOOT.token]({ arguments }) {
+    const [__savePath] = arguments;
+    const _savePath = __savePath !== undefined
+      ? __savePath.make(this.scope)
+      : `${constants.SHOOT_DEFAULT}_${now()}.png`;
+    const savePath = path.join(this.root, _savePath);
     try {
-      const _savePath = arguments[0] !== undefined
-        ? arguments[0].make(this.scope)
-        : `${constants.SHOOT_DEFAULT}_${now()}.png`;
-      const savePath = path.join(this.root, _savePath);
       await this.page.screenshot({ path: savePath });
     } catch (genericError) {
       const error = errors.GENERIC_ERROR(genericError);

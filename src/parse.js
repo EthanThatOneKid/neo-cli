@@ -23,9 +23,10 @@ const parseTokens = tokens => {
   const pushArgument = () => {
     if (instructions.length === 0) {
       return errors.SYNTAX_ERROR();
+    } else if (gimmeArgument.length > 0) {
+      instructions[instructions.length - 1].arguments.push(gimmeArgument.join(" "));
+      gimmeArgument.splice(0, gimmeArgument.length);
     }
-    instructions[instructions.length - 1].arguments.push(gimmeArgument.join(" "));
-    gimmeArgument.splice(0, gimmeArgument.length);
   };
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
@@ -41,7 +42,6 @@ const parseTokens = tokens => {
       if (keyword.hasOwnProperty("encapsulator")) {
         const endingEncapsulatorToken = keyword.encapsulator;
         const endingEncapsulatorIndex = findEndingEncapsulatorIndex(tokens, i, keyword.token, endingEncapsulatorToken);
-        console.log({endingEncapsulatorIndex})
         if (endingEncapsulatorIndex === -1) {
           return;
         }

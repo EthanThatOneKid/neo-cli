@@ -8,6 +8,16 @@ const { keywords } = require('./maps/keywords');
 const { warnings } = require('./maps/warnings');
 const { errors } = require('./maps/errors');
 const { types } = require('./maps/types');
+require('dotenv').config();
+
+const getReadableDate = () => {
+  const gimmeDate = new Date();
+  gimmeDate.setMinutes(gimmeDate.getMinutes() - new Date().getTimezoneOffset());
+  return gimmeDate
+    .toISOString()
+    .split("T")
+    .shift();
+};
 
 const checkArgumentIsType = (targetType, argumentType) => {
   if (argumentType instanceof Array) {
@@ -29,7 +39,6 @@ const determineViolation = (
   },
   givenArgs
 ) => {
-  console.log({token,targetArgTypes,requiredArgLookup,givenArgs});
   for (let i = 0; i < targetArgTypes.length; i++) {
     if (i < givenArgs.length) {
       if (!checkArgumentIsType(givenArgs[i].type, targetArgTypes[i])) {
@@ -53,7 +62,7 @@ const stripComments = source => {
 
 const checkIsURL = url => {
   try {
-    const test = new URL(url);
+    new URL(url);
   } catch (_) {
     return false;
   }
@@ -118,7 +127,15 @@ const loadSource = async (targetPath, targetFileExt) => {
 };
 
 const loadGlobalScope = () => {
-  return {};
+  const DATE = getReadableDate();
+  const enviromentVariables = Object.keys(process.env)
+    .reduce((result, key) => {
+      if (key.indexOf(constants.ENV_VARIABLE_PREFIX) === 0) {
+        result[key] = process.env[key];
+      }
+      return result;
+    }, {});
+  return { DATE, ...enviromentVariables };
 };
 
 const logMessage = ({ token, message }) => {

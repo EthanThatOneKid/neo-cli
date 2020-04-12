@@ -20,7 +20,8 @@ const constants = {
   NEO_FILE_EXTENTION: "neo",
   IGNORE_PREFIX: "_",
   SHOOT_DEFAULT: "./NEO_SHOOT",
-  BEFORE_ERROR_NAME: "./NEO_BEFORE_ERROR"
+  BEFORE_ERROR_NAME: "./NEO_BEFORE_ERROR",
+  ENV_VARIABLE_PREFIX: "NEO_"
 };
 
 module.exports = { constants };

@@ -10,30 +10,14 @@ const { constants } = require("./maps/constants");
 const { keywords } = require("./maps/keywords");
 const { parse } = require('./parse');
 
-const quit = () => process.exit(0);
-const check = error => {
+const Neo = async ({ source, root, page }) => {
+  const { instructions, error } = parse(source);
   if (error !== undefined) {
     logMessage(error);
-    quit();
-  }
-};
-
-const Neo = async ({ path, page }) => {
-  
-  const { source, root, error: sourceError } = await loadSource(path);
-  if (sourceError !== undefined) {
-    logMessage(sourceError);
     return;
   }
-
-  const { instructions, error: parseError } = parse(source);
-  if (parseError !== undefined) {
-    logMessage(parseError);
-    return;
-  }
-
   const scope = loadGlobalScope();
-  
+  console.log(JSON.stringify(instructions,null,2))
   return {
     page, root, scope, ...beforeErrorShoot, ...commands,
     async run() {
@@ -49,6 +33,15 @@ const Neo = async ({ path, page }) => {
     }
   };
 
+};
+
+Neo.load = async ({ path, page }) => {
+  const { source, root, error } = await loadSource(path);
+  if (error !== undefined) {
+    logMessage(error);
+    return;
+  }
+  return Neo({ source, root, page });
 };
 
 module.exports = { Neo };

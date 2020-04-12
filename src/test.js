@@ -7,7 +7,7 @@ const { chromium } = require('playwright');
   const context = await browser.newContext();
   const page = await context.newPage();
   
-  const neo1 = await Neo({
+  const neo1 = await Neo.load({
     page,
     path: "./src/test.neo",
     // path: "https://raw.githubusercontent.com/EthanThatOneKid/neo/master/sample/index.neo",
