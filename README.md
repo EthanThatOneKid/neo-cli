@@ -161,26 +161,4 @@ Edit 1/18/20: During the development of this project, Neopets started using a se
 
 ---
 
-## ✅ Todo
-* [ ] implement `load` keyword
-    * Created: 1/18/20
-    * Completed: TBA
-* [ ] documentation for using the language as a JavaScript API
-    * Created: 1/18/20
-    * Completed: TBA
-* [x] documentation for using the language in the command line
-    * Created: 1/18/20
-    * Completed: 2/18/20
-* [x] rewrite puppeteer to [playwrite](https://github.com/microsoft/playwright)
-    * Created: 2/23/20
-    * Completed: 3/19/20
-* [ ] rewrite codebase to [TypeScript](https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project)
-    * Created: 3/31/20
-    * Completed: TBA
-* [ ] allow for URLs to be fetched in `neo` function
-    * Created: 3/31/20
-    * Completed: TBA
-
----
-
 Developed with 💖 by EthanThatOneKid
