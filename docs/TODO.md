@@ -1,5 +1,5 @@
 # ✔ Todo
-* [ ] implement `load` keyword
+* [ ] implement `load` keyword; applies list value to variable from path/url to json, csv, or txt.
   * Created: 1/18/20
   * Completed: TBA
 * [ ] documentation for using the language as a JavaScript API
@@ -21,5 +21,8 @@
   * Created: 4/13/20
   * Completed: TBA
 * [ ] implement `sneak` and `bake` keywords; `sneak` apply current page cookies to variable; `bake` apply variable value of type cook to current page. This is meant to save an authentication state; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/authentication.js).
+  * Created: 4/13/20
+  * Completed: TBA
+* [ ] implement `this` and `if` keywords; `this` instantiates a block. `if` runs the block only if the condition is true.
   * Created: 4/13/20
   * Completed: TBA
