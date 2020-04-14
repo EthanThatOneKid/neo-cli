@@ -26,8 +26,7 @@ const commands = {
     try {
       await this.page.waitForNavigation({ timeout, waitUntil });
     } catch (_) {
-      const warning = warnings.NAV_THRESH_BREAK(timeout);
-      return warning;
+      return warnings.NAV_THRESH_BREAK(timeout);
     }
     return;
   },
@@ -82,6 +81,7 @@ const commands = {
     } catch (genericError) {
       return errors.GENERIC_ERROR(genericError);
     }
+    return;
   },                                              
 
   //  ______     ______     ______   ______    
@@ -121,8 +121,7 @@ const commands = {
   async [keywords.NEO.token]({ arguments }) {
     const [pathVar] = arguments;
     const neo = await Neo.load(pathVar.make(this.scope));
-    await neo.run();
-    return;
+    return await neo.run();
   },
 
   //  ______   ______     __  __     ______     ______    
@@ -165,7 +164,27 @@ const commands = {
   // \ \  __<   \ \  __\   \ \  _-/ \ \  __\   \ \  __ \  \/_/\ \/ 
   //  \ \_\ \_\  \ \_____\  \ \_\    \ \_____\  \ \_\ \_\    \ \_\ 
   //   \/_/ /_/   \/_____/   \/_/     \/_____/   \/_/\/_/     \/_/   
-  async [keywords.REPEAT.token]({ arguments }) {
+  async [keywords.REPEAT.token]({ arguments, instructions }) {
+    const [maxRepeatsVar, selVar, testTextVar] = arguments;
+    let targetSel, targetElement, testText,
+        currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
+    while (currentRepeats++ <= maxRepeats) {
+      await this.run({ instructions });
+      maxRepeats = maxRepeatsVar.make(this.scope);
+      if (selVar !== undefined) {
+        testText = testTextVar.make(this.scope);
+        targetSel = targetSelVar.make(this.scope);
+        targetElement = await this.page.$(targetSel);
+        if (targetElement !== null) {
+          const containsTestText = (await targetElement.innerText()).includes(testText);
+          if (containsTestText) {
+            break;
+          }
+        } else {
+          return errors.ELEMENT_INEXISTENT(sel);
+        }
+      }
+    }
     return;
   },
 
@@ -184,6 +203,13 @@ const commands = {
   //  \/\_____\  \ \_____\  \ \_____\  \ \_____\  \ \_____\    \ \_\ 
   //   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/     \/_/  
   async [keywords.SELECT.token]({ arguments }) {
+    // const [cssSel, value] = config.arguments;
+    // await this.page.$eval(this.populateArgument(cssSel), (sel, value) => {
+    //   value = value === undefined
+    //     ? ~~((sel.options.length - 1) * Math.random()) + 1
+    //     : [...sel.options].map(opt => opt.innerText).indexOf(value);
+    //   sel.value = `${value}`;
+    // }, value);
     return;
   },
 
@@ -211,6 +237,15 @@ const commands = {
   //  \ \__|    \ \_\ \_\  \ \_\ \_\  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
   async [keywords.VARIABLE.token]({ arguments }) {
+    const [typeStringVar, varNameVar, valueVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
+    }
+    const varName = varNameVar.make();
+    const value = valueVar.make(this.scope);
+    this.scope[varName] = Variable({ value, type });
     return;
   }
 

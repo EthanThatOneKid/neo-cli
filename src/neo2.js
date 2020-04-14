@@ -10,16 +10,15 @@ const { constants } = require("./maps/constants");
 const { keywords } = require("./maps/keywords");
 const { parse } = require('./parse');
 
-const Neo = async ({ source, root, page }) => {
-  const { instructions, error } = parse(source);
-  if (error !== undefined) {
-    logMessage(error);
-    return;
-  }
+const Neo = async ({
+  instructions: autoInstructions,
+  root,
+  page
+}) => {
   const scope = loadGlobalScope();
   return {
     page, root, scope, ...beforeErrorShoot, ...commands,
-    async run() {
+    async run(instructions = autoInstructions) {
       for (const instruction of instructions) {
         instruction.arguments = variablifyArguments(instruction);
         const error = await this[instruction.token](instruction);
@@ -40,7 +39,16 @@ Neo.load = async ({ path, page }) => {
     logMessage(error);
     return;
   }
-  return Neo({ source, root, page });
+  return await Neo.parse({ source, root, page });
+};
+
+Neo.parse = async ({ source, root, page }) => {
+  const { instructions, error } = parse(source);
+  if (error !== undefined) {
+    logMessage(error);
+    return;
+  }
+  return await Neo({ instructions, root, page });
 };
 
 module.exports = { Neo };
