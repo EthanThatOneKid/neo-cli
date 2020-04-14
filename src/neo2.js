@@ -17,7 +17,6 @@ const Neo = async ({ source, root, page }) => {
     return;
   }
   const scope = loadGlobalScope();
-  console.log(JSON.stringify(instructions,null,2))
   return {
     page, root, scope, ...beforeErrorShoot, ...commands,
     async run() {

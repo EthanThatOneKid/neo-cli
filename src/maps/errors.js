@@ -11,6 +11,7 @@ const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   BAD_FILE_EXTENTION: (path, ext) => `File '${path}' expected a file extension '${ext}'.`,
   UNKNOWN_FILE_MISHAP: (path) => `Unknown file circumstance at '${path}'.`,
   NO_SUCH_FILE_OR_DIR: (path) => `No such file or directory at '${path}'.`,
+  NO_SUCH_TYPE: (typeText) => `No such type ${typeText} exists.`,
   SYNTAX_ERROR: () => `Proper syntax is required. Confirm that your source file(s) are correct. Review the documentation for examples.`,
   GENERIC_ERROR: (err) => `${err}`
 });

@@ -11,7 +11,7 @@
 
 const Variable = (value, type) => ({
   value, type,
-  make(scope) {
+  make(scope = {}) {
     const populatedValue = Object.keys(scope)
       .reduce((result, varName) => {
         if (result.indexOf(varName) > -1) {

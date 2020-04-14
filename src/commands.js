@@ -5,7 +5,11 @@ const { keywords } = require("./maps/keywords");
 const { errors } = require("./maps/errors");
 const { warnings } = require("./maps/warnings");
 const { constants } = require("./maps/constants");
-const { loadSource } = require("./helpers");
+const {
+  loadSource,
+  logMessage,
+  getTypeObjectFromToken
+} = require("./helpers");
 
 const now = () => +new Date();
 
@@ -44,6 +48,42 @@ const commands = {
     return;
   },
 
+  //  _____     __     ______     __         ______     ______    
+  // /\  __-.  /\ \   /\  __ \   /\ \       /\  __ \   /\  ___\   
+  // \ \ \/\ \ \ \ \  \ \  __ \  \ \ \____  \ \ \/\ \  \ \ \__ \  
+  //  \ \____-  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/____/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
+  async [keywords.DIALOG.token]({ arguments }) {
+    const [choiceVar] = arguments;
+    const _choice = choiceVar.make(this.scope);
+    const choice = [constants.ACCEPT, constants.DISMISS].includes(_choice)
+      ? _choice
+      : constants.ACCEPT;
+    try {
+      this.page.on("dialog", async dialog => await dialog[choice]());
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
+    return;
+  },
+
+  //  ______   __     ______     __         _____    
+  // /\  ___\ /\ \   /\  ___\   /\ \       /\  __-.  
+  // \ \  __\ \ \ \  \ \  __\   \ \ \____  \ \ \/\ \ 
+  //  \ \_\    \ \_\  \ \_____\  \ \_____\  \ \____- 
+  //   \/_/     \/_/   \/_____/   \/_____/   \/____/ 
+  async [keywords.FIELD.token]({ arguments }) {
+    const [selVar, inputVar] = arguments;
+    const sel = selVar.make(this.scope);
+    const input = inputVar.make(this.scope);
+    try {
+      await this.page.focus(sel);
+      await this.page.keyboard.type(input);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
+  },                                              
+
   //  ______     ______     ______   ______    
   // /\  ___\   /\  __ \   /\__  _\ /\  __ \   
   // \ \ \__ \  \ \ \/\ \  \/_/\ \/ \ \ \/\ \  
@@ -60,6 +100,31 @@ const commands = {
     return;
   },
 
+  //  __         ______     ______    
+  // /\ \       /\  __ \   /\  ___\   
+  // \ \ \____  \ \ \/\ \  \ \ \__ \  
+  //  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/_____/   \/_____/   \/_____/   
+  async [keywords.LOG.token]({ arguments }) {
+    const [messageVar] = arguments;
+    const token = constants.OK_TOKEN;
+    const message = messageVar.make(this.scope);
+    logMessage({ token, message });
+    return;
+  },
+
+  //  __   __     ______     ______    
+  // /\ "-.\ \   /\  ___\   /\  __ \   
+  // \ \ \-.  \  \ \  __\   \ \ \/\ \  
+  //  \ \_\\"\_\  \ \_____\  \ \_____\ 
+  //   \/_/ \/_/   \/_____/   \/_____/   
+  async [keywords.NEO.token]({ arguments }) {
+    const [pathVar] = arguments;
+    const neo = await Neo.load(pathVar.make(this.scope));
+    await neo.run();
+    return;
+  },
+
   //  ______   ______     __  __     ______     ______    
   // /\  == \ /\  __ \   /\ \/\ \   /\  ___\   /\  ___\   
   // \ \  _-/ \ \  __ \  \ \ \_\ \  \ \___  \  \ \  __\   
@@ -69,6 +134,57 @@ const commands = {
     const [_timeout] = arguments;
     const timeout = _timeout !== undefined ? timeout : 0;
     return await new Promise(resolve => setTimeout(resolve, timeout));
+  },
+  
+  //  ______     ______     ______     _____    
+  // /\  == \   /\  ___\   /\  __ \   /\  __-.  
+  // \ \  __<   \ \  __\   \ \  __ \  \ \ \/\ \ 
+  //  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \____- 
+  //   \/_/ /_/   \/_____/   \/_/\/_/   \/____/   
+  async [keywords.READ.token]({ arguments }) {
+    const [typeStringVar, varNameVar, selVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
+    }
+    const varName = varNameVar.make();
+    const sel = selVar.make(this.scope);
+    let value;
+    try {
+      resultValue = await this.page.$eval(sel, el => el.innerText);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
+    this.scope[varName] = Variable({ value, type });
+    return;
+  },
+
+  //  ______     ______     ______   ______     ______     ______  
+  // /\  == \   /\  ___\   /\  == \ /\  ___\   /\  __ \   /\__  _\ 
+  // \ \  __<   \ \  __\   \ \  _-/ \ \  __\   \ \  __ \  \/_/\ \/ 
+  //  \ \_\ \_\  \ \_____\  \ \_\    \ \_____\  \ \_\ \_\    \ \_\ 
+  //   \/_/ /_/   \/_____/   \/_/     \/_____/   \/_/\/_/     \/_/   
+  async [keywords.REPEAT.token]({ arguments }) {
+    return;
+  },
+
+  //  ______     ______     __   __   ______    
+  // /\  ___\   /\  __ \   /\ \ / /  /\  ___\   
+  // \ \___  \  \ \  __ \  \ \ \'/   \ \  __\   
+  //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
+  //   \/_____/   \/_/\/_/   \/_/      \/_____/  
+  async [keywords.SAVE.token]({ arguments }) {
+    return;
+  },
+
+  //  ______     ______     __         ______     ______     ______  
+  // /\  ___\   /\  ___\   /\ \       /\  ___\   /\  ___\   /\__  _\ 
+  // \ \___  \  \ \  __\   \ \ \____  \ \  __\   \ \ \____  \/_/\ \/ 
+  //  \/\_____\  \ \_____\  \ \_____\  \ \_____\  \ \_____\    \ \_\ 
+  //   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/     \/_/  
+  async [keywords.SELECT.token]({ arguments }) {
+    return;
   },
 
   //  ______     __  __     ______     ______     ______  
@@ -85,9 +201,17 @@ const commands = {
     try {
       await this.page.screenshot({ path: savePath });
     } catch (genericError) {
-      const error = errors.GENERIC_ERROR(genericError);
-      return error;
+      return errors.GENERIC_ERROR(genericError);
     }
+  },
+
+  //  __   __   ______     ______     __     ______     ______     __         ______    
+  // /\ \ / /  /\  __ \   /\  == \   /\ \   /\  __ \   /\  == \   /\ \       /\  ___\   
+  // \ \ \'/   \ \  __ \  \ \  __<   \ \ \  \ \  __ \  \ \  __<   \ \ \____  \ \  __\   
+  //  \ \__|    \ \_\ \_\  \ \_\ \_\  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
+  async [keywords.VARIABLE.token]({ arguments }) {
+    return;
   }
 
 };

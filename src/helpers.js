@@ -158,6 +158,11 @@ const getKeywordObjectFromToken = targetToken => {
     .find(({ token }) => token === targetToken);
 };
 
+const getTypeObjectFromToken = targetToken => {
+  return Object.values(types)
+    .find(({ token }) => token === targetToken);
+};
+
 const variablifyArguments = ({ token, arguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
@@ -183,6 +188,7 @@ module.exports = {
   loadGlobalScope,
   logMessage,
   getKeywordObjectFromToken,
+  getTypeObjectFromToken,
   variablifyArguments,
   beforeErrorShoot
 };
