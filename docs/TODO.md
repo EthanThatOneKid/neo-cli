@@ -1,5 +1,5 @@
 # ✔ Todo
-* [ ] implement `load` keyword; applies list value to variable from path/url to json, csv, or txt.
+* [ ] implement `load` keyword; applies list value to variable from path/url to json, or txt.
   * Created: 1/18/20
   * Completed: TBA
 * [ ] documentation for using the language as a JavaScript API
