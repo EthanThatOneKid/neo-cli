@@ -23,6 +23,6 @@
 * [ ] implement `sneak` and `bake` keywords; `sneak` apply current page cookies to variable; `bake` apply variable value of type cook to current page. This is meant to save an authentication state; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/authentication.js).
   * Created: 4/13/20
   * Completed: TBA
-* [ ] implement `this` and `if` keywords; `this` instantiates a block. `if` runs the block only if the condition is true.
+* [ ] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
   * Created: 4/13/20
   * Completed: TBA
