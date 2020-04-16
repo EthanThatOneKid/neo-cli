@@ -21,7 +21,11 @@ const constants = {
   IGNORE_PREFIX: "_",
   SHOOT_DEFAULT: "./NEO_SHOOT",
   BEFORE_ERROR_NAME: "./NEO_BEFORE_ERROR",
-  ENV_VARIABLE_PREFIX: "NEO_"
+  ENV_VARIABLE_PREFIX: "NEO_",
+  LIST_PUSH: "push",
+  LIST_POP: "pop",
+  LIST_SHIFT: "shift",
+  LIST_UNSHIFT: "unshift"
 };
 
 module.exports = { constants };

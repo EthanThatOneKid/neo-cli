@@ -11,7 +11,7 @@ const types = {
   },
   BOOLEAN: {
     token: "bool",
-    make: Boolean,
+    make: v => Boolean(Number(v)),
     toString: bool => bool ? "true" : "false"
   },
   URL: {

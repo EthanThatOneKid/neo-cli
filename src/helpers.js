@@ -190,7 +190,10 @@ const getListValueFromSource = source => {
   return list;
 };
 
+const now = () => +new Date();
+
 module.exports = {
+  now,
   checkArgumentIsType,
   determineViolation,
   stripComments,

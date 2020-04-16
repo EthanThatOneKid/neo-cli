@@ -15,6 +15,12 @@ const keywords = {
     arguments: [types.TEXT],
     required: [false]
   },
+  EDIT: {
+    token: "edit",
+    // list to edit, push|pop|shift|unshift, addition
+    arguments: [types.LIST, types.TEXT, types.TEXT],
+    required: [true, true, false]
+  },
   FIELD: {
     token: "field",
     arguments: [types.SELECTOR, types.TEXT],
@@ -23,6 +29,11 @@ const keywords = {
   GOTO: {
     token: "goto",
     arguments: [types.URL],
+    required: [true]
+  },
+  IF: {
+    token: "if",
+    arguments: [types.BOOLEAN],
     required: [true]
   },
   LOAD: {
@@ -34,6 +45,11 @@ const keywords = {
     token: "log",
     arguments: [types.TEXT],
     required: [true]
+  },
+  MAYBE: {
+    token: "maybe",
+    arguments: [],
+    encapsulator: "if"
   },
   NEO: {
     token: "neo",
@@ -57,7 +73,7 @@ const keywords = {
   },
   SAVE: {
     token: "sav",
-    arguments: [types.TEXT, types.SELECTOR],
+    arguments: [types.URL, types.LIST],
     required: [true, true]
   },
   SELECT: {

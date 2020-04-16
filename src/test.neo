@@ -1,6 +1,0 @@
-~~ start neo script
-goto http://ethandavidson.com/
-click #contact > span > a:nth-child(2)
-await
-shoot
-~~ end neo script
