@@ -180,6 +180,16 @@ const beforeErrorShoot = ({
   }
 });
 
+const getListValueFromSource = source => {
+  let list = [];
+  try {
+    list = JSON.parse(source);
+  } catch (_) {
+    list = source.split(constants.NEW_LINE);
+  }
+  return list;
+};
+
 module.exports = {
   checkArgumentIsType,
   determineViolation,
@@ -190,5 +200,6 @@ module.exports = {
   getKeywordObjectFromToken,
   getTypeObjectFromToken,
   variablifyArguments,
-  beforeErrorShoot
+  beforeErrorShoot,
+  getListValueFromSource
 };

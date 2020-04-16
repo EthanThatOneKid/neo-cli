@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Scripting language for web automation",
   "bin": {
-    "neo": "index.js"
+    "neo": "bin.js"
   },
   "main": "index.js",
   "scripts": {

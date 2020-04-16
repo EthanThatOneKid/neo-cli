@@ -27,7 +27,7 @@ const keywords = {
   },
   LOAD: {
     token: "load",
-    arguments: [types.URL, types.TEXT],
+    arguments: [types.URL, types.TEXT, types.TEXT],
     required: [true, false]
   },
   LOG: {

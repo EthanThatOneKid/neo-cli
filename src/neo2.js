@@ -12,26 +12,22 @@ const { parse } = require('./parse');
 
 const Neo = async ({
   instructions: autoInstructions,
-  root,
-  page
-}) => {
-  const scope = loadGlobalScope();
-  return {
-    page, root, scope, ...beforeErrorShoot, ...commands,
-    async run(instructions = autoInstructions) {
-      for (const instruction of instructions) {
-        instruction.arguments = variablifyArguments(instruction);
-        const error = await this[instruction.token](instruction);
-        if (error !== undefined) {
-          logMessage(error);
-          await this.beforeErrorShoot();
-          return;
-        }
+  root, page, scope = loadGlobalScope()
+}) => ({
+  page, root, scope,
+  ...beforeErrorShoot, ...commands,
+  async run(instructions = autoInstructions) {
+    for (const instruction of instructions) {
+      instruction.arguments = variablifyArguments(instruction);
+      const error = await this[instruction.token](instruction);
+      if (error !== undefined) {
+        logMessage(error);
+        await this.beforeErrorShoot();
+        return;
       }
     }
-  };
-
-};
+  }
+});
 
 Neo.load = async ({ path, page }) => {
   const { source, root, error } = await loadSource(path);

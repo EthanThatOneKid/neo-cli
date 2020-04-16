@@ -8,7 +8,8 @@ const { constants } = require("./maps/constants");
 const {
   loadSource,
   logMessage,
-  getTypeObjectFromToken
+  getTypeObjectFromToken,
+  getListValueFromSource
 } = require("./helpers");
 
 const now = () => +new Date();
@@ -90,10 +91,10 @@ const commands = {
   //  \ \_____\  \ \_____\    \ \_\  \ \_____\ 
   //   \/_____/   \/_____/     \/_/   \/_____/
   async [keywords.GOTO.token]({ arguments }) {
-    const [url] = arguments;
-    const urlValue = url.make(this.scope);
+    const [urlVar] = arguments;
+    const url = urlVar.make(this.scope);
     try {
-      await this.page.goto(urlValue);
+      await this.page.goto(url);
     } catch (genericError) {
       return errors.GENERIC_ERROR(genericError);
     }
@@ -106,6 +107,20 @@ const commands = {
   //  \ \_____\  \ \_____\  \ \_\ \_\  \ \____- 
   //   \/_____/   \/_____/   \/_/\/_/   \/____/  
   async [keywords.LOAD.token]({ arguments }) {
+    const [urlVar, typeStringVar, varNameVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
+    }
+    const varName = varNameVar.make();
+    const url = urlVar.make(this.scope);
+    const { source, error } = await loadSource(url);
+    if (error !== undefined) {
+      return error;
+    }
+    const value = getListValueFromSource(source);
+    this.scope[varName] = Variable({ value, type });
     return;
   },
 
@@ -117,7 +132,8 @@ const commands = {
   async [keywords.LOG.token]({ arguments }) {
     const [messageVar] = arguments;
     const token = constants.OK_TOKEN;
-    const message = messageVar.make(this.scope);
+    const operableVariableForm = messageVar.make(this.scope);
+    const message = messageVar.type.toString(operableVariableForm);
     logMessage({ token, message });
     return;
   },
