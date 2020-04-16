@@ -5,7 +5,6 @@ const { parse } = require('./parse');
 const { types } = require("./maps/types");
 const { errors } = require("./maps/errors");
 const { warnings } = require("./maps/warnings");
-const { constants } = require("./maps/constants");
 const {
   now,
   loadSource,

@@ -12,7 +12,7 @@ const app = async ({ input, flags }) => {
   const [path] = input;
   const neo = await Neo.load({ path, page });
   await neo.run();
-  return;
+  return process.exit();
 };
 
 module.exports = { app };

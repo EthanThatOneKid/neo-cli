@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "Scripting language for web automation",
   "bin": {
+    "@EthanThatOneKid/neo": "bin.js",
     "neo": "bin.js"
   },
-  "main": "index.js",
+  "main": "bin.js",
   "scripts": {
     "start": "node index.js sample\\index.neo",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "neo test.neo"
   },
   "repository": {
     "type": "git",

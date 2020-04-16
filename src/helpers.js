@@ -166,7 +166,10 @@ const getTypeObjectFromToken = targetToken => {
 const variablifyArguments = ({ token, arguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
-  return arguments.map((value, i) => Variable(value, targetArgTypes[i]));
+  return arguments.map((value, i) => {
+    const type = targetArgTypes[i];
+    return Variable({ value, type });
+  });
 };
 
 const beforeErrorShoot = ({
