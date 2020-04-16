@@ -13,3 +13,5 @@
 log Hello World
 
 ~~ Do a test for each keyword and each variation of each keyword
+var url, PLAYGROUND_URL, sample/test.html
+log PLAYGROUND_URL

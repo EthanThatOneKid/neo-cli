@@ -99,7 +99,7 @@ const keywords = {
   },
   VARIABLE: {
     token: "var",
-    arguments: [types.TEXT, types.TEXT, types.SELECTOR],
+    arguments: [types.TEXT, types.TEXT, types.TEXT],
     required: [true, true, true]
   }
 };
