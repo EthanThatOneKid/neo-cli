@@ -1,4 +1,4 @@
-const { Neo } = require('./Neo2');
+const { Neo } = require('./Neo');
 const playwright = require('playwright');
 
 const app = async ({ input, flags }) => {

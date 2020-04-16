@@ -1,282 +1,382 @@
-// Dependencies
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const urlExpansionPack = require('./maps/urls.js');
+const path = require("path");
+const { constants } = require("./maps/constants");
+const { keywords } = require("./maps/keywords");
+const { parse } = require('./parse');
+const { types } = require("./maps/types");
+const { errors } = require("./maps/errors");
+const { warnings } = require("./maps/warnings");
+const { constants } = require("./maps/constants");
+const {
+  now,
+  loadSource,
+  loadGlobalScope,
+  variablifyArguments,
+  logMessage,
+  beforeErrorShoot,
+  getTypeObjectFromToken,
+  getListValueFromSource
+} = require('./helpers');
 
-// Globals
-const validKeywords = new Set(["await", "click", "dialog", "field", "goto", "log", "neo", "pause", "read", "rep", "sav", "sel", "shoot", "title", "until", "var"]);
-const begLoopKeywords = new Set(["rep"]);
-const endLoopKeywords = new Set(["until"]);
-const validDataTypes = new Set(["int", "string"]);
-const environmentVariablePrefix = "NEO_";
-const argumentDeliminator = ",";
-
-// Exports
-module.exports = class Neo {
-
-    constructor(config) {
-        this.root = config.root;
-        this.instructions = config.instructions;
-        this.titleName = config.titleName;
-        this.page;
-        this.errorMessage;
-        this.globals;
-        this.initializeGlobals();
+const Neo = async ({
+  instructions: autoInstructions,
+  root, page, scope = loadGlobalScope()
+}) => ({
+  page, root, scope,
+  ...beforeErrorShoot, ...commands,
+  async run(instructions = autoInstructions) {
+    for (const instruction of instructions) {
+      instruction.arguments = variablifyArguments(instruction);
+      const error = await this[instruction.token](instruction);
+      if (error !== undefined) {
+        logMessage(error);
+        await this.beforeErrorShoot();
+        return;
+      }
     }
+  }
+});
 
-    // Keyword Operations
+Neo.load = async ({ path, page }) => {
+  const { source, root, error } = await loadSource(path);
+  if (error !== undefined) {
+    logMessage(error);
+    return;
+  }
+  return await Neo.parse({ source, root, page });
+};
 
-    async await(config) {
-        const [load] = config.arguments;
-        await load === "load"
-            ? this.page.waitForNavigation({ waitUntil: "load" })
-            : this.page.waitForNavigation();
+Neo.parse = async ({ source, root, page }) => {
+  const { instructions, error } = parse(source);
+  if (error !== undefined) {
+    logMessage(error);
+    return;
+  }
+  return await Neo({ instructions, root, page });
+};
+
+const commands = {
+
+  //  ______     __     __     ______     __     ______
+  // /\  __ \   /\ \  _ \ \   /\  __ \   /\ \   /\__  _\
+  // \ \  __ \  \ \ \/ ".\ \  \ \  __ \  \ \ \  \/_/\ \/
+  //  \ \_\ \_\  \ \__/".~\_\  \ \_\ \_\  \ \_\    \ \_\
+  //   \/_/\/_/   \/_/   \/_/   \/_/\/_/   \/_/     \/_/
+  async [keywords.AWAIT.token]() {
+    const timeout = 3e5; // 30 second-long threshold
+    const waitUntil = "load"; // Consider navigation to be finished when the `load` event is fired
+    try {
+      await this.page.waitForNavigation({ timeout, waitUntil });
+    } catch (_) {
+      return warnings.NAV_THRESH_BREAK(timeout);
     }
+    return;
+  },
 
-    async click(config) {
-        const [cssSel] = config.arguments;
-        await this.page.click(this.populateArgument(cssSel));
+  //  ______     __         __     ______     __  __    
+  // /\  ___\   /\ \       /\ \   /\  ___\   /\ \/ /    
+  // \ \ \____  \ \ \____  \ \ \  \ \ \____  \ \  _"-.  
+  //  \ \_____\  \ \_____\  \ \_\  \ \_____\  \ \_\ \_\ 
+  //   \/_____/   \/_____/   \/_/   \/_____/   \/_/\/_/ 
+  async [keywords.CLICK.token]({ arguments }) {
+    const [selVar] = arguments;
+    const sel = selVar.make(this.scope);
+    try {
+      await this.page.click(sel);
+    } catch (_) {
+      return errors.ELEMENT_INEXISTENT(sel);
     }
+    return;
+  },
 
-    async dialog(config) {
-        const [_setting] = config.arguments;
-        const validDialogSettings = new Set(["accept", "dismiss"]);
-        const setting = validDialogSettings.has(_setting) ? _setting : "accept";
-        this.page.on("dialog", async dialog => await dialog[setting]());
+  //  _____     __     ______     __         ______     ______    
+  // /\  __-.  /\ \   /\  __ \   /\ \       /\  __ \   /\  ___\   
+  // \ \ \/\ \ \ \ \  \ \  __ \  \ \ \____  \ \ \/\ \  \ \ \__ \  
+  //  \ \____-  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/____/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
+  async [keywords.DIALOG.token]({ arguments }) {
+    const [choiceVar] = arguments;
+    const _choice = choiceVar.make(this.scope);
+    const choice = [constants.ACCEPT, constants.DISMISS].includes(_choice)
+      ? _choice
+      : constants.ACCEPT;
+    try {
+      this.page.on("dialog", async dialog => await dialog[choice]());
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
     }
+    return;
+  },
 
-    async field(config) {
-        const [cssSel, _inputString] = config.arguments;
-        const inputString = this.populateArgument(_inputString);
-        await this.page.focus(this.populateArgument(cssSel));
-        await this.page.keyboard.type(inputString);
+  //  ______     _____     __     ______  
+  // /\  ___\   /\  __-.  /\ \   /\__  _\ 
+  // \ \  __\   \ \ \/\ \ \ \ \  \/_/\ \/ 
+  //  \ \_____\  \ \____-  \ \_\    \ \_\ 
+  //   \/_____/   \/____/   \/_/     \/_/   
+  async [keywords.EDIT.token]({ arguments }) {
+    const [listVar, operationVar, elementVar] = arguments;
+    const listName = listVar.make();
+    const list = listVar.make(this.scope);
+    const operation = operationVar.make(this.scope);
+    if (operation === constants.LIST_PUSH) {
+      if (elementVar !== undefined) {
+        list.push(elementVar.make(this.scope));
+        this.scope[listName] = list;
+      } else {
+        return warnings.LIST_EXPECTS_ELEMENT();
+      }
+    } else if (operation === constants.LIST_UNSHIFT) {
+      if (elementVar !== undefined) {
+        list.unshift(elementVar.make(this.scope));
+        this.scope[listName] = list;
+      } else {
+        return warnings.LIST_EXPECTS_ELEMENT();
+      }
+    } else if (operation === constants.LIST_POP) {
+      list.pop();
+      this.scope[listName] = list;
+    } else if (operation === constants.LIST_SHIFT) {
+      list.shift();
+      this.scope[listName] = list;
+    } else {
+      return errors.LIST_EXPECTS_OPERATION(operation);
     }
+    return;
+  },
 
-    async goto(config) {
-        const [_url] = config.arguments;
-        const url = this.populateArgument(_url);
-        await this.page.goto(url);
+  //  ______   __     ______     __         _____    
+  // /\  ___\ /\ \   /\  ___\   /\ \       /\  __-.  
+  // \ \  __\ \ \ \  \ \  __\   \ \ \____  \ \ \/\ \ 
+  //  \ \_\    \ \_\  \ \_____\  \ \_____\  \ \____- 
+  //   \/_/     \/_/   \/_____/   \/_____/   \/____/ 
+  async [keywords.FIELD.token]({ arguments }) {
+    const [selVar, inputVar] = arguments;
+    const sel = selVar.make(this.scope);
+    const input = inputVar.make(this.scope);
+    try {
+      await this.page.focus(sel);
+      await this.page.keyboard.type(input);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
     }
+    return;
+  },                                              
 
-    async log(config) {
-        const [logMessage] = config.arguments;
-        const prefix = `${chalk.cyan("~")} ${chalk.green(`${this.titleName}`)}`;
-        console.log(`${prefix} : ${this.populateArgument(logMessage)}`);
+  //  ______     ______     ______   ______    
+  // /\  ___\   /\  __ \   /\__  _\ /\  __ \   
+  // \ \ \__ \  \ \ \/\ \  \/_/\ \/ \ \ \/\ \  
+  //  \ \_____\  \ \_____\    \ \_\  \ \_____\ 
+  //   \/_____/   \/_____/     \/_/   \/_____/
+  async [keywords.GOTO.token]({ arguments }) {
+    const [urlVar] = arguments;
+    const url = urlVar.make(this.scope);
+    try {
+      await this.page.goto(url);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
     }
+    return;
+  },
 
-    async neo(config) {
-        const [entryFilePath] = config.arguments;
-        const { ext, base } = path.parse(entryFilePath);
-        if (ext.toLowerCase() == ".neo") {
-            const neo = Neo.load(entryFilePath);
-            neo.setPage(this.page);
-            await neo.run();
+  //  __         ______     ______     _____    
+  // /\ \       /\  __ \   /\  __ \   /\  __-.  
+  // \ \ \____  \ \ \/\ \  \ \  __ \  \ \ \/\ \ 
+  //  \ \_____\  \ \_____\  \ \_\ \_\  \ \____- 
+  //   \/_____/   \/_____/   \/_/\/_/   \/____/  
+  async [keywords.LOAD.token]({ arguments }) {
+    const [urlVar, typeStringVar, varNameVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
+    }
+    const varName = varNameVar.make();
+    const url = urlVar.make(this.scope);
+    const { source, error } = await loadSource(url);
+    if (error !== undefined) {
+      return error;
+    }
+    const value = getListValueFromSource(source);
+    this.scope[varName] = Variable({ value, type });
+    return;
+  },
+
+  //  __         ______     ______    
+  // /\ \       /\  __ \   /\  ___\   
+  // \ \ \____  \ \ \/\ \  \ \ \__ \  
+  //  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/_____/   \/_____/   \/_____/   
+  async [keywords.LOG.token]({ arguments }) {
+    const [messageVar] = arguments;
+    const token = constants.OK_TOKEN;
+    const operableVariableForm = messageVar.make(this.scope);
+    const message = messageVar.type.toString(operableVariableForm);
+    logMessage({ token, message });
+    return;
+  },
+
+  //  __    __     ______     __  __     ______     ______    
+  // /\ "-./  \   /\  __ \   /\ \_\ \   /\  == \   /\  ___\   
+  // \ \ \-./\ \  \ \  __ \  \ \____ \  \ \  __<   \ \  __\   
+  //  \ \_\ \ \_\  \ \_\ \_\  \/\_____\  \ \_____\  \ \_____\ 
+  //   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
+  async [keywords.MAYBE.token]({ arguments, instructions }) {
+    const [conditionVar] = arguments;
+    const condition = conditionVar.make(this.scope);
+    if (condition) {
+      await this.run({ instructions });
+    }
+    return;
+  },
+
+  //  __   __     ______     ______    
+  // /\ "-.\ \   /\  ___\   /\  __ \   
+  // \ \ \-.  \  \ \  __\   \ \ \/\ \  
+  //  \ \_\\"\_\  \ \_____\  \ \_____\ 
+  //   \/_/ \/_/   \/_____/   \/_____/   
+  async [keywords.NEO.token]({ arguments }) {
+    const [pathVar] = arguments;
+    const neo = await Neo.load(pathVar.make(this.scope));
+    return await neo.run();
+  },
+
+  //  ______   ______     __  __     ______     ______    
+  // /\  == \ /\  __ \   /\ \/\ \   /\  ___\   /\  ___\   
+  // \ \  _-/ \ \  __ \  \ \ \_\ \  \ \___  \  \ \  __\   
+  //  \ \_\    \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\ 
+  //   \/_/     \/_/\/_/   \/_____/   \/_____/   \/_____/
+  async [keywords.PAUSE.token]({ arguments }) {
+    const [_timeout] = arguments;
+    const timeout = _timeout !== undefined ? timeout : 0;
+    return await new Promise(resolve => setTimeout(resolve, timeout));
+  },
+  
+  //  ______     ______     ______     _____    
+  // /\  == \   /\  ___\   /\  __ \   /\  __-.  
+  // \ \  __<   \ \  __\   \ \  __ \  \ \ \/\ \ 
+  //  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \____- 
+  //   \/_/ /_/   \/_____/   \/_/\/_/   \/____/   
+  async [keywords.READ.token]({ arguments }) {
+    const [typeStringVar, varNameVar, selVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
+    }
+    const varName = varNameVar.make();
+    const sel = selVar.make(this.scope);
+    let value;
+    try {
+      resultValue = await this.page.$eval(sel, el => el.innerText);
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
+    this.scope[varName] = Variable({ value, type });
+    return;
+  },
+
+  //  ______     ______     ______   ______     ______     ______  
+  // /\  == \   /\  ___\   /\  == \ /\  ___\   /\  __ \   /\__  _\ 
+  // \ \  __<   \ \  __\   \ \  _-/ \ \  __\   \ \  __ \  \/_/\ \/ 
+  //  \ \_\ \_\  \ \_____\  \ \_\    \ \_____\  \ \_\ \_\    \ \_\ 
+  //   \/_/ /_/   \/_____/   \/_/     \/_____/   \/_/\/_/     \/_/   
+  async [keywords.REPEAT.token]({ arguments, instructions }) {
+    const [maxRepeatsVar, selVar, testTextVar] = arguments;
+    let targetSel, targetElement, testText,
+        currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
+    while (currentRepeats++ <= maxRepeats) {
+      await this.run({ instructions });
+      maxRepeats = maxRepeatsVar.make(this.scope);
+      if (selVar !== undefined) {
+        testText = testTextVar.make(this.scope);
+        targetSel = targetSelVar.make(this.scope);
+        targetElement = await this.page.$(targetSel);
+        if (targetElement !== null) {
+          const containsTestText = (await targetElement.innerText()).includes(testText);
+          if (containsTestText) {
+            break;
+          }
         } else {
-            const allEntryFileNames = fs.readdirSync(entryFilePath);
-            for (let entryFileName of allEntryFileNames) {
-                const gimmePath = path.join(base, entryFileName);
-                const neo = Neo.load(gimmePath);
-                neo.setPage(this.page);
-                await neo.run();
-            }
+          return errors.ELEMENT_INEXISTENT(sel);
         }
+      }
     }
+    return;
+  },
 
-    async pause(config) {
-        const [_ms] = config.arguments;
-        const ms = !!_ms ? Number(_ms) : 0;
-        await new Promise(res => setTimeout(res, ms));
-    }
+  //  ______     ______     __   __   ______    
+  // /\  ___\   /\  __ \   /\ \ / /  /\  ___\   
+  // \ \___  \  \ \  __ \  \ \ \'/   \ \  __\   
+  //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
+  //   \/_____/   \/_/\/_/   \/_/      \/_____/  
+  async [keywords.SAVE.token]({ arguments }) {
+    return;
+  },
 
-    async read(config) {
-        const [cssSel] = config.arguments;
-        const text = await this.page.$eval(this.populateArgument(cssSel), el => el.innerText);
-        await this.log({arguments: [text]});
-    }
-
-    async rep(config) {
-        const [a, b] = config.arguments;
-        const scope = new Neo({
-            root: this.root,
-            instructions: config.instructions,
-            titleName: this.titleName
-        });
-        scope.setPage(this.page);
-        scope.loadGlobals(this.globals);
-        if (Number.isInteger(Number(a))) {
-            for (let i = 0; i < Number(a); i++) {
-                await scope.run();
-            }
-        } else {
-            while (true) {
-                await scope.run();
-                let mayContinue = false;
-                try {
-                    mayContinue = await this.page.$eval(a, (el, b) => el != null && b == el.innerText, b);
-                } catch(err) {}
-                if (!mayContinue) {
-                    break;
-                }
-            }
+  //  ______     ______     __         ______     ______     ______  
+  // /\  ___\   /\  ___\   /\ \       /\  ___\   /\  ___\   /\__  _\ 
+  // \ \___  \  \ \  __\   \ \ \____  \ \  __\   \ \ \____  \/_/\ \/ 
+  //  \/\_____\  \ \_____\  \ \_____\  \ \_____\  \ \_____\    \ \_\ 
+  //   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/     \/_/  
+  async [keywords.SELECT.token]({ arguments }) {
+    const [selVar, optionVar] = arguments;
+    const sel = selVar.make(this.scope);
+    const option = optionVar.make(this.scope);
+    try {
+      const isNotSelectElement = await this.page.$eval(sel, (el, value) => {
+        if (el.hasOwnProperty("options") && el.hasOwnProperty("value")) {
+          const optionIndex = value === undefined
+            ? Math.floor((el.options.length - 1) * Math.random() + 1)
+            : [...el.options].map(opt => opt.innerText).indexOf(value);
+          el.value = `${optionIndex}`;
+          return false;
         }
+        return true;
+      }, option);
+      if (isNotSelectElement) {
+        return errors.NOT_EXPECTED_ELEMENT_TAG("select");
+      }
+    } catch (_) {
+      return errors.ELEMENT_INEXISTENT(sel);
     }
+    return;
+  },
 
-    async sav(config) {
-        // save data to the data collection
+  //  ______     __  __     ______     ______     ______  
+  // /\  ___\   /\ \_\ \   /\  __ \   /\  __ \   /\__  _\ 
+  // \ \___  \  \ \  __ \  \ \ \/\ \  \ \ \/\ \  \/_/\ \/ 
+  //  \/\_____\  \ \_\ \_\  \ \_____\  \ \_____\    \ \_\ 
+  //   \/_____/   \/_/\/_/   \/_____/   \/_____/     \/_/
+  async [keywords.SHOOT.token]({ arguments }) {
+    const [__savePath] = arguments;
+    const _savePath = __savePath !== undefined
+      ? __savePath.make(this.scope)
+      : `${constants.SHOOT_DEFAULT}_${now()}.png`;
+    const savePath = path.join(this.root, _savePath);
+    try {
+      await this.page.screenshot({ path: savePath });
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
     }
+  },
 
-    async sel(config) {
-        const [cssSel, value] = config.arguments;
-        await this.page.$eval(this.populateArgument(cssSel), (sel, value) => {
-            value = value === undefined
-                ? ~~((sel.options.length - 1) * Math.random()) + 1
-                : [...sel.options].map(opt => opt.innerText).indexOf(value);
-            sel.value = `${value}`;
-        }, value);
+  //  __   __   ______     ______     __     ______     ______     __         ______    
+  // /\ \ / /  /\  __ \   /\  == \   /\ \   /\  __ \   /\  == \   /\ \       /\  ___\   
+  // \ \ \'/   \ \  __ \  \ \  __<   \ \ \  \ \  __ \  \ \  __<   \ \ \____  \ \  __\   
+  //  \ \__|    \ \_\ \_\  \ \_\ \_\  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
+  //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
+  async [keywords.VARIABLE.token]({ arguments }) {
+    const [typeStringVar, varNameVar, valueVar] = arguments;
+    const typeString = typeStringVar.make();
+    const type = getTypeObjectFromToken(typeString);
+    if (type === undefined) {
+      return errors.NO_SUCH_TYPE(typeString);
     }
+    const varName = varNameVar.make();
+    const value = valueVar.make(this.scope);
+    this.scope[varName] = Variable({ value, type });
+    return;
+  }
 
-    async shoot(config) {
-        const [__savePath] = config.arguments;
-        const _savePath = __savePath || `./NEO_SHOOT_${(new Date()).valueOf()}.png`;
-        const savePath = path.join(this.root, _savePath);
-        await this.page.screenshot({ path: savePath });
-    }
+};
 
-    async title(config) {
-        const [titleName] = config.arguments;
-        this.titleName = this.populateArgument(titleName);
-    }
-
-    async var(config) {
-        const [_dataType, varName, cssSel] = config.arguments;
-        const dataType = validDataTypes.has(_dataType) ? _dataType : "string";
-        const _data = await this.page.$eval(this.populateArgument(cssSel), el => el.innerText);
-        const data = dataType == "int" ? Number(_data.replace(/\D/g, "")) : _data;
-        this.globals[varName] = data;
-    }
-
-    // Language Interpretter Utilities
-
-    initializeGlobals() {
-        let result = Object.entries(process.env)
-            .filter(([k]) => k.includes(environmentVariablePrefix))
-            .reduce((o, [k, v]) => ({ ...o, [k]: v }), {});
-        const gimmeDate = new Date();
-        const dateOffset = new Date().getTimezoneOffset();
-        gimmeDate.setMinutes(gimmeDate.getMinutes() - dateOffset);
-        result["DATE"] = gimmeDate.toISOString().split("T")[0];
-        result["RELATIVE_PATH"] = this.root;
-        result = { ...result, ...urlExpansionPack };
-        this.globals = result;
-    }
-
-    loadGlobals(globals) {
-        this.globals = { ...this.globals, ...globals };
-    }
-
-    populateArgument(s) {
-        for (let [globalName, globalValue] of Object.entries(this.globals)) {
-            if (s.includes(globalName)) {
-                s = s.replace(globalName, globalValue);
-            }
-        }
-        return s;
-    }
-
-    async run() {
-        try {
-            for (let instruction of this.instructions) {
-                if (instruction.keyword == "~~") {
-                    continue;
-                } else {
-                    await this[instruction.keyword](instruction);
-                }
-            }
-        } catch (defaultErrorMessage) {
-            console.log(chalk.red("NeoError: "), { defaultErrorMessage });
-            const ts = (new Date()).valueOf();
-            await this.shoot({ arguments: [`./BEFORE_ERROR_${ts}.png`] });
-            process.exit();
-        }
-    }
-
-    setPage(page) {
-        this.page = page;
-    }
-
-    static load(_filePath) {
-        const filePath = path.join(process.cwd(), _filePath);
-        if (fs.existsSync(filePath)) {
-            const rawSourceCode = String(fs.readFileSync(filePath));
-            return Neo.parse(rawSourceCode, filePath);
-        } else {
-            throw Error(`No such ${filePath} was found.`);
-        }
-    }
-
-    static parse(rawSourceCode, filePath) {
-        const tokenizor = /\s*([^\s\,]+|\,)\s*/g;
-        const tokens = rawSourceCode
-            .split(tokenizor)
-            .filter(s => !s.match(/^\s*$/));
-        const parseTokens = (tokens, instructions = []) => {
-            let gimmeInstruction;
-            let gimmeArgument = [];
-            let isFinalInstruction = false;
-            const pushInstruction = () => {
-                if (!!gimmeArgument.length) {
-                    gimmeInstruction.arguments.push(gimmeArgument.join(" "));
-                    gimmeArgument = [];
-                }
-                instructions.push(gimmeInstruction);
-            };
-            for (let i = 0; i < tokens.length; i++) {
-                const token = tokens[i];
-                if (validKeywords.has(token)) {
-                    if (isFinalInstruction) {
-                        if (!!gimmeArgument.length) {
-                            gimmeInstruction.arguments.push(gimmeArgument.join(" "));
-                        }
-                        return {
-                            arguments: gimmeInstruction.arguments,
-                            instructions: instructions,
-                            steps: i
-                        };
-                    } else if (!!gimmeInstruction) {
-                        pushInstruction();
-                    }
-                    if (begLoopKeywords.has(token)) {
-                        const deepDive = parseTokens(tokens.slice(i + 1));
-                        i += deepDive.steps;
-                        gimmeInstruction = {
-                            keyword: token,
-                            arguments: deepDive.arguments,
-                            instructions: deepDive.instructions
-                        };
-                    } else {
-                        if (endLoopKeywords.has(token)) {
-                            isFinalInstruction = true;
-                        }
-                        gimmeInstruction = {
-                            keyword: token,
-                            arguments: []
-                        };
-                    }
-                } else if (token === argumentDeliminator) {
-                    gimmeInstruction.arguments.push(gimmeArgument.join(" "));
-                    gimmeArgument = [];
-                } else {
-                    gimmeArgument.push(token);
-                }
-            }
-            pushInstruction();
-            return instructions;
-        };
-        const instructions = parseTokens(tokens);
-        const { name: titleName, dir: root } = path.parse(filePath);
-        return new Neo({ root, titleName, instructions });
-    }
-
-}
+module.exports = { Neo };
