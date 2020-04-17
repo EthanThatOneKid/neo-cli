@@ -1,17 +1,2 @@
-~~  ______   ______     ______     ______
-~~ /\__  _\ /\  ___\   /\  ___\   /\__  _\   
-~~ \/_/\ \/ \ \  __\   \ \___  \  \/_/\ \/   
-~~    \ \_\  \ \_____\  \/\_____\    \ \_\
-~~     \/_/   \/_____/   \/_____/     \/_/ 
-~~    ______   __     __         ______
-~~   /\  ___\ /\ \   /\ \       /\  ___\
-~~   \ \  __\ \ \ \  \ \ \____  \ \  __\
-~~    \ \_\    \ \_\  \ \_____\  \ \_____\
-~~     \/_/     \/_/   \/_____/   \/_____/
-
-~~ Obligatory "Hello, World" Test
-log Hello World
-
-~~ Do a test for each keyword and each variation of each keyword
-var url, PLAYGROUND_URL, sample/test.html
-log PLAYGROUND_URL
+log Running test scripts
+neo test

@@ -37,7 +37,7 @@ const Neo = async ({
 });
 
 Neo.load = async ({ path, page }) => {
-  const { source, root, error } = await loadSource(path);
+  const { source, root, error } = await loadSource(path, constants.NEO_FILE_EXTENTION);
   if (error !== undefined) {
     logMessage(error);
     return;
@@ -235,7 +235,8 @@ const commands = {
   //   \/_/ \/_/   \/_____/   \/_____/   
   async [keywords.NEO.token]({ arguments }) {
     const [pathVar] = arguments;
-    const neo = await Neo.load(pathVar.make(this.scope));
+    const path = pathVar.make(this.scope);
+    const neo = await Neo.load(path);
     return await neo.run();
   },
 
