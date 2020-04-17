@@ -25,7 +25,11 @@ const constants = {
   LIST_PUSH: "push",
   LIST_POP: "pop",
   LIST_SHIFT: "shift",
-  LIST_UNSHIFT: "unshift"
+  LIST_UNSHIFT: "unshift",
+  CHROMIUM_BROWSER: "chromium",
+  FIREFOX_BROWSER: "firefox",
+  WEBKIT_BROWSER: "webkit",
+  DEFAULT_BROWSER: "chromium"
 };
 
 module.exports = { constants };

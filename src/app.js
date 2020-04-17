@@ -1,12 +1,11 @@
 const { Neo } = require('./Neo');
+const { getBrowserKey } = require('./helpers');
 const playwright = require('playwright');
 
 const app = async ({ input, flags }) => {
-  const browser = flags.firefox
-      ? await playwright.firefox.launch()
-      : flags.webkit
-        ? await playwright.webkit.launch()
-        : await playwright.chromium.launch();
+  const browserKey = getBrowserKey(flags);
+  const headless = !flags.headful;
+  const browser = await playwright[browserKey].launch({ headless });
   const context = await browser.newContext();
   const page = await context.newPage();
   const [path] = input;

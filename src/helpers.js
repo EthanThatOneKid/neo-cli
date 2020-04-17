@@ -195,6 +195,18 @@ const getListValueFromSource = source => {
   return list;
 };
 
+const getBrowserKey = flags => {
+  if (flags[constants.CHROMIUM_BROWSER]) {
+    return constants.CHROMIUM_BROWSER;
+  } else if (flags[constants.FIREFOX_BROWSER]) {
+    return constants.FIREFOX_BROWSER;
+  } else if (flags[constants.WEBKIT_BROWSER]) {
+    return constants.WEBKIT_BROWSER;
+  } else {
+    return constants.DEFAULT_BROWSER;
+  }
+};
+
 const now = () => +new Date();
 
 module.exports = {
@@ -209,5 +221,6 @@ module.exports = {
   getTypeObjectFromToken,
   variablifyArguments,
   beforeErrorShoot,
-  getListValueFromSource
+  getListValueFromSource,
+  getBrowserKey
 };

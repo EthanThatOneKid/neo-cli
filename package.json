@@ -9,7 +9,7 @@
   "main": "bin.js",
   "scripts": {
     "start": "node index.js sample\\index.neo",
-    "test": "neo test.neo"
+    "test": "neo test.neo --headful"
   },
   "repository": {
     "type": "git",
