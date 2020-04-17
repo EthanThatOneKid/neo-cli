@@ -2,7 +2,7 @@ const Variable = ({ value, type }) => ({
   value, type,
   make(scope = {}) {
     let populatedValue = this.value;
-    if (this.value instanceof String) {
+    if (typeof this.value === "string") {
       populatedValue = Object.keys(scope)
         .reduce((result, varName) => {
           if (result.indexOf(varName) > -1) {

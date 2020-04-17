@@ -127,15 +127,17 @@ const loadSource = async (targetPath, targetFileExt) => {
 };
 
 const loadGlobalScope = () => {
-  const DATE = getReadableDate();
+  const textType = getTypeObjectFromToken("text");
+  const DATE = Variable({ value: getReadableDate(), type: textType });
+  const CWD = Variable({ value: process.cwd(), type: getTypeObjectFromToken("url") });
   const enviromentVariables = Object.keys(process.env)
     .reduce((result, key) => {
       if (key.indexOf(constants.ENV_VARIABLE_PREFIX) === 0) {
-        result[key] = process.env[key];
+        result[key] = Variable({ value: process.env[key], type: textType });
       }
       return result;
     }, {});
-  return { DATE, ...enviromentVariables };
+  return { DATE, CWD, ...enviromentVariables };
 };
 
 const logMessage = ({ token, message }) => {

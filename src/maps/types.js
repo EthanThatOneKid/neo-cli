@@ -1,7 +1,7 @@
 const types = {
   INTEGER: {
     token: "int",
-    make: n => Math.floor(Number(n.replace(/\D/g, ""))),
+    make: n => Math.floor(Number(n)),
     toString: String
   },
   TEXT: {

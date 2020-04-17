@@ -13,5 +13,6 @@
 log Hello World
 
 ~~ Do a test for each keyword and each variation of each keyword
-var url, PLAYGROUND_URL, sample/test.html
+var url, PLAYGROUND_URL, CWD/test/index.html
 log PLAYGROUND_URL
+goto PLAYGROUND_URL

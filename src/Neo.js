@@ -171,8 +171,8 @@ const commands = {
     const url = urlVar.make(this.scope);
     try {
       await this.page.goto(url);
-    } catch (genericError) {
-      return errors.GENERIC_ERROR(genericError);
+    } catch (_) {
+      return errors.NAVIGATION_ERROR(url)
     }
     return;
   },
@@ -236,7 +236,7 @@ const commands = {
   async [keywords.NEO.token]({ arguments }) {
     const [pathVar] = arguments;
     const path = pathVar.make(this.scope);
-    const neo = await Neo.load(path);
+    const neo = await Neo.load({ path, page: this.page });
     return await neo.run();
   },
 
@@ -246,9 +246,10 @@ const commands = {
   //  \ \_\    \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\ 
   //   \/_/     \/_/\/_/   \/_____/   \/_____/   \/_____/
   async [keywords.PAUSE.token]({ arguments }) {
+    const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     const [_timeout] = arguments;
-    const timeout = _timeout !== undefined ? timeout : 0;
-    return await new Promise(resolve => setTimeout(resolve, timeout));
+    const timeout = _timeout !== undefined ? _timeout.make(this.scope) : 0;
+    return await pause(timeout);
   },
   
   //  ______     ______     ______     _____    
