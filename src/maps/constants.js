@@ -29,7 +29,9 @@ const constants = {
   CHROMIUM_BROWSER: "chromium",
   FIREFOX_BROWSER: "firefox",
   WEBKIT_BROWSER: "webkit",
-  DEFAULT_BROWSER: "chromium"
+  DEFAULT_BROWSER: "chromium",
+  LAUNCHING: browser => `Launching ${browser} browser.`,
+  LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };
 
 module.exports = { constants };

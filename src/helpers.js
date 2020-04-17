@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
+const ora = require('ora');
 const { Variable } = require('./Variable');
 const { constants } = require('./maps/constants');
 const { keywords } = require('./maps/keywords');
@@ -207,6 +208,12 @@ const getBrowserKey = flags => {
   }
 };
 
+const beginBrowserLaunch = browserKey => {
+  const text = constants.LAUNCHING(browserKey);
+  const spinner = ora({ text }).start();
+  return () => spinner.succeed(constants.LAUNCH_COMPLETE(browserKey));
+};
+
 const now = () => +new Date();
 
 module.exports = {
@@ -222,5 +229,6 @@ module.exports = {
   variablifyArguments,
   beforeErrorShoot,
   getListValueFromSource,
-  getBrowserKey
+  getBrowserKey,
+  beginBrowserLaunch
 };
