@@ -1,7 +1,6 @@
 const { Neo } = require('./Neo');
 const { getBrowserKey, beginBrowserLaunch } = require('./helpers');
 const playwright = require('playwright');
-const ora = require('ora');
 
 const app = async ({ input, flags }) => {
   const browserKey = getBrowserKey(flags);
