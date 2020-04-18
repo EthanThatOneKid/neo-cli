@@ -17,7 +17,6 @@ const keywords = {
   },
   EDIT: {
     token: "edit",
-    // list to edit, push|pop|shift|unshift, addition
     arguments: [types.LIST, types.TEXT, types.TEXT],
     required: [true, true, false]
   },
@@ -86,10 +85,10 @@ const keywords = {
     arguments: [types.URL],
     required: [false]
   },
-  TITLE: {
-    token: "title",
-    arguments: [types.TEXT],
-    required: [true]
+  TRAVEL: {
+    token: "trav",
+    arguments: [types.TEXT, types.TEXT],
+    required: [false, false]
   },
   UNTIL: {
     token: "until",

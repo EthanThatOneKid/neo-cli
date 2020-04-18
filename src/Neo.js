@@ -361,6 +361,22 @@ const commands = {
     }
   },
 
+  //  ______   ______     ______     __   __   ______     __           
+  // /\__  _\ /\  == \   /\  __ \   /\ \ / /  /\  ___\   /\ \          
+  // \/_/\ \/ \ \  __<   \ \  __ \  \ \ \'/   \ \  __\   \ \ \____     
+  //    \ \_\  \ \_\ \_\  \ \_\ \_\  \ \__|    \ \_____\  \ \_____\    
+  //     \/_/   \/_/ /_/   \/_/\/_/   \/_/      \/_____/   \/_____/    
+  async [keywords.TRAVEL.token]({ arguments }) {
+    const [latStringVar, lonStringVar] = arguments;
+    if (latStringVar !== undefined && lonStringVar !== undefined) {
+      const latitude = Number(latStringVar.make(this.scope));
+      const longitude = Number(lonStringVar.make(this.scope));
+      await this.page._browserContext.setGeolocation({ latitude, longitude });
+    }
+    await this.page._browserContext.grantPermissions(["geolocation"]);
+    return;
+  },
+
   //  __   __   ______     ______     __     ______     ______     __         ______    
   // /\ \ / /  /\  __ \   /\  == \   /\ \   /\  __ \   /\  == \   /\ \       /\  ___\   
   // \ \ \'/   \ \  __ \  \ \  __<   \ \ \  \ \  __ \  \ \  __<   \ \ \____  \ \  __\   
