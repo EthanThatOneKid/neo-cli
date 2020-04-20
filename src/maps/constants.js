@@ -30,6 +30,8 @@ const constants = {
   FIREFOX_BROWSER: "firefox",
   WEBKIT_BROWSER: "webkit",
   DEFAULT_BROWSER: "chromium",
+  CLI_MODE: "cli",
+  EXT_MODE: "ext",
   LAUNCHING: browser => `Launching ${browser} browser.`,
   LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };

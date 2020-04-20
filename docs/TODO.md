@@ -20,7 +20,7 @@
 * [ ] implement `upload` keyword; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/upload.js)
   * Created: 4/13/20
   * Completed: TBA
-* [ ] implement `sneak` and `bake` keywords; `sneak` apply current page cookies to variable; `bake` apply variable value of type cook to current page. This is meant to save an authentication state; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/authentication.js).
+* [ ] implement `swipe` and `bake` keywords; `swipe` apply current page cookies to variable; `bake` apply variable value of type cook to current page. This is meant to save an authentication state; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/authentication.js).
   * Created: 4/13/20
   * Completed: TBA
 * [ ] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
@@ -28,4 +28,7 @@
   * Completed: TBA
 * [ ] implement `do` and `foreach` keywords.
   * Created: 4/19/20
+  * Completed: TBA
+* [ ] implement `pdf` keyword. [notes](https://github.com/microsoft/playwright/blob/master/docs/api.md#pagepdfoptions)
+  * Created: 4/20/20
   * Completed: TBA
