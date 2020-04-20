@@ -20,9 +20,7 @@ const {
 
 const Neo = async ({
   instructions: autoInstructions,
-  root, page, scope = loadGlobalScope(),
-  mode = constants.CLI_MODE,
-  commands = mode === constants.CLI_MODE ? cliCommands : extCommands
+  root, page, scope = loadGlobalScope()
 }) => ({
   page, root, scope,
   ...commands, ...beforeErrorShoot,
@@ -57,7 +55,7 @@ Neo.parse = async ({ source, root, page }) => {
   return await Neo({ instructions, root, page });
 };
 
-const cliCommands = {
+const commands = {
 
   //  ______     __     __     ______     __     ______
   // /\  __ \   /\ \  _ \ \   /\  __ \   /\ \   /\__  _\
@@ -424,7 +422,5 @@ const cliCommands = {
   }
 
 };
-
-const extCommands = {};
 
 module.exports = { Neo };
