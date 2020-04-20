@@ -11,6 +11,8 @@ const Variable = ({ value, type }) => ({
           }
           return result;
         }, this.value);
+    } else {
+      // console.log("HEHEHEHEH", this.type, populatedValue)
     }
     return this.type.make(populatedValue);
   }

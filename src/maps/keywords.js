@@ -15,6 +15,12 @@ const keywords = {
     arguments: [types.TEXT],
     required: [false]
   },
+  DO: {
+    token: "do",
+    arguments: [types.LIST, types.TEXT, types.TEXT],
+    required: [true, false, false],
+    encapsulator: "foreach"
+  },
   EDIT: {
     token: "edit",
     arguments: [types.LIST, types.TEXT, types.TEXT],
@@ -24,6 +30,10 @@ const keywords = {
     token: "field",
     arguments: [types.SELECTOR, types.TEXT],
     required: [true, true]
+  },
+  FOREACH: {
+    token: "foreach",
+    arguments: []
   },
   GOTO: {
     token: "goto",
@@ -92,7 +102,6 @@ const keywords = {
   },
   UNTIL: {
     token: "until",
-    // max thresh, the element, the check
     arguments: [types.INTEGER, types.SELECTOR, types.TEXT],
     required: [true, false, false]
   },

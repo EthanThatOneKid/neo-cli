@@ -73,7 +73,13 @@ const checkIsURL = url => {
 const getFileExt = path => path.split(".").pop();
 
 const loadSourceFromURL = async targetPath => {
-  const req = await fetch(targetPath);
+  let req;
+  try {
+    req = await fetch(targetPath);
+  } catch (_) {
+    // only absolute URLs are supported, but received ${targetPath}
+    return;
+  }
   if (req.statusText === "OK") {
     const source = await req.text();
     const root = process.cwd();
@@ -109,7 +115,7 @@ const loadSource = async (targetPath, targetFileExt) => {
         return { source, root: resolvedPath };
       } else if (stats.isFile()) {
         const ext = getFileExt(resolvedPath);
-        if (ext === constants.NEO_FILE_EXTENTION) {
+        if (ext === targetFileExt) {
           const source = String(fs.readFileSync(resolvedPath));
           const root = path.dirname(resolvedPath);
           return { source, root };
@@ -186,8 +192,9 @@ const beforeErrorShoot = ({
   }
 });
 
-const getListValueFromSource = source => {
+const getListValueFromSource = (source, type) => {
   let list = [];
+  list.type = type;
   try {
     list = JSON.parse(source);
   } catch (_) {
@@ -230,5 +237,6 @@ module.exports = {
   beforeErrorShoot,
   getListValueFromSource,
   getBrowserKey,
-  beginBrowserLaunch
+  beginBrowserLaunch,
+  getFileExt
 };

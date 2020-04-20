@@ -26,3 +26,6 @@
 * [ ] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
   * Created: 4/13/20
   * Completed: TBA
+* [ ] implement `do` and `foreach` keywords.
+  * Created: 4/19/20
+  * Completed: TBA

@@ -1,24 +1,66 @@
-<title>🐱‍👤</title>
+<head>
+	<title>🐱‍👤</title>
+</head>
 
 <h1>Welcome, Neo.</h1>
 
-<label>Tell me a joke, Neo.</label>
-<input type="string"></input>
+<!-- load -->
+<!-- each -->
+<!-- field -->
+<label>Tell me some jokes, Neo.</label>
+<ol>
+	<li>
+		<input type="string" id="joke1"></input>
+	</li>
+	<li>
+		<input type="string" id="joke2"></input>
+	</li>
+	<li>
+		<input type="string" id="joke3"></input>
+	</li>
+</ol>
 
 <br>
 
-I am something special, Neo. <strong>AargHmm</strong>
+<!-- travel -->
+<!-- click -->
+<!-- read -->
+<button onclick="whereami()">Where am I?</button>
+<span id="coordinates"></span>
 
 <br>
 
-<button onclick="confirm('Hey, Neo!');">Click me, Neo.</button>
+<!-- dialog -->
+<!-- rep -->
+<!-- click -->
+<button onclick="count()">Click me, Neo.</button>
+<span id="clicks">0</span>
 
 <br>
 
+<!-- select -->
 <label>Pick a number, Neo.</label>
 <select>
-    <option></option>
-    <option>1</option>
-    <option>2</option>
-    <option>3</option>
+	<option></option>
+	<option>1</option>
+	<option>2</option>
+	<option>3</option>
 </select>
+
+<script>
+
+	let clicks = 0;
+	const clicksElement = document.querySelector("#clicks");
+	const count = () => {
+		clicksElement.textContent = ++clicks;
+	};
+
+	const coordinatesElement = document.querySelector("#coordinates");
+	const whereami = () => {
+		navigator.geolocation.getCurrentPosition(({ coords }) => {
+			const { latitude, longitude } = coords;
+			coordinatesElement.textContent = `(${latitude}°, ${longitude}°)`;
+		});
+	};
+
+</script>

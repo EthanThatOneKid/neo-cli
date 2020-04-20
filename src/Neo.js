@@ -14,7 +14,8 @@ const {
   logMessage,
   beforeErrorShoot,
   getTypeObjectFromToken,
-  getListValueFromSource
+  getListValueFromSource,
+  getFileExt
 } = require('./helpers');
 
 const Neo = async ({
@@ -107,6 +108,28 @@ const commands = {
     return;
   },
 
+  //  _____     ______    
+  // /\  __-.  /\  __ \   
+  // \ \ \/\ \ \ \ \/\ \  
+  //  \ \____-  \ \_____\ 
+  //   \/____/   \/_____/  
+  async [keywords.DO.token]({ arguments, instructions }) {
+    const [listVar, currentVarNameVar, indexVarNameVar] = arguments;
+    const list = listVar.make(this.scope);
+    console.log({ list, instructions})
+    for (let i = 0; i < list.length; i++) {
+      if (currentVarNameVar !== undefined) {
+        const currentVarName = currentVarNameVar.make();
+        this.scope[currentVarName] = Variable({ value: list[i], type: list.type });
+      }
+      if (indexVarNameVar !== undefined) {
+        const indexVarName = indexVarNameVar.make();
+        this.scope[indexVarName] = Variable({ value: i, type: getTypeObjectFromToken("int") });
+      }
+      await this.run({ instructions });
+    }
+  },
+
   //  ______     _____     __     ______  
   // /\  ___\   /\  __-.  /\ \   /\__  _\ 
   // \ \  __\   \ \ \/\ \ \ \ \  \/_/\ \/ 
@@ -159,7 +182,7 @@ const commands = {
       return errors.GENERIC_ERROR(genericError);
     }
     return;
-  },                                              
+  },
 
   //  ______     ______     ______   ______    
   // /\  ___\   /\  __ \   /\__  _\ /\  __ \   
@@ -191,12 +214,15 @@ const commands = {
     }
     const varName = varNameVar.make();
     const url = urlVar.make(this.scope);
-    const { source, error } = await loadSource(url);
+    const fileExt = getFileExt(url)
+    const { source, error } = await loadSource(url, fileExt);
     if (error !== undefined) {
       return error;
     }
-    const value = getListValueFromSource(source);
-    this.scope[varName] = Variable({ value, type });
+    this.scope[varName] = Variable({
+      value: getListValueFromSource(source, type),
+      type: getTypeObjectFromToken("list")
+    });
     return;
   },
 

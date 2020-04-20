@@ -1,8 +1,8 @@
 ~~  ______   ______     ______     ______
-~~ /\__  _\ /\  ___\   /\  ___\   /\__  _\   
-~~ \/_/\ \/ \ \  __\   \ \___  \  \/_/\ \/   
+~~ /\__  _\ /\  ___\   /\  ___\   /\__  _\
+~~ \/_/\ \/ \ \  __\   \ \___  \  \/_/\ \/
 ~~    \ \_\  \ \_____\  \/\_____\    \ \_\
-~~     \/_/   \/_____/   \/_____/     \/_/ 
+~~     \/_/   \/_____/   \/_____/     \/_/
 ~~    ______   __     __         ______
 ~~   /\  ___\ /\ \   /\ \       /\  ___\
 ~~   \ \  __\ \ \ \  \ \ \____  \ \  __\
@@ -12,8 +12,15 @@
 ~~ Obligatory "Hello, World" Test
 log Hello World
 
-~~ Do a test for each keyword and each variation of each keyword
+~~ Going to the test site
 var url, PLAYGROUND_URL, CWD/test/index.html
 log Navigating to PLAYGROUND_URL
 goto PLAYGROUND_URL
-pause 10e3
+
+~~ Load some jokes
+load ./test/data/jokes.txt,       text, JOKES
+load ./test/data/punchlines.json, text, PUNCHLINES
+do
+  log JOKE_ITEM
+foreach JOKES, JOKE_ITEM
+log hi

@@ -10,9 +10,9 @@ const types = {
     toString: String
   },
   BOOLEAN: {
-    token: "bool",
+    token: "boo",
     make: v => Boolean(Number(v)),
-    toString: bool => bool ? "true" : "false"
+    toString: b => b ? "true" : "false"
   },
   URL: {
     token: "url",
@@ -26,12 +26,12 @@ const types = {
   },
   LIST: {
     token: "list",
-    make: list => [...list],
+    make: l => Object.assign([], l),
     toString: JSON.stringify
   },
   COOKIE: {
     token: "cook",
-    make: obj => ({ ...obj }),
+    make: o => ({ ...o }),
     toString: JSON.stringify
   }
 };
