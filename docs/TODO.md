@@ -32,3 +32,6 @@
 * [ ] implement `pdf` keyword. [notes](https://github.com/microsoft/playwright/blob/master/docs/api.md#pagepdfoptions)
   * Created: 4/20/20
   * Completed: TBA
+* [ ] error-handle for browser-launch
+  * Created: 4/20/20
+  * Completed: TBA

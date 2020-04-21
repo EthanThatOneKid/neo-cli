@@ -4,6 +4,11 @@ const playwright = require('playwright');
 
 const app = async ({ input, flags }) => {
   const browserKey = getBrowserKey(flags);
+  if (flags.download) {
+    const { downloadBrowser } = require('playwright-core/download-browser');
+    await downloadBrowser(browserKey);
+    return process.exit();
+  }
   const headless = !flags.headful;
   const completeBrowserLaunch = beginBrowserLaunch(browserKey);
   const browser = await playwright[browserKey].launch({ headless });
