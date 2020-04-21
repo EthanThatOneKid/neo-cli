@@ -4,7 +4,7 @@ const Variable = ({ value, type }) => ({
   value, type,
   make(scope = {}) {
     let populatedValue;
-    console.log(this.type,types.TEXT)
+    // if type is string-based:
     if (this.type.token === types.TEXT.token) {
       populatedValue = Object.keys(scope)
         .reduce((result, varName) => {
