@@ -13,14 +13,19 @@
 log Hello World
 
 ~~ Going to the test site
-var url, PLAYGROUND_URL, CWD/test/index.html
+var url, PLAYGROUND_URL, file:///CWD/test/index.html
 log Navigating to PLAYGROUND_URL
 goto PLAYGROUND_URL
 
 ~~ Load some jokes
-load ./test/data/jokes.txt,       text, JOKES
-load ./test/data/punchlines.json, text, PUNCHLINES
+var url, JOKES_URL,      ./test/data/jokes.txt
+var url, PUNCHLINES_URL, https://raw.githubusercontent.com/EthanThatOneKid/neo/master/test/data/punchlines.json
+load JOKES_URL,      text, JOKES
+load PUNCHLINES_URL, text, PUNCHLINES
+
+~~ Iterate loaded jokes
 do
-  log JOKE_ITEM
-foreach JOKES, JOKE_ITEM
+  log Joke #JOKE_INDEX) JOKE_ITEM
+  log sup nerd
+foreach JOKES, JOKE_ITEM, JOKE_INDEX
 log hi

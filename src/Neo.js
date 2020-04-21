@@ -115,20 +115,18 @@ const commands = {
   //   \/____/   \/_____/  
   async [keywords.DO.token]({ arguments, instructions }) {
     const [listVar, currentVarNameVar, indexVarNameVar] = arguments;
-    const list = listVar.make(this.scope);
-    // console.log({list})
-    // console.log({ list, instructions})
-    console.log({hey:listVar.value, foo:this.scope["JOKES"], bar:list});
-    for (let i = 0; i < list.length; i++) {
+    const { items, type } = listVar.make(this.scope);
+    // console.log({instructions}, this.scope.JOKES.value.type, list.type)
+    for (let i = 0; i < items.length; i++) {
       if (currentVarNameVar !== undefined) {
         const currentVarName = currentVarNameVar.make();
-        this.scope[currentVarName] = Variable({ value: list[i], type: list.type });
+        this.scope[currentVarName] = Variable({ value: items[i], type });
       }
       if (indexVarNameVar !== undefined) {
         const indexVarName = indexVarNameVar.make();
-        this.scope[indexVarName] = Variable({ value: i, type: getTypeObjectFromToken("int") });
+        this.scope[indexVarName] = Variable({ value: i + 1, type: getTypeObjectFromToken("int") });
       }
-      await this.run({ instructions });
+      await this.run(instructions);
     }
   },
 

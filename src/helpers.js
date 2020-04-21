@@ -77,7 +77,7 @@ const loadSourceFromURL = async targetPath => {
   try {
     req = await fetch(targetPath);
   } catch (_) {
-    // only absolute URLs are supported, but received ${targetPath}
+    // TODO: error: only absolute URLs are supported, but received ${targetPath}
     return;
   }
   if (req.statusText === "OK") {
@@ -196,12 +196,11 @@ const beforeErrorShoot = ({
 });
 
 const getListValueFromSource = (source, type) => {
-  let list = [];
-  list.type = type;
+  const list = { type,   items: [] };
   try {
-    list = JSON.parse(source);
+    list.items = [...JSON.parse(source)];
   } catch (_) {
-    list = source.split(constants.NEW_LINE);
+    list.items = source.split(constants.NEW_LINE);
   }
   return list;
 };
@@ -216,11 +215,6 @@ const getBrowserKey = flags => {
   } else {
     return constants.DEFAULT_BROWSER;
   }
-};
-
-const checkIsStringBasedType = ({ token }) => {
-  const nonStringBasedTypeTokens = [types.LIST.token, types.COOKIE.token];
-  return !nonStringBasedTypeTokens.some(t => t === token);
 };
 
 const beginBrowserLaunch = browserKey => {
@@ -246,6 +240,5 @@ module.exports = {
   getListValueFromSource,
   getBrowserKey,
   beginBrowserLaunch,
-  getFileExt,
-  checkIsStringBasedType
+  getFileExt
 };
