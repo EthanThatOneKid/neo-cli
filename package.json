@@ -6,7 +6,7 @@
     "@EthanThatOneKid/neo": "bin.js",
     "neo": "bin.js"
   },
-  "main": "bin.js",
+  "main": "src/Neo.js",
   "scripts": {
     "start": "node index.js sample\\index.neo",
     "test": "neo test.neo --headful",

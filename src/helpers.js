@@ -162,14 +162,17 @@ const logMessage = ({ token, message }) => {
   }
 };
 
-const getKeywordObjectFromToken = targetToken => {
-  return Object.values(keywords)
+const getObjectFromToken = (parent, targetToken) => {
+  return Object.values(parent)
     .find(({ token }) => token === targetToken);
 };
 
+const getKeywordObjectFromToken = targetToken => {
+  return getObjectFromToken(keywords, targetToken);
+};
+
 const getTypeObjectFromToken = targetToken => {
-  return Object.values(types)
-    .find(({ token }) => token === targetToken);
+  return getObjectFromToken(types, targetToken);
 };
 
 const variablifyArguments = ({ token, arguments }) => {

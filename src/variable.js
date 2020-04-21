@@ -11,9 +11,9 @@ const Variable = ({ value, type }) => ({
           }
           return result;
         }, this.value);
-    } else {
-      // console.log("HEHEHEHEH", this.type, populatedValue)
     }
+    if (this.type.token === "list")
+    console.log("HEHEHEHEH", this.type, populatedValue, this.type.make(populatedValue))
     return this.type.make(populatedValue);
   }
  });
