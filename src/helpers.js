@@ -218,6 +218,11 @@ const getBrowserKey = flags => {
   }
 };
 
+const checkIsStringBasedType = ({ token }) => {
+  const nonStringBasedTypeTokens = [types.LIST.token, types.COOKIE.token];
+  return !nonStringBasedTypeTokens.some(t => t === token);
+};
+
 const beginBrowserLaunch = browserKey => {
   const text = constants.LAUNCHING(browserKey);
   const spinner = ora({ text }).start();
@@ -241,5 +246,6 @@ module.exports = {
   getListValueFromSource,
   getBrowserKey,
   beginBrowserLaunch,
-  getFileExt
+  getFileExt,
+  checkIsStringBasedType
 };

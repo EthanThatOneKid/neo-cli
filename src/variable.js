@@ -1,11 +1,10 @@
-const { types } = require("./maps/types");
+const { checkIsStringBasedType } = require("./helpers");
 
 const Variable = ({ value, type }) => ({
   value, type,
   make(scope = {}) {
     let populatedValue;
-    // if type is string-based:
-    if (this.type.token === types.TEXT.token) {
+    if (checkIsStringBasedType(this.type)) {
       populatedValue = Object.keys(scope)
         .reduce((result, varName) => {
           if (result.indexOf(varName) > -1) {

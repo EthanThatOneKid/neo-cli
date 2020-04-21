@@ -8,8 +8,8 @@
   },
   "main": "src/Neo.js",
   "scripts": {
-    "start": "node index.js sample\\index.neo",
-    "test": "neo test.neo --headful",
+    "start": "npm t",
+    "test": "node bin.js test.neo --headful",
     "build": "build.sh",
     "build:src": "rm -rf build && pkg . --output ./build/neo"
   },
