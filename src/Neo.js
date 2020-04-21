@@ -115,10 +115,10 @@ const commands = {
   //   \/____/   \/_____/  
   async [keywords.DO.token]({ arguments, instructions }) {
     const [listVar, currentVarNameVar, indexVarNameVar] = arguments;
-    console.log({hey:listVar.value});
     const list = listVar.make(this.scope);
-    console.log({list})
+    // console.log({list})
     // console.log({ list, instructions})
+    console.log({hey:listVar.value, foo:this.scope["JOKES"], bar:list});
     for (let i = 0; i < list.length; i++) {
       if (currentVarNameVar !== undefined) {
         const currentVarName = currentVarNameVar.make();
