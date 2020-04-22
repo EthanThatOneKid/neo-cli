@@ -179,6 +179,10 @@ const variablifyArguments = ({ token, arguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
   return arguments.map((value, i) => {
+    const isValueAlreadyVariablified = value.hasOwnProperty("value");
+    if (isValueAlreadyVariablified) {
+      return value;
+    }
     const type = targetArgTypes[i];
     return Variable({ value, type });
   });

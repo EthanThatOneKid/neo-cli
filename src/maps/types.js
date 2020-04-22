@@ -11,7 +11,7 @@ const types = {
   },
   BOOLEAN: {
     token: "boo",
-    make: v => Boolean(Number(v)),
+    make: v => v === "true" || Boolean(Number(v)),
     toString: b => b ? "true" : "false"
   },
   URL: {
@@ -26,8 +26,8 @@ const types = {
   },
   LIST: {
     token: "list",
-    make: l => Object.assign([], l),
-    toString: JSON.stringify
+    make: o => ({ ...o }),
+    toString: ({ items }) => JSON.stringify(items)
   },
   COOKIE: {
     token: "cook",

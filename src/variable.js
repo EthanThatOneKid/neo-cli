@@ -19,13 +19,13 @@ const Variable = ({ value, type }) => ({
           return result;
         }, this.type.toString(this.value));
     } else {
-      if (scope.hasOwnProperty(this.value)) {
-        populatedValue = scope[this.value].value;
-      } else {
-        populatedValue = this.type.make(this.value);
-      }
+      populatedValue = scope.hasOwnProperty(this.value)
+        ? scope[this.value].value
+        : this.type.make(this.value);
+      // console.log(this.type.token, this.value, populatedValue)
     }
-    return this.type.make(populatedValue || this.value);
+    // console.log({value, type, populatedValue})
+    return this.type.make(populatedValue);
   }
  });
 

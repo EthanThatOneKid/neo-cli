@@ -26,6 +26,9 @@ load PUNCHLINES_URL, text, PUNCHLINES
 ~~ Iterate loaded jokes
 do
   log Joke #JOKE_INDEX) JOKE_ITEM
-  log sup nerd
+  ~~do
+  ~~  log Punchline #PL_INDEX) PL_ITEM
+  ~~foreach PUNCHLINES, PL_ITEM, PL_INDEX
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
+
 log hi
