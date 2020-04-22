@@ -1,7 +1,7 @@
 # ✔ Todo
-* [ ] implement `load` keyword; applies list value to variable from path/url to json, or txt.
+* [x] implement `load` keyword; applies list value to variable from path/url to json, or txt.
   * Created: 1/18/20
-  * Completed: TBA
+  * Completed: 4/22/20
 * [ ] documentation for using the language as a JavaScript API
   * Created: 1/18/20
   * Completed: TBA
@@ -26,9 +26,9 @@
 * [ ] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
   * Created: 4/13/20
   * Completed: TBA
-* [ ] implement `do` and `foreach` keywords.
+* [x] implement `do` and `foreach` keywords.
   * Created: 4/19/20
-  * Completed: TBA
+  * Completed: 4/22/20
 * [ ] implement `pdf` keyword. [notes](https://github.com/microsoft/playwright/blob/master/docs/api.md#pagepdfoptions)
   * Created: 4/20/20
   * Completed: TBA
