@@ -38,3 +38,6 @@
 * [ ] implement `extract` keyword. Some variable types are *extractable* (list, cookie). demo: `extract <VAR_NAME>, <LIST/COOKIE VARIABLE NAME>, <KEY/INDEX>`
   * Created: 4/22/20
   * Completed: TBA
+* [ ] implement line number retention for precise errors
+  * Created: 4/22/20
+  * Completed: TBA
