@@ -77,7 +77,8 @@ const loadSourceFromURL = async targetPath => {
   try {
     req = await fetch(targetPath);
   } catch (_) {
-    return errors.INABSOLUTE_URL(targetPath);
+    const error = errors.INABSOLUTE_URL(targetPath);
+    return { error };
   }
   if (req.ok) {
     const source = await req.text();
