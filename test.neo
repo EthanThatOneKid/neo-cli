@@ -1,2 +1,3 @@
-log RUNNING TEST SCRIPTS
+log _____RUNNING TEST SCRIPTS______
 neo test
+log ___TESTS HAVE BEEN COMPLETED___

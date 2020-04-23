@@ -120,15 +120,11 @@ const commands = {
       if (currentVarNameVar !== undefined) {
         const currentVarName = currentVarNameVar.make();
         this.scope[currentVarName] = Variable({ value: items[i], type });
-        // console.log({[currentVarName]:items[i]});
-        // console.log({[currentVarName]:this.scope[currentVarName]})
       }
       if (indexVarNameVar !== undefined) {
         const indexVarName = indexVarNameVar.make();
-        this.scope[indexVarName] = Variable({ value: i + 1, type: getTypeObjectFromToken("int") });
-        // console.log({[indexVarName]:this.scope[indexVarName]})
+        this.scope[indexVarName] = Variable({ value: i, type: getTypeObjectFromToken("int") });
       }
-      // console.log([this.scope.JOKE_ITEM,this.scope.JOKE_INDEX])
       await this.run(instructions);
     }
   },
@@ -167,6 +163,71 @@ const commands = {
       return errors.LIST_EXPECTS_OPERATION(operation);
     }
     return;
+  },
+
+  //  ______     __  __     ______   ______     ______     ______     ______  
+  // /\  ___\   /\_\_\_\   /\__  _\ /\  == \   /\  __ \   /\  ___\   /\__  _\ 
+  // \ \  __\   \/_/\_\/_  \/_/\ \/ \ \  __<   \ \  __ \  \ \ \____  \/_/\ \/ 
+  //  \ \_____\   /\_\/\_\    \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\    \ \_\ 
+  //   \/_____/   \/_/\/_/     \/_/   \/_/ /_/   \/_/\/_/   \/_____/     \/_/   
+  async [keywords.EXTRACT.token]({ arguments }) {
+    const nonExtractableTypeTokens = [types.INTEGER.token, types.BOOLEAN.token];
+    const [newVarNameVar, oldVarNameVar, keyVar, endKeyVar] = arguments;
+    const newVarName = newVarNameVar.make();
+    const oldVarName = oldVarNameVar.make();
+    const key = keyVar.make(this.scope);
+    const oldVar = this.scope[oldVarName];
+    if (!nonExtractableTypeTokens.includes(oldVar.type.token)) {
+      if (oldVar.type.token === types.COOKIE) {
+        if (oldVar.value.hasOwnProperty(key)) {
+          this.scope[newVarName] = Variable({
+            value: types.TEXT.make(oldVar.value[key]),
+            type: types.TEXT
+          });
+        } else {
+          return errors.BAD_EXTRACTION_KEY(oldVarName, types.COOKIE.token, key);
+        }
+      } else {
+        const index = types.INTEGER.make(key);
+        if (oldVar.type.token === types.LIST.token) {
+          if (endKeyVar !== undefined) {
+            const endIndex = types.INTEGER.make(endKeyVar.make(this.scope));
+            this.scope[newVarName] = Variable({
+              value: {
+                items: oldVar.value.items.slice(index, endIndex),
+                type: oldVar.value.type
+              },
+              type: types.LIST
+            });
+          } else if (oldVar.value.items.hasOwnProperty(index)) {
+            this.scope[newVarName] = Variable({
+              value: oldVar.value.items[index],
+              type: oldVar.value.type
+            });
+          } else {
+            return errors.BAD_EXTRACTION_KEY(oldVarName, types.LIST.token, index);
+          }
+        } else {
+          const extractableText = oldVar.make(this.scope);
+          if (endKeyVar !== undefined) {
+            const endIndex = types.INTEGER.make(endKeyVar.make(this.scope));
+            this.scope[newVarName] = Variable({
+              value: extractableText.slice(index, endIndex),
+              type: oldVar.type
+            });
+          } else if (extractableText.hasOwnProperty(index)) {
+            this.scope[newVarName] = Variable({
+              value: extractableText[index],
+              type: types.TEXT
+            });
+          } else {
+            return errors.BAD_EXTRACTION_KEY(oldVarName, oldVar.type, index);
+          }
+        }
+      }
+    } else {
+      return errors.NON_EXTRACTABLE_TYPE(oldVarName, oldVar.type.token);
+    }
   },
 
   //  ______   __     ______     __         _____    

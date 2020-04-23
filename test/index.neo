@@ -26,7 +26,7 @@ load PUNCHLINES_URL, text, PUNCHLINES
 ~~ Iterate loaded jokes
 log Let's tell some jokes :)
 do
-  log joke #JOKE_INDEX) JOKE_ITEM
+  log Q > JOKE_ITEM
+  extract PL_ITEM, PUNCHLINES, JOKE_INDEX
+  log A > PL_ITEM
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
-
-log hi

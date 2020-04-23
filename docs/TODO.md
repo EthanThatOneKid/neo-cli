@@ -35,9 +35,12 @@
 * [ ] error-handle for browser-launch
   * Created: 4/20/20
   * Completed: TBA
-* [ ] implement `extract` keyword. Some variable types are *extractable* (list, cookie). demo: `extract <VAR_NAME>, <LIST/COOKIE VARIABLE NAME>, <KEY/INDEX>`
+* [x] implement `extract` keyword. Some variable types are *extractable* (list, cookie). demo: `extract <VAR_NAME>, <LIST/COOKIE VARIABLE NAME>, <KEY/INDEX>`
   * Created: 4/22/20
-  * Completed: TBA
+  * Completed: 4/23/20
 * [ ] implement line number retention for precise errors
   * Created: 4/22/20
+  * Completed: TBA
+* [ ] allow for JavaScript functions to be instantiated in a neo file or loaded in using a keyword `js`.
+  * Created: 4/23/20
   * Completed: TBA

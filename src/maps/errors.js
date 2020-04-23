@@ -17,6 +17,8 @@ const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   LIST_EXPECTS_ELEMENT: () => `When applying operation ${constants.LIST_PUSH} or ${constants.LIST_UNSHIFT}, keyword ${keywords.EDIT.token} expects a third argument.`,
   LIST_EXPECTS_OPERATION: (badOperation) => `Keyword ${keywords.EDIT.token} expects an operation constant ${constants.LIST_PUSH}, ${constants.LIST_UNSHIFT}, ${constants.LIST_POP}, or ${constants.LIST_UNSHIFT} as the second argument but got ${badOperation}.`,
   NAVIGATION_ERROR: (badUrl) => `No navigatable file found at '${badUrl}'.`,
+  BAD_EXTRACTION_KEY: (varName, type, key) => `Variable ${varName} of type ${type} is not extractable at key ${key}.`,
+  NON_EXTRACTABLE_TYPE: (varName, type) => `Variable ${varName} of type ${type} is a non-extractable typing.`,
   GENERIC_ERROR: (err) => `${err}`
 });
 

@@ -26,6 +26,11 @@ const keywords = {
     arguments: [types.LIST, types.TEXT, types.TEXT],
     required: [true, true, false]
   },
+  EXTRACT: {
+    token: "extract",
+    arguments: [types.TEXT, types.TEXT, types.TEXT, types.TEXT],
+    required: [true, true, true, false]
+  },
   FIELD: {
     token: "field",
     arguments: [types.SELECTOR, types.TEXT],
