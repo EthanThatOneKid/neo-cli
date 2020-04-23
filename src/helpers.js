@@ -136,7 +136,8 @@ const loadSource = async (targetPath, targetFileExt) => {
 const loadGlobalScope = () => {
   const textType = getTypeObjectFromToken("text");
   const DATE = Variable({ value: getReadableDate(), type: textType });
-  const CWD = Variable({ value: process.cwd(), type: getTypeObjectFromToken("url") });
+  const CWD = Variable({ value: process.cwd(), type: types.URL });
+  const FILE_PREFIX = Variable({ value: constants.FILE_URL_PREFIX, type: types.TEXT });
   const enviromentVariables = Object.keys(process.env)
     .reduce((result, key) => {
       if (key.indexOf(constants.ENV_VARIABLE_PREFIX) === 0) {
@@ -144,7 +145,7 @@ const loadGlobalScope = () => {
       }
       return result;
     }, {});
-  return { DATE, CWD, ...enviromentVariables };
+  return { DATE, CWD, FILE_PREFIX, ...enviromentVariables };
 };
 
 const logMessage = ({ token, message }) => {

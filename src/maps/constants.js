@@ -32,6 +32,7 @@ const constants = {
   DEFAULT_BROWSER: "chromium",
   CLI_MODE: "cli",
   EXT_MODE: "ext",
+  FILE_URL_PREFIX: "file:///",
   LAUNCHING: browser => `Launching ${browser} browser.`,
   LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };
