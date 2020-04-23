@@ -26,7 +26,11 @@ load PUNCHLINES_URL, text, PUNCHLINES
 ~~ Iterate loaded jokes
 log Let's tell some jokes :)
 do
-  log Q > JOKE_ITEM
+  var sel, JOKE_SEL, #jokeJOKE_INDEX
+  field JOKE_SEL, JOKE_ITEM
+  var sel, PL_SEL, #plJOKE_INDEX
   extract PL_ITEM, PUNCHLINES, JOKE_INDEX
-  log A > PL_ITEM
+  field PL_SEL, PL_ITEM
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
+
+pause 10e3
