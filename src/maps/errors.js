@@ -4,7 +4,6 @@ const { types } = require('./types');
 const { classifyMessageMap } = require('./helpers');
 
 const errors = classifyMessageMap(constants.ERROR_TOKEN, {
-  BAD_LIST_DECLARATION: () => `Type ${types.LIST.token} must be declared with ${keywords.LOAD.token} keyword.`,
   EXPECTED_ANOTHER: (token, badType, argIndex, expectedType) => `At command ${token}, incorrect type ${badType} is not correct type but is required at argument #${argIndex}; expected type ${expectedType}.`,
   MISSING_EXPECTED: (token, argIndex, expectedType) => `At command, ${token}, required argument #${argIndex} if not given; expected type ${expectedType}.`,
   ELEMENT_INEXISTENT: (selectorString) => `Selector '${selectorString}' cannot resolve to an element on the current page state.`,
@@ -19,6 +18,8 @@ const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   NAVIGATION_ERROR: (badUrl) => `No navigatable file found at '${badUrl}'.`,
   BAD_EXTRACTION_KEY: (varName, type, key) => `Variable ${varName} of type ${type} is not extractable at key ${key}.`,
   NON_EXTRACTABLE_TYPE: (varName, type) => `Variable ${varName} of type ${type} is a non-extractable typing.`,
+  INABSOLUTE_URL: (url) => `Only absolute URLs are supported, but received ${url}.`,
+  BAD_URL: (url, status, errCode) => `URL ${url} could not be reached due to status ${status} and error ${errCode}.`,
   GENERIC_ERROR: (err) => `${err}`
 });
 

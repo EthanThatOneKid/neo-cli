@@ -123,7 +123,7 @@ const commands = {
       }
       if (indexVarNameVar !== undefined) {
         const indexVarName = indexVarNameVar.make();
-        this.scope[indexVarName] = Variable({ value: i, type: getTypeObjectFromToken("int") });
+        this.scope[indexVarName] = Variable({ value: i, type: types.INTEGER });
       }
       await this.run(instructions);
     }
@@ -285,7 +285,7 @@ const commands = {
     }
     this.scope[varName] = Variable({
       value: getListValueFromSource(source, type),
-      type: getTypeObjectFromToken("list")
+      type: types.LIST
     });
     return;
   },

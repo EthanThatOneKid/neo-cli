@@ -77,15 +77,14 @@ const loadSourceFromURL = async targetPath => {
   try {
     req = await fetch(targetPath);
   } catch (_) {
-    // TODO: error: only absolute URLs are supported, but received ${targetPath}
-    return;
+    return errors.INABSOLUTE_URL(targetPath);
   }
-  if (req.statusText === "OK") {
+  if (req.ok) {
     const source = await req.text();
     const root = process.cwd();
     return { source, root };
   }
-  const error = errors.BAD_URL(targetPath);
+  const error = errors.BAD_URL(targetPath, req.statusText, req.status);
   return { error };
 };
 
