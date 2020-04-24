@@ -33,4 +33,4 @@ do
   field PL_SEL, PL_ITEM
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
 
-pause 10e3
+pause 5e3
