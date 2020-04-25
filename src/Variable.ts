@@ -1,4 +1,4 @@
-const { types } = require("./maps/types");
+import types from './maps/types';
 
 const checkIsStringBasedType = ({ token }) => {
   const nonStringBasedTypeTokens = [types.LIST.token, types.COOKIE.token, types.INTEGER.token];
@@ -25,6 +25,6 @@ const Variable = ({ value, type }) => ({
     }
     return this.type.make(populatedValue);
   }
- });
+});
 
-module.exports = { Variable };
+export default Variable;

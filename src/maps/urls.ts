@@ -6,4 +6,4 @@ const urlExpansionPack = {
 	NYTIMES: "https://www.nytimes.com/"
 };
 
-module.exports = { urlExpansionPack };
+export default urlExpansionPack;

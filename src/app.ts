@@ -1,6 +1,6 @@
-const { Neo } = require('./Neo');
-const { getBrowserKey, beginBrowserLaunch } = require('./helpers');
-const playwright = require('playwright');
+import Neo from './Neo';
+import playwright from 'playwright';
+import { getBrowserKey, beginBrowserLaunch } from './helpers';
 
 const app = async ({ input, flags }) => {
   const browserKey = getBrowserKey(flags);
@@ -21,4 +21,4 @@ const app = async ({ input, flags }) => {
   return process.exit();
 };
 
-module.exports = { app };
+export default app;

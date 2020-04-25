@@ -1,15 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');
-const chalk = require('chalk');
-const ora = require('ora');
-const { Variable } = require('./Variable');
-const { constants } = require('./maps/constants');
-const { keywords } = require('./maps/keywords');
-const { warnings } = require('./maps/warnings');
-const { errors } = require('./maps/errors');
-const { types } = require('./maps/types');
-require('dotenv').config();
+import fs from 'fs';
+import path from 'path';
+import fetch from 'node-fetch';
+import chalk from 'chalk';
+import ora from 'ora';
+import constants from './maps/constants';
+import keywords from './maps/keywords';
+import warnings from './maps/warnings';
+import errors from './maps/warnings';
+import types from './maps/types';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const getReadableDate = () => {
   const gimmeDate = new Date();
@@ -231,7 +231,7 @@ const beginBrowserLaunch = browserKey => {
 
 const now = () => +new Date();
 
-module.exports = {
+export {
   now,
   checkArgumentIsType,
   determineViolation,

@@ -37,4 +37,4 @@ const constants = {
   LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };
 
-module.exports = { constants };
+export default constants;

@@ -1,7 +1,7 @@
-const { constants } = require('./constants');
-const { keywords } = require('./keywords');
-const { types } = require('./types');
-const { classifyMessageMap } = require('./helpers');
+import constants from './constants';
+import keywords from './keywords';
+// import types from './types';
+import { classifyMessageMap } from './helpers';
 
 const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   EXPECTED_ANOTHER: (token, badType, argIndex, expectedType) => `At command ${token}, incorrect type ${badType} is not correct type but is required at argument #${argIndex}; expected type ${expectedType}.`,
@@ -23,4 +23,4 @@ const errors = classifyMessageMap(constants.ERROR_TOKEN, {
   GENERIC_ERROR: (err) => `${err}`
 });
 
-module.exports = { errors };
+export default errors;

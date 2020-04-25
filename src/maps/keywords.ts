@@ -1,4 +1,4 @@
-const { types } = require('./types');
+import types from './types';
 
 const keywords = {
   AWAIT: {
@@ -117,4 +117,4 @@ const keywords = {
   }
 };
 
-module.exports = { keywords };
+export default keywords;

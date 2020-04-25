@@ -1,12 +1,12 @@
-const path = require("path");
-const { constants } = require("./maps/constants");
-const { keywords } = require("./maps/keywords");
-const { parse } = require('./parse');
-const { types } = require("./maps/types");
-const { errors } = require("./maps/errors");
-const { warnings } = require("./maps/warnings");
-const { Variable } = require("./Variable");
-const {
+import path from 'path';
+import constants from './maps/constants';
+import keywords from './maps/keywords';
+import types from './maps/types';
+import errors from './maps/errors';
+import warnings from './maps/warnings';
+import parse from './parse';
+import Variable from './Variable';
+import {
   now,
   loadSource,
   loadGlobalScope,
@@ -16,7 +16,7 @@ const {
   getTypeObjectFromToken,
   getListValueFromSource,
   getFileExt
-} = require('./helpers');
+} from './helpers';
 
 const Neo = async ({
   instructions: autoInstructions,
@@ -489,4 +489,4 @@ const commands = {
 
 };
 
-module.exports = { Neo };
+export default Neo;

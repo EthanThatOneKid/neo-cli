@@ -1,5 +1,6 @@
 # Build Binaries
 build
+dist
 
 # Logs
 logs

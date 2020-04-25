@@ -1,7 +1,10 @@
-const { keywords } = require('./maps/keywords');
-const { constants } = require('./maps/constants');
-const { errors } = require('./maps/errors');
-const { stripComments, getKeywordObjectFromToken } = require('./helpers');
+import keywords from './maps/keywords';
+import constants from './maps/constants';
+import errors from './maps/errors';
+import {
+  stripComments,
+  getKeywordObjectFromToken
+} from './helpers';
 
 const findEndingEncapsulatorIndex = (tokens, curIndex, begEnc, endEnc) => {
   for (let i = curIndex, nests = 0; i < tokens.length; i++) {
@@ -77,4 +80,4 @@ const parse = source => {
   return parseTokens(tokens);
 };
 
-module.exports = { parse };
+export default parse;

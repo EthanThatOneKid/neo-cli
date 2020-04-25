@@ -6,6 +6,6 @@ const classifyMessageMap = (token, messageMap) => {
     }, {});
 };
 
-module.exports = {
+export {
   classifyMessageMap
 };
