@@ -33,4 +33,12 @@ do
   field PL_SEL, PL_ITEM
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
 
-pause 5e3
+~~ Travel to Disneyland!
+log Let's travel to Disneyland :)
+var text, DL_LAT, 33.812794
+var text, DL_LON, -117.918968
+trav DL_LAT, DL_LON
+click #whereami
+read text, COORD_TEXT, #coordinates
+log Disneyland coordinates: COORD_TEXT
+shoot

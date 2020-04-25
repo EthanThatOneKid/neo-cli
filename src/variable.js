@@ -22,9 +22,7 @@ const Variable = ({ value, type }) => ({
       populatedValue = scope.hasOwnProperty(this.value)
         ? scope[this.value].value
         : this.type.make(this.value);
-      // console.log(this.type.token, this.value, populatedValue)
     }
-    // console.log({value, type, populatedValue})
     return this.type.make(populatedValue);
   }
  });

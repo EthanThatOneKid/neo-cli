@@ -9,66 +9,84 @@
 
 <h1>Welcome, Neo.</h1>
 
-<!-- load -->
-<!-- do/foreach -->
-<!-- extract -->
-<!-- field -->
-<p>Tell me some jokes, Neo.</p>
-<ol>
-	<li>
-		<label for="joke0">Joke:</label>
-		<input type="string" id="joke0" class="full-width"></input>
-		<label for="pl0">Punchline:</label>
-		<input type="string" id="pl0" class="full-width"></input>
-	</li>
-	<li>
-		<label for="joke1">Joke:</label>
-		<input type="string" id="joke1" class="full-width"></input>
-		<label for="pl1">Punchline:</label>
-		<input type="string" id="pl1" class="full-width"></input>
-	</li>
-	<li>
-		<label for="joke2">Joke:</label>
-		<input type="string" id="joke2" class="full-width"></input>
-		<label for="pl2">Punchline:</label>
-		<input type="string" id="pl2" class="full-width"></input>
-	</li>
-</ol>
+<!--
+	Keywords being tested:
+	* load
+	* do/foreach
+	* extract
+	* field
+-->
+<section>
+	<p>Tell me some jokes, Neo.</p>
+	<ol>
+		<li>
+			<label for="joke0">Joke:</label>
+			<input type="string" id="joke0" class="full-width"></input>
+			<label for="pl0">Punchline:</label>
+			<input type="string" id="pl0" class="full-width"></input>
+		</li>
+		<li>
+			<label for="joke1">Joke:</label>
+			<input type="string" id="joke1" class="full-width"></input>
+			<label for="pl1">Punchline:</label>
+			<input type="string" id="pl1" class="full-width"></input>
+		</li>
+		<li>
+			<label for="joke2">Joke:</label>
+			<input type="string" id="joke2" class="full-width"></input>
+			<label for="pl2">Punchline:</label>
+			<input type="string" id="pl2" class="full-width"></input>
+		</li>
+	</ol>
+</section>
 
 <br>
 
-<!-- travel -->
-<!-- click -->
-<!-- read -->
-<button onclick="whereami()">Where am I?</button>
-<span id="coordinates"></span>
+<!--
+	Keywords being tested:
+	* trav
+	* click
+	* read
+-->
+<section>
+	<button id="whereami" onclick="whereami()">Where am I?</button>
+	<span id="coordinates"></span>
+</section>
 
 <br>
 
-<!-- dialog -->
-<!-- rep -->
-<!-- click -->
-<button onclick="count()">Click me, Neo.</button>
-<span id="clicks">0</span>
+<!--
+	Keywords being tested:
+	* dialog
+	* rep/until
+	* click
+-->
+<section>
+	<button onclick="count()">Click me, Neo.</button>
+	<span id="clicks">0</span>
+</section>
 
 <br>
 
-<!-- select -->
-<label>Pick a number, Neo.</label>
-<select>
-	<option></option>
-	<option>1</option>
-	<option>2</option>
-	<option>3</option>
-</select>
+<!--
+	Keywords being tested:
+	* select
+-->
+<section>
+	<label>Pick a number, Neo.</label>
+	<select>
+		<option></option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+	</select>
+</section>
 
 <script>
 
 	let clicks = 0;
 	const clicksElement = document.querySelector("#clicks");
-	const count = () => {
-		clicksElement.textContent = ++clicks;
-	};
+	const count = () => clicksElement.textContent = ++clicks;
 
 	const coordinatesElement = document.querySelector("#coordinates");
 	const whereami = () => {

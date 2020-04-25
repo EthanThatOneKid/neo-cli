@@ -180,7 +180,8 @@ const variablifyArguments = ({ token, arguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
   return arguments.map((value, i) => {
-    const isValueAlreadyVariablified = value.hasOwnProperty("value");
+    const isValueAlreadyVariablified = value.hasOwnProperty("value")
+      && value.hasOwnProperty("type");
     if (isValueAlreadyVariablified) {
       return value;
     }
@@ -201,7 +202,7 @@ const beforeErrorShoot = ({
 });
 
 const getListValueFromSource = (source, type) => {
-  const list = { type,   items: [] };
+  const list = { type, items: [] };
   try {
     list.items = [...JSON.parse(source)];
   } catch (_) {
