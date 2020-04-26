@@ -413,19 +413,20 @@ const commands = {
     const [selVar, optionVar] = inlineArguments;
     const sel = selVar.make(this.scope);
     const option = optionVar.make(this.scope);
+    console.log({sel,option})
     try {
       const isNotSelectElement = await this.page.$eval(sel, (el, value) => {
-        if (el.hasOwnProperty("options") && el.hasOwnProperty("value")) {
+        if (el.options !== undefined) {
           const optionIndex = value === undefined
             ? Math.floor((el.options.length - 1) * Math.random() + 1)
             : [...el.options].map(opt => opt.innerText).indexOf(value);
-          el.value = `${optionIndex}`;
+          el.value = optionIndex;
           return false;
         }
         return true;
       }, option);
       if (isNotSelectElement) {
-        return errors.NOT_EXPECTED_ELEMENT_TAG("select");
+        return errors.NOT_EXPECTED_ELEMENT_TAG("select", sel);
       }
     } catch (_) {
       return errors.ELEMENT_INEXISTENT(sel);

@@ -44,14 +44,16 @@
 
 <!--
 	Keywords being tested:
-	* trav
+	* trav (unsafe)
 	* click
 	* read
--->
+
 <section>
 	<button id="whereami" onclick="whereami()">Where am I?</button>
 	<span id="coordinates"></span>
 </section>
+
+-->
 
 <br>
 
@@ -74,7 +76,7 @@
 -->
 <section>
 	<label>Pick a number, Neo.</label>
-	<select>
+	<select id="favnum">
 		<option></option>
 		<option>1</option>
 		<option>2</option>
@@ -86,7 +88,10 @@
 
 	let clicks = 0;
 	const clicksElement = document.querySelector("#clicks");
-	const count = () => clicksElement.textContent = ++clicks;
+	const count = () => {
+		clicksElement.textContent = ++clicks
+		alert(click);
+	};
 
 	const coordinatesElement = document.querySelector("#coordinates");
 	const whereami = () => {

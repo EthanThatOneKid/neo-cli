@@ -44,7 +44,11 @@ foreach JOKES, JOKE_ITEM, JOKE_INDEX
 
 ~~ Count to ten!
 log Let's count to ten :)
+dialog accept
 rep
   click #counter
-  pause 500
 until 1e5, #clicks, 10
+
+~~ Pick my favorite number!
+log Let's pick my favorite number :)
+select #favnum, 3
