@@ -1,7 +1,7 @@
 import path from 'path';
-import constants from './maps/constants';
-import keywords from './maps/keywords';
-import types from './maps/types';
+import { constants } from './maps/constants';
+import { keywords } from './maps/keywords';
+import { types } from './maps/types';
 import errors from './maps/errors';
 import warnings from './maps/warnings';
 import parse from './parse';
@@ -26,7 +26,7 @@ const Neo = async ({
   ...commands, ...beforeErrorShoot,
   async run(instructions = autoInstructions) {
     for (const instruction of instructions) {
-      instruction.arguments = variablifyArguments(instruction);
+      instruction.inlineArguments = variablifyArguments(instruction);
       const error = await this[instruction.token](instruction);
       if (error !== undefined) {
         logMessage(error);
@@ -68,7 +68,7 @@ const commands = {
     try {
       await this.page.waitForNavigation({ timeout, waitUntil });
     } catch (_) {
-      return warnings.NAV_THRESH_BREAK(timeout);
+      return warnings.NAV_THRESH_BREAK(String(timeout));
     }
     return;
   },
@@ -78,8 +78,8 @@ const commands = {
   // \ \ \____  \ \ \____  \ \ \  \ \ \____  \ \  _"-.  
   //  \ \_____\  \ \_____\  \ \_\  \ \_____\  \ \_\ \_\ 
   //   \/_____/   \/_____/   \/_/   \/_____/   \/_/\/_/ 
-  async [keywords.CLICK.token]({ arguments }) {
-    const [selVar] = arguments;
+  async [keywords.CLICK.token]({ inlineArguments }) {
+    const [selVar] = inlineArguments;
     const sel = selVar.make(this.scope);
     try {
       await this.page.click(sel);
@@ -94,8 +94,8 @@ const commands = {
   // \ \ \/\ \ \ \ \  \ \  __ \  \ \ \____  \ \ \/\ \  \ \ \__ \  
   //  \ \____-  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
   //   \/____/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
-  async [keywords.DIALOG.token]({ arguments }) {
-    const [choiceVar] = arguments;
+  async [keywords.DIALOG.token]({ inlineArguments }) {
+    const [choiceVar] = inlineArguments;
     const _choice = choiceVar.make(this.scope);
     const choice = [constants.ACCEPT, constants.DISMISS].includes(_choice)
       ? _choice
@@ -113,8 +113,8 @@ const commands = {
   // \ \ \/\ \ \ \ \/\ \  
   //  \ \____-  \ \_____\ 
   //   \/____/   \/_____/  
-  async [keywords.DO.token]({ arguments, instructions }) {
-    const [listVar, currentVarNameVar, indexVarNameVar] = arguments;
+  async [keywords.DO.token]({ inlineArguments, instructions }) {
+    const [listVar, currentVarNameVar, indexVarNameVar] = inlineArguments;
     const { items, type } = listVar.make(this.scope);
     for (let i = 0; i < items.length; i++) {
       if (currentVarNameVar !== undefined) {
@@ -134,8 +134,8 @@ const commands = {
   // \ \  __\   \ \ \/\ \ \ \ \  \/_/\ \/ 
   //  \ \_____\  \ \____-  \ \_\    \ \_\ 
   //   \/_____/   \/____/   \/_/     \/_/   
-  async [keywords.EDIT.token]({ arguments }) {
-    const [listVar, operationVar, elementVar] = arguments;
+  async [keywords.EDIT.token]({ inlineArguments }) {
+    const [listVar, operationVar, elementVar] = inlineArguments;
     const listName = listVar.make();
     const list = listVar.make(this.scope);
     const operation = operationVar.make(this.scope);
@@ -170,9 +170,9 @@ const commands = {
   // \ \  __\   \/_/\_\/_  \/_/\ \/ \ \  __<   \ \  __ \  \ \ \____  \/_/\ \/ 
   //  \ \_____\   /\_\/\_\    \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\    \ \_\ 
   //   \/_____/   \/_/\/_/     \/_/   \/_/ /_/   \/_/\/_/   \/_____/     \/_/   
-  async [keywords.EXTRACT.token]({ arguments }) {
+  async [keywords.EXTRACT.token]({ inlineArguments }) {
     const nonExtractableTypeTokens = [types.INTEGER.token, types.BOOLEAN.token];
-    const [newVarNameVar, oldVarNameVar, keyVar, endKeyVar] = arguments;
+    const [newVarNameVar, oldVarNameVar, keyVar, endKeyVar] = inlineArguments;
     const newVarName = newVarNameVar.make();
     const oldVarName = oldVarNameVar.make();
     const key = keyVar.make(this.scope);
@@ -205,7 +205,7 @@ const commands = {
               type: oldVar.value.type
             });
           } else {
-            return errors.BAD_EXTRACTION_KEY(oldVarName, types.LIST.token, index);
+            return errors.BAD_EXTRACTION_KEY(oldVarName, types.LIST.token, String(index));
           }
         } else {
           const extractableText = oldVar.make(this.scope);
@@ -221,7 +221,7 @@ const commands = {
               type: types.TEXT
             });
           } else {
-            return errors.BAD_EXTRACTION_KEY(oldVarName, oldVar.type, index);
+            return errors.BAD_EXTRACTION_KEY(oldVarName, oldVar.type, String(index));
           }
         }
       }
@@ -235,8 +235,8 @@ const commands = {
   // \ \  __\ \ \ \  \ \  __\   \ \ \____  \ \ \/\ \ 
   //  \ \_\    \ \_\  \ \_____\  \ \_____\  \ \____- 
   //   \/_/     \/_/   \/_____/   \/_____/   \/____/ 
-  async [keywords.FIELD.token]({ arguments }) {
-    const [selVar, inputVar] = arguments;
+  async [keywords.FIELD.token]({ inlineArguments }) {
+    const [selVar, inputVar] = inlineArguments;
     const sel = selVar.make(this.scope);
     const input = inputVar.make(this.scope);
     try {
@@ -253,8 +253,8 @@ const commands = {
   // \ \ \__ \  \ \ \/\ \  \/_/\ \/ \ \ \/\ \  
   //  \ \_____\  \ \_____\    \ \_\  \ \_____\ 
   //   \/_____/   \/_____/     \/_/   \/_____/
-  async [keywords.GOTO.token]({ arguments }) {
-    const [urlVar] = arguments;
+  async [keywords.GOTO.token]({ inlineArguments }) {
+    const [urlVar] = inlineArguments;
     const url = urlVar.make(this.scope);
     try {
       await this.page.goto(url);
@@ -269,8 +269,8 @@ const commands = {
   // \ \ \____  \ \ \/\ \  \ \  __ \  \ \ \/\ \ 
   //  \ \_____\  \ \_____\  \ \_\ \_\  \ \____- 
   //   \/_____/   \/_____/   \/_/\/_/   \/____/  
-  async [keywords.LOAD.token]({ arguments }) {
-    const [urlVar, typeStringVar, varNameVar] = arguments;
+  async [keywords.LOAD.token]({ inlineArguments }) {
+    const [urlVar, typeStringVar, varNameVar] = inlineArguments;
     const typeString = typeStringVar.make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {
@@ -295,8 +295,8 @@ const commands = {
   // \ \ \____  \ \ \/\ \  \ \ \__ \  
   //  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_____/   \/_____/   \/_____/   
-  async [keywords.LOG.token]({ arguments }) {
-    const [messageVar] = arguments;
+  async [keywords.LOG.token]({ inlineArguments }) {
+    const [messageVar] = inlineArguments;
     const token = constants.OK_TOKEN;
     const operableVariableForm = messageVar.make(this.scope);
     // console.log({messageVar})
@@ -311,8 +311,8 @@ const commands = {
   // \ \ \-./\ \  \ \  __ \  \ \____ \  \ \  __<   \ \  __\   
   //  \ \_\ \ \_\  \ \_\ \_\  \/\_____\  \ \_____\  \ \_____\ 
   //   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
-  async [keywords.MAYBE.token]({ arguments, instructions }) {
-    const [conditionVar] = arguments;
+  async [keywords.MAYBE.token]({ inlineArguments, instructions }) {
+    const [conditionVar] = inlineArguments;
     const condition = conditionVar.make(this.scope);
     if (condition) {
       await this.run({ instructions });
@@ -325,8 +325,8 @@ const commands = {
   // \ \ \-.  \  \ \  __\   \ \ \/\ \  
   //  \ \_\\"\_\  \ \_____\  \ \_____\ 
   //   \/_/ \/_/   \/_____/   \/_____/   
-  async [keywords.NEO.token]({ arguments }) {
-    const [pathVar] = arguments;
+  async [keywords.NEO.token]({ inlineArguments }) {
+    const [pathVar] = inlineArguments;
     const path = pathVar.make(this.scope);
     const neo = await Neo.load({ path, page: this.page });
     return await neo.run();
@@ -337,9 +337,9 @@ const commands = {
   // \ \  _-/ \ \  __ \  \ \ \_\ \  \ \___  \  \ \  __\   
   //  \ \_\    \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\ 
   //   \/_/     \/_/\/_/   \/_____/   \/_____/   \/_____/
-  async [keywords.PAUSE.token]({ arguments }) {
+  async [keywords.PAUSE.token]({ inlineArguments }) {
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
-    const [_timeout] = arguments;
+    const [_timeout] = inlineArguments;
     const timeout = _timeout !== undefined ? _timeout.make(this.scope) : 0;
     return await pause(timeout);
   },
@@ -349,8 +349,8 @@ const commands = {
   // \ \  __<   \ \  __\   \ \  __ \  \ \ \/\ \ 
   //  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \____- 
   //   \/_/ /_/   \/_____/   \/_/\/_/   \/____/   
-  async [keywords.READ.token]({ arguments }) {
-    const [typeStringVar, varNameVar, selVar] = arguments;
+  async [keywords.READ.token]({ inlineArguments }) {
+    const [typeStringVar, varNameVar, selVar] = inlineArguments;
     const typeString = typeStringVar.make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {
@@ -360,7 +360,7 @@ const commands = {
     const sel = selVar.make(this.scope);
     let value;
     try {
-      resultValue = await this.page.$eval(sel, el => el.innerText);
+      value = await this.page.$eval(sel, el => el.innerText);
     } catch (genericError) {
       return errors.GENERIC_ERROR(genericError);
     }
@@ -373,8 +373,8 @@ const commands = {
   // \ \  __<   \ \  __\   \ \  _-/ \ \  __\   \ \  __ \  \/_/\ \/ 
   //  \ \_\ \_\  \ \_____\  \ \_\    \ \_____\  \ \_\ \_\    \ \_\ 
   //   \/_/ /_/   \/_____/   \/_/     \/_____/   \/_/\/_/     \/_/   
-  async [keywords.REPEAT.token]({ arguments, instructions }) {
-    const [maxRepeatsVar, selVar, testTextVar] = arguments;
+  async [keywords.REPEAT.token]({ inlineArguments, instructions }) {
+    const [maxRepeatsVar, selVar, testTextVar] = inlineArguments;
     let targetSel, targetElement, testText,
         currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
     while (currentRepeats++ <= maxRepeats) {
@@ -382,7 +382,7 @@ const commands = {
       maxRepeats = maxRepeatsVar.make(this.scope);
       if (selVar !== undefined) {
         testText = testTextVar.make(this.scope);
-        targetSel = targetSelVar.make(this.scope);
+        targetSel = selVar.make(this.scope);
         targetElement = await this.page.$(targetSel);
         if (targetElement !== null) {
           const containsTestText = (await targetElement.innerText()).includes(testText);
@@ -390,7 +390,7 @@ const commands = {
             break;
           }
         } else {
-          return errors.ELEMENT_INEXISTENT(sel);
+          return errors.ELEMENT_INEXISTENT(targetSel);
         }
       }
     }
@@ -402,7 +402,7 @@ const commands = {
   // \ \___  \  \ \  __ \  \ \ \'/   \ \  __\   
   //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
   //   \/_____/   \/_/\/_/   \/_/      \/_____/  
-  async [keywords.SAVE.token]({ arguments }) {
+  async [keywords.SAVE.token]({ inlineArguments }) {
     return;
   },
 
@@ -411,8 +411,8 @@ const commands = {
   // \ \___  \  \ \  __\   \ \ \____  \ \  __\   \ \ \____  \/_/\ \/ 
   //  \/\_____\  \ \_____\  \ \_____\  \ \_____\  \ \_____\    \ \_\ 
   //   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/     \/_/  
-  async [keywords.SELECT.token]({ arguments }) {
-    const [selVar, optionVar] = arguments;
+  async [keywords.SELECT.token]({ inlineArguments }) {
+    const [selVar, optionVar] = inlineArguments;
     const sel = selVar.make(this.scope);
     const option = optionVar.make(this.scope);
     try {
@@ -440,8 +440,8 @@ const commands = {
   // \ \___  \  \ \  __ \  \ \ \/\ \  \ \ \/\ \  \/_/\ \/ 
   //  \/\_____\  \ \_\ \_\  \ \_____\  \ \_____\    \ \_\ 
   //   \/_____/   \/_/\/_/   \/_____/   \/_____/     \/_/
-  async [keywords.SHOOT.token]({ arguments }) {
-    const [__savePath] = arguments;
+  async [keywords.SHOOT.token]({ inlineArguments }) {
+    const [__savePath] = inlineArguments;
     const _savePath = __savePath !== undefined
       ? __savePath.make(this.scope)
       : `${constants.SHOOT_DEFAULT}_${now()}.png`;
@@ -458,8 +458,8 @@ const commands = {
   // \/_/\ \/ \ \  __<   \ \  __ \  \ \ \'/   \ \  __\   \ \ \____     
   //    \ \_\  \ \_\ \_\  \ \_\ \_\  \ \__|    \ \_____\  \ \_____\    
   //     \/_/   \/_/ /_/   \/_/\/_/   \/_/      \/_____/   \/_____/    
-  async [keywords.TRAVEL.token]({ arguments }) {
-    const [latStringVar, lonStringVar] = arguments;
+  async [keywords.TRAVEL.token]({ inlineArguments }) {
+    const [latStringVar, lonStringVar] = inlineArguments;
     if (latStringVar !== undefined && lonStringVar !== undefined) {
       const latitude = Number(latStringVar.make(this.scope));
       const longitude = Number(lonStringVar.make(this.scope));
@@ -474,8 +474,8 @@ const commands = {
   // \ \ \'/   \ \  __ \  \ \  __<   \ \ \  \ \  __ \  \ \  __<   \ \ \____  \ \  __\   
   //  \ \__|    \ \_\ \_\  \ \_\ \_\  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
-  async [keywords.VARIABLE.token]({ arguments }) {
-    const [typeStringVar, varNameVar, valueVar] = arguments;
+  async [keywords.VARIABLE.token]({ inlineArguments }) {
+    const [typeStringVar, varNameVar, valueVar] = inlineArguments;
     const typeString = typeStringVar.make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {

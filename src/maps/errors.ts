@@ -1,9 +1,12 @@
-import constants from './constants';
-import keywords from './keywords';
 // import types from './types';
-import { classifyMessageMap } from './helpers';
+import { constants } from './constants';
+import { keywords } from './keywords';
+import {
+  classifyMessageMap,
+  ClassifiedMessageMap
+} from './helpers';
 
-const errors = classifyMessageMap(constants.ERROR_TOKEN, {
+const errors: ClassifiedMessageMap = classifyMessageMap(constants.ERROR_TOKEN, {
   EXPECTED_ANOTHER: (token, badType, argIndex, expectedType) => `At command ${token}, incorrect type ${badType} is not correct type but is required at argument #${argIndex}; expected type ${expectedType}.`,
   MISSING_EXPECTED: (token, argIndex, expectedType) => `At command, ${token}, required argument #${argIndex} if not given; expected type ${expectedType}.`,
   ELEMENT_INEXISTENT: (selectorString) => `Selector '${selectorString}' cannot resolve to an element on the current page state.`,

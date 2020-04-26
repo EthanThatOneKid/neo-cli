@@ -1,4 +1,8 @@
-const constants = {
+interface Constants {
+  [constantKey: string]: any
+}
+
+const constants: Constants = {
   ACCEPT: "accept",
   DISMISS: "dismiss",
   CONFIRM_BOX: "confirm",
@@ -37,4 +41,4 @@ const constants = {
   LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };
 
-export default constants;
+export { constants, Constants };

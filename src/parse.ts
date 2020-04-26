@@ -1,5 +1,5 @@
-import keywords from './maps/keywords';
-import constants from './maps/constants';
+import { keywords } from './maps/keywords';
+import { constants } from './maps/constants';
 import errors from './maps/errors';
 import {
   stripComments,
@@ -27,7 +27,7 @@ const parseTokens = tokens => {
     if (instructions.length === 0) {
       return errors.SYNTAX_ERROR();
     } else if (gimmeArgument.length > 0) {
-      instructions[instructions.length - 1].arguments.push(gimmeArgument.join(" "));
+      instructions[instructions.length - 1].inlineArguments.push(gimmeArgument.join(" "));
       gimmeArgument.splice(0, gimmeArgument.length);
     }
   };
@@ -41,7 +41,7 @@ const parseTokens = tokens => {
           return { error, instructions };
         }
       }
-      instructions.push({ token: keyword.token, arguments: [] });
+      instructions.push({ token: keyword.token, inlineArguments: [] });
       if (keyword.hasOwnProperty("encapsulator")) {
         const endingEncapsulatorToken = keyword.encapsulator;
         const endingEncapsulatorIndex = findEndingEncapsulatorIndex(tokens, i, keyword.token, endingEncapsulatorToken);

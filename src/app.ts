@@ -1,14 +1,11 @@
 import Neo from './Neo';
-import playwright from 'playwright';
+import { chromium, firefox, webkit } from 'playwright';
 import { getBrowserKey, beginBrowserLaunch } from './helpers';
+
+const playwright = { chromium, firefox, webkit };
 
 const app = async ({ input, flags }) => {
   const browserKey = getBrowserKey(flags);
-  // if (flags.download) {
-  //   const { downloadBrowser } = require('playwright-core/download-browser');
-  //   await downloadBrowser(browserKey);
-  //   return process.exit();
-  // }
   const headless = !flags.headful;
   const completeBrowserLaunch = beginBrowserLaunch(browserKey);
   const browser = await playwright[browserKey].launch({ headless });
@@ -21,4 +18,4 @@ const app = async ({ input, flags }) => {
   return process.exit();
 };
 
-export default app;
+export { app };

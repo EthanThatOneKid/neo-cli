@@ -1,3 +1,13 @@
+interface Type {
+  token: string,
+  make: (x: any) => any,
+  toString: (x: any) => string
+}
+
+interface Types {
+  [typeKey: string]: Type
+}
+
 const types = {
   INTEGER: {
     token: "int",
@@ -36,4 +46,4 @@ const types = {
   }
 };
 
-export default types;
+export { types, Type, Types };

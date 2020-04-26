@@ -1,6 +1,17 @@
-import types from './types';
+import { types, Type } from './types';
 
-const keywords = {
+interface Keyword {
+  token: string,
+  arguments: Type[],
+  required?: boolean[],
+  encapsulator?: string
+}
+
+interface Keywords {
+  [keywordKey: string]: Keyword
+}
+
+const keywords: Keywords = {
   AWAIT: {
     token: "await",
     arguments: []
@@ -117,4 +128,4 @@ const keywords = {
   }
 };
 
-export default keywords;
+export { keywords, Keyword, Keywords };

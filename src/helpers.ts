@@ -3,11 +3,12 @@ import path from 'path';
 import fetch from 'node-fetch';
 import chalk from 'chalk';
 import ora from 'ora';
-import constants from './maps/constants';
-import keywords from './maps/keywords';
+import { constants } from './maps/constants';
+import { keywords, Keyword } from './maps/keywords';
+import { types, Type } from './maps/types';
+import Variable from './Variable';
 import warnings from './maps/warnings';
 import errors from './maps/warnings';
-import types from './maps/types';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -44,12 +45,12 @@ const determineViolation = (
     if (i < givenArgs.length) {
       if (!checkArgumentIsType(givenArgs[i].type, targetArgTypes[i])) {
         if (requiredArgLookup !== undefined && requiredArgLookup[i]) {
-          return errors.EXPECTED_ANOTHER(token, givenArgs[i].type.token, i + 1, targetArgTypes[i].token);
+          return errors.EXPECTED_ANOTHER(token, givenArgs[i].type.token, String(i + 1), targetArgTypes[i].token);
         }
-        return warnings.BAD_UNECESSARY_ARGUMENT_TYPE(token, givenArgs[i].type.token, i + 1);
+        return warnings.BAD_UNECESSARY_ARGUMENT_TYPE(token, givenArgs[i].type.token, String(i + 1));
       }
-    } else if (requiredArgLookup !== undefied && requiredArgLookup[i]) {
-      return errors.MISSING_EXPECTED(token, i + 1, targetArgTypes[i].token);
+    } else if (requiredArgLookup !== undefined && requiredArgLookup[i]) {
+      return errors.MISSING_EXPECTED(token, String(i + 1), targetArgTypes[i].token);
     }
   }
   return;
@@ -134,14 +135,13 @@ const loadSource = async (targetPath, targetFileExt) => {
 };
 
 const loadGlobalScope = () => {
-  const textType = getTypeObjectFromToken("text");
-  const DATE = Variable({ value: getReadableDate(), type: textType });
+  const DATE = Variable({ value: getReadableDate(), type: types.TEXT });
   const CWD = Variable({ value: process.cwd(), type: types.URL });
   const FILE_PREFIX = Variable({ value: constants.FILE_URL_PREFIX, type: types.TEXT });
   const enviromentVariables = Object.keys(process.env)
     .reduce((result, key) => {
       if (key.indexOf(constants.ENV_VARIABLE_PREFIX) === 0) {
-        result[key] = Variable({ value: process.env[key], type: textType });
+        result[key] = Variable({ value: process.env[key], type: types.TEXT });
       }
       return result;
     }, {});
@@ -163,23 +163,20 @@ const logMessage = ({ token, message }) => {
   }
 };
 
-const getObjectFromToken = (parent, targetToken) => {
-  return Object.values(parent)
+const getKeywordObjectFromToken = (targetToken: string): Keyword => {
+  return Object.values(keywords)
     .find(({ token }) => token === targetToken);
 };
 
-const getKeywordObjectFromToken = targetToken => {
-  return getObjectFromToken(keywords, targetToken);
+const getTypeObjectFromToken = (targetToken: string): Type => {
+  return Object.values(types)
+    .find(({ token }) => token === targetToken);
 };
 
-const getTypeObjectFromToken = targetToken => {
-  return getObjectFromToken(types, targetToken);
-};
-
-const variablifyArguments = ({ token, arguments }) => {
+const variablifyArguments = ({ token, inlineArguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
-  return arguments.map((value, i) => {
+  return inlineArguments.map((value, i) => {
     const isValueAlreadyVariablified = value.hasOwnProperty("value")
       && value.hasOwnProperty("type");
     if (isValueAlreadyVariablified) {
@@ -195,7 +192,7 @@ const beforeErrorShoot = ({
     const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
     const instruction = {
       keyword: keywords.SHOOT.token,
-      arguments: [Variable(screenshotPath, types.URL)]
+      arguments: [Variable({ value: screenshotPath, type: types.URL })]
     };
     await this[keywords.SHOOT.token](instruction);
   }

@@ -1,11 +1,11 @@
-import types from './maps/types';
+import { types, Type } from './maps/types';
 
-const checkIsStringBasedType = ({ token }) => {
+const checkIsStringBasedType = ({ token }): boolean => {
   const nonStringBasedTypeTokens = [types.LIST.token, types.COOKIE.token, types.INTEGER.token];
   return !nonStringBasedTypeTokens.some(t => t === token);
 };
 
-const Variable = ({ value, type }) => ({
+const Variable = ({ value, type }: { value: any, type: Type }) => ({
   value, type,
   make(scope = {}) {
     let populatedValue;
