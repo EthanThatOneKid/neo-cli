@@ -95,7 +95,9 @@ const keywords: Keywords = {
   },
   REPEAT: {
     token: "rep",
-    arguments: [],
+    // TODO: add 2 more args: variable name for current index and variable name for current text content
+    arguments: [types.INTEGER, types.SELECTOR, types.TEXT],
+    required: [true, false, false],
     encapsulator: "until"
   },
   SAVE: {
@@ -121,8 +123,7 @@ const keywords: Keywords = {
   },
   UNTIL: {
     token: "until",
-    arguments: [types.INTEGER, types.SELECTOR, types.TEXT],
-    required: [true, false, false]
+    arguments: []
   },
   VARIABLE: {
     token: "var",

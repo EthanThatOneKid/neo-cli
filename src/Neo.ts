@@ -299,8 +299,6 @@ const commands = {
     const [messageVar] = inlineArguments;
     const token = constants.OK_TOKEN;
     const operableVariableForm = messageVar.make(this.scope);
-    // console.log({messageVar})
-    // console.log({messageVar,operableVariableForm})
     const message = messageVar.type.toString(operableVariableForm);
     logMessage({ token, message });
     return;
@@ -378,19 +376,19 @@ const commands = {
     let targetSel, targetElement, testText,
         currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
     while (currentRepeats++ <= maxRepeats) {
-      await this.run({ instructions });
+      await this.run(instructions);
       maxRepeats = maxRepeatsVar.make(this.scope);
       if (selVar !== undefined) {
         testText = testTextVar.make(this.scope);
         targetSel = selVar.make(this.scope);
-        targetElement = await this.page.$(targetSel);
-        if (targetElement !== null) {
-          const containsTestText = (await targetElement.innerText()).includes(testText);
-          if (containsTestText) {
-            break;
-          }
-        } else {
+        let innerText;
+        try {
+          innerText = await this.page.$eval(targetSel, el => el.innerText);
+        } catch (_) {
           return errors.ELEMENT_INEXISTENT(targetSel);
+        }
+        if (innerText.includes(testText)) {
+          break;
         }
       }
     }
