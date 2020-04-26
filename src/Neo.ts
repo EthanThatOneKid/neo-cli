@@ -373,7 +373,7 @@ const commands = {
   //   \/_/ /_/   \/_____/   \/_/     \/_____/   \/_/\/_/     \/_/   
   async [keywords.REPEAT.token]({ inlineArguments, instructions }) {
     const [maxRepeatsVar, selVar, testTextVar] = inlineArguments;
-    let targetSel, targetElement, testText,
+    let targetSel, testText,
         currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
     while (currentRepeats++ <= maxRepeats) {
       await this.run(instructions);

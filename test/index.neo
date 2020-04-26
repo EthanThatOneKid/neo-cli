@@ -47,4 +47,4 @@ log Let's count to ten :)
 rep
   click #counter
   pause 500
-until 999, #clicks, 10
+until 1e5, #clicks, 10
