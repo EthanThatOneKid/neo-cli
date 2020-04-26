@@ -41,6 +41,10 @@ const parseTokens = tokens => {
           return { error, instructions };
         }
       }
+      if (keyword.hasOwnProperty("safe") && !keyword.safe) {
+        const error = errors.KEYWORD_UNSAFE(keyword.token);
+        return { error, instructions }; 
+      }
       instructions.push({ token: keyword.token, inlineArguments: [] });
       if (keyword.hasOwnProperty("encapsulator")) {
         const endingEncapsulatorToken = keyword.encapsulator;

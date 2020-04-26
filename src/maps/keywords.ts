@@ -4,7 +4,9 @@ interface Keyword {
   token: string,
   arguments: Type[],
   required?: boolean[],
-  encapsulator?: string
+  encapsulator?: string,
+  description?: string,
+  safe?: boolean
 }
 
 interface Keywords {
@@ -114,7 +116,8 @@ const keywords: Keywords = {
   TRAVEL: {
     token: "trav",
     arguments: [types.TEXT, types.TEXT],
-    required: [false, false]
+    required: [false, false],
+    safe: false
   },
   UNTIL: {
     token: "until",

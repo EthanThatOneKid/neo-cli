@@ -134,7 +134,8 @@ Any variables defined in the [.env file](#env) that are prefaced with "NEO_" wil
 ```shell
 git clone https://github.com/EthanThatOneKid/neo # Clone this repository
 cd neo # Navigate to this repository
-npm i # Installing dependencies
+npm i # Install dependencies
+npm run build # Compile TypeScript to JavaScript
 npm i -g # Globally install Neo module
 ```
 

@@ -23,6 +23,7 @@ const errors: ClassifiedMessageMap = classifyMessageMap(constants.ERROR_TOKEN, {
   NON_EXTRACTABLE_TYPE: (varName, type) => `Variable ${varName} of type ${type} is a non-extractable typing.`,
   INABSOLUTE_URL: (url) => `Only absolute URLs are supported, but received ${url}.`,
   BAD_URL: (url, status, errCode) => `URL ${url} could not be reached due to status ${status} and error ${errCode}.`,
+  KEYWORD_UNSAFE: (keyword) => `Keyword '${keyword}' is deemed unsafe, thus it is currently banned from usage.`,
   GENERIC_ERROR: (err) => `${err}`
 });
 
