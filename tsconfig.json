@@ -13,6 +13,7 @@
     "noImplicitAny": false,
     "strict": false,
     "typeRoots": ["node_modules/@types"],
+    "sourceMap": true
   },
   "include": ["./src/**/*"]
 }

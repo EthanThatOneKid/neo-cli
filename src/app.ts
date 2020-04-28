@@ -1,4 +1,5 @@
 import Neo from './Neo';
+import 'source-map-support/register';
 import { chromium, firefox, webkit } from 'playwright';
 import { getBrowserKey, beginBrowserLaunch } from './helpers';
 
