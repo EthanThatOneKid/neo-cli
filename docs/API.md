@@ -1,4 +1,4 @@
-# Neo Documentation
+# Neo Documentation 🐱‍👤
 
 > Welcome to the official Neo language API documentation.
 
@@ -26,7 +26,7 @@ The reason why tildas were chosen to be the comment token of the Neo language is
 CSS Selectors are strings of text used to target certain HTML elements.
 In the case of this language, they are used to select an element to be operated on or read.
 
-### .env 🔐
+## .env 🔐
 A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
 The contents of the file should look like this:
 ```
@@ -62,12 +62,16 @@ Usage: `click [BUTTON_SELECTOR: sel]*`
 Arguments:
 1. `BUTTON_SELECTOR`: `sel` (*required*)... CSS selector representing page element intended to be clicked.
 
+---
+
 ### `dialog`
 Usage: `dialog [CHOICE: text]`
 > Accepts or dismisses future dialog evocations.
 
 Arguments:
 1. `CHOICE`: `text`... Can either be `accept` or `dismiss`. Defaults to `accept`.
+
+---
 
 ### `do/foreach`
 Usage:
@@ -83,6 +87,8 @@ Arguments:
 1. `CUR_ITEM_NAME`: `text`... Variable name dedicated to the current item in the list per interpolation.
 1. `CUR_INDEX_NAME`: `text`... Variable name dedicated to the current index in the list per interpolation.
 
+---
+
 ### `edit`
 Usage: `edit [EDIT_LIST: list]*, [OPERATION: text]*, [APPENDATION: text]`
 > Manipulates the contents of a list by adding to the front, removing from the front, adding to the end, and removing from the end.
@@ -91,6 +97,8 @@ Arguments:
 1. `EDIT_LIST`: `list` (*required*)... Name of list variable to be operated on.
 1. `OPERATION`: `text` (*required*)... Can only be `push`, `pop`, `shift`, or `unshift`. Push appends to the back, pop removes from the back, shift removes from the front, and unshift appends to the front.
 1. `APPENDATION`: `text`... Item to be added to the list.
+
+---
 
 ### `extract`
 Usage: `extract [NEW_VARIABLE_NAME: text]*, [REFERENCE_VARIABLE: text]*, [INDEX: text]*, [END_INDEX: text]`
@@ -102,6 +110,8 @@ Arguments:
 1. `INDEX`: `text` (*required*)... Position in the variable at which to extract a new value from.
 1. `END_INDEX`: `text`... Position at which to end the extraction. If this argument is given, the new variable will be a slice of the reference variable from the index given in the previous argument to the one in this argument.
 
+---
+
 ### `field`
 Usage: `field [INPUT_SELECTOR: sel]*, [INPUT_VALUE: text]*`
 > Populates an element on the page.
@@ -110,12 +120,16 @@ Arguments:
 1. `INPUT_SELECTOR`: `sel` (*required*)... CSS selector representing page element intended to be populated.
 1. `INPUT_VALUE`: `text` (*required*)... Value being populated into the given input field.
 
+---
+
 ### `goto`
 Usage: `goto [URL_TO_GO: url]*`
 > Navigates to a new website.
 
 Arguments:
 1. `URL_TO_GO`: `url` (*required*)... The URL that the page shall navigate to.
+
+---
 
 ### `load`
 Usage: `load [SOURCE_LOCATION: url]*, [INTENDED_TYPE: text], [LIST_VAR_NAME: text]`
@@ -126,12 +140,16 @@ Arguments:
 1. `INTENDED_TYPE`: `text`... The type token of the list elements. For example, a list of `int`s.
 1. `LIST_VAR_NAME`: `text`... The variable name that is taking on the value of the list.
 
+---
+
 ### `log`
 Usage: `log [MESSAGE: text]*`
 > Logs a message to the command-line interface.
 
 Arguments:
 1. `MESSAGE`: `text` (*required*)... Message to be logged in the command-line interface.
+
+---
 
 ### `maybe/if`
 Usage:
@@ -145,6 +163,8 @@ if [CONDITION: boo]*
 Arguments:
 1. `CONDITION`: `boo` (*required*)... If the condition is truth-y, then the internal commands will be ran.
 
+---
+
 ### `neo`
 Usage: `neo [SOURCE_LOCATION: url]*`
 > Runs external Neo files. This is the language's modularization solution.
@@ -152,12 +172,16 @@ Usage: `neo [SOURCE_LOCATION: url]*`
 Arguments:
 1. `SOURCE_LOCATION`: `url` (*required*)... URL or path or directory to Neo file. If given a directory, every Neo file will be ran. If given a URL or path, the retrieved Neo file will be ran.
 
+---
+
 ### `pause`
 Usage: `pause [TIMEOUT: int]`
 > Pauses the script from continuing for a given amount of milliseconds.
 
 Arguments:
 1. `TIMEOUT`: `int`... Timeout for how long to pause the script in milliseconds.
+
+---
 
 ### `read`
 Usage: `read [INTENDED_TYPE: text]*, [NEW_VARIABLE_NAME: text]*, [CONTENT_SELECTOR: sel]`
@@ -167,6 +191,8 @@ Arguments:
 1. `INTENDED_TYPE`: `text` (*required*)... Type to be assumed when value is stored as a variable.
 1. `NEW_VARIABLE_NAME`: `text` (*required*)... Name of variable being attributed the read value.
 1. `CONTENT_SELECTOR`: `sel`... CSS selector of representing page element that shall be read from.
+
+---
 
 ### `rep/until`
 Usage:
@@ -182,6 +208,8 @@ Arguments:
 1. `WATCHED_SELECTOR`: `sel`... CSS selector representing page element being checked against.
 1. `TEST_TEXT`: `text`... Text that the targeted page element's text content is checked against.
 
+---
+
 ### `sav`
 Usage: `sav [SAVE_LOCATION: url]*, [SAVED_LIST: list]*`
 > Saves (or appends) value of a list as a file.
@@ -189,6 +217,8 @@ Usage: `sav [SAVE_LOCATION: url]*, [SAVED_LIST: list]*`
 Arguments:
 1. `SAVE_LOCATION`: `url` (*required*)... Path of file to be appended or created. If the file has a JSON extention, the values will be appended to the JSON, but otherwise will be appended with line breaks as deliminators.
 1. `SAVED_LIST`: `list` (*required*)... List of items to be saved in file form.
+
+---
 
 ### `select`
 Usage: `select [SELECT_SELECTOR: sel]*, [OPTION_VALUE: text]`
@@ -198,12 +228,16 @@ Arguments:
 1. `SELECT_SELECTOR`: `sel` (*required*)... CSS selector representing an element on the page with a tag of `select`.
 1. `OPTION_VALUE`: `text`... The option in the `select` element to be selected.
 
+---
+
 ### `shoot`
 Usage: `shoot [SAVE_LOCATION: url]`
 > Takes a screenshot of the current page.
 
 Arguments:
 1. `SAVE_LOCATION`: `url`... Path for image file to be saved.
+
+---
 
 ### `var`
 Usage: `var [INTENDED_TYPE: text]*, [VAR_NAME: text]*, [VAR_VALUE: text]*`
@@ -213,6 +247,8 @@ Arguments:
 1. `INTENDED_TYPE`: `text` (*required*)... Type for variable value to take on.
 1. `VAR_NAME`: `text` (*required*)... Name for variable to be called under.
 1. `VAR_VALUE`: `text` (*required*)... Raw value for variable to take on initially.
+
+---
 
 ---
 Generated with 💖 by EthanThatOneKid

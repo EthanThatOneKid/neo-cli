@@ -33,7 +33,7 @@ The reason why tildas were chosen to be the comment token of the Neo language is
 CSS Selectors are strings of text used to target certain HTML elements.
 In the case of this language, they are used to select an element to be operated on or read.
 
-### .env 🔐
+## .env 🔐
 A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
 The contents of the file should look like this:
 \`\`\`
@@ -87,11 +87,11 @@ for (const key of Object.keys(keywords)) {
     const requiredMarker = required[i] ? " (*required*)" : "";
     return `1. \`${argName}\`: \`${type.token}\`${requiredMarker}... ${argDescription}`;
   }));
-  docs.push("");
+  docs.push("", "---", "");
 }
 
 const document = [
-  "# Neo Documentation",
+  "# Neo Documentation 🐱‍👤",
   introduction,
   "## Keyword Table of Contents",
   toc.join(constants.NEW_LINE),
