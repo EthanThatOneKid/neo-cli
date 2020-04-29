@@ -45,6 +45,9 @@ npm i -g # Globally install Neo module
 ```shell
 neo --help
 neo path/to/neo-file.neo
+
+# Try quick test ;)
+neo https://raw.githubusercontent.com/EthanThatOneKid/neo/master/tutorial.neo
 ```
 
 ---
