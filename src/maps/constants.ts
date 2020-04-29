@@ -37,7 +37,7 @@ const constants: Constants = {
   CLI_MODE: "cli",
   EXT_MODE: "ext",
   FILE_URL_PREFIX: "file:///",
-  DIST_DIR: `${process.cwd()}\\dist\\`,
+  DIST_DIR: `${process.cwd()}\\`,
   LAUNCHING: browser => `Launching ${browser} browser.`,
   LAUNCH_COMPLETE: browser => `${browser} browser launched successfully.`
 };
