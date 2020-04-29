@@ -11,7 +11,8 @@
     "test": "node bin.js test --headful",
     "dev": "tsc --watch",
     "build": "tsc",
-    "docs": "node scripts/api.js"
+    "docs": "node scripts/api.js",
+    "dist": "npm run build && pkg . --output dist/neo.exe"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "node-fetch": "^2.6.0",
     "ora": "^4.0.3",
     "playwright": "^0.11.1",
+    "progress": "^2.0.3",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

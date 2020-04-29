@@ -1,12 +1,17 @@
 import Neo from './Neo';
 import 'source-map-support/register';
 import { chromium, firefox, webkit } from 'playwright';
+import { downloadBrowser } from './download-browser';
 import { getBrowserKey, beginBrowserLaunch } from './helpers';
 
 const playwright = { chromium, firefox, webkit };
 
 const app = async ({ input, flags }) => {
   const browserKey = getBrowserKey(flags);
+  if (flags.download) {
+    await downloadBrowser(browserKey);
+    return;
+  }
   const headless = !flags.headful;
   const completeBrowserLaunch = beginBrowserLaunch(browserKey);
   const browser = await playwright[browserKey].launch({ headless });
