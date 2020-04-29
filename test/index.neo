@@ -9,6 +9,9 @@
 ~~    \ \_\    \ \_\  \ \_____\  \ \_____\
 ~~     \/_/     \/_/   \/_____/   \/_____/
 
+log ____RUNNING TESTS____
+var url, DUMP, CWD/test/dump
+
 ~~ Obligatory "Hello, World" Test
 log Hello World
 
@@ -33,6 +36,17 @@ do
   field PL_SEL, PL_ITEM
 foreach JOKES, JOKE_ITEM, JOKE_INDEX
 
+~~ Operate on the list of jokes
+log Let's operate on the list of jokes :)
+var text, NEW_JOKE_FRONT, Guess what... Chicken butt!
+var text, NEW_JOKE_BACK, Meow.. :~}
+edit JOKES, unshift, NEW_JOKE_FRONT
+edit JOKES, push, NEW_JOKE_BACK
+log I've added some jokes >:) JOKES
+edit JOKES, shift
+edit JOKES, pop
+log Ok ok.. I know.. I'll change your jokes back JOKES
+
 ~~ Travel to Disneyland!
 ~~ log Let's travel to Disneyland :)
 ~~ var text, DL_LAT, 33.812794
@@ -47,8 +61,42 @@ log Let's count to ten :)
 dialog accept
 rep
   click #counter
+  pause 1e2 ~~ Pause for 100ms
 until 1e5, #clicks, 10
 
 ~~ Pick my favorite number!
-log Let's pick my favorite number :)
-select #favnum, 3
+var int, FAVORITE_NUMBER, 3
+log Let's pick my favorite number: FAVORITE_NUMBER :)
+select #favnum, FAVORITE_NUMBER
+
+~~ Make a choice!
+var boo, IS_NEO_FUN, true
+maybe log Neo is fun :~) if IS_NEO_FUN
+var boo, IS_NEO_FUN, 0
+maybe
+  log Neo is not fun >:{
+if IS_NEO_FUN
+
+~~ Save some random numbers!
+log Let's save some random numbers :)
+click #randomizer
+var list, RANDOM_INTS
+~~ TODO: Rewrite following as rep/until loop
+var sel, RANDOM_NUMBER_SEL, .random-number:nth-of-type(1)
+read int, RANDOM_NUMBER, RANDOM_NUMBER_SEL
+edit RANDOM_INTS, push, RANDOM_NUMBER
+var sel, RANDOM_NUMBER_SEL, .random-number:nth-of-type(2)
+read int, RANDOM_NUMBER, RANDOM_NUMBER_SEL
+edit RANDOM_INTS, push, RANDOM_NUMBER
+var sel, RANDOM_NUMBER_SEL, .random-number:nth-of-type(3)
+read int, RANDOM_NUMBER, RANDOM_NUMBER_SEL
+edit RANDOM_INTS, push, RANDOM_NUMBER
+log Here are some random integers RANDOM_INTS
+sav DUMP/random-numbers.txt, RANDOM_INTS
+sav DUMP/random-numbers.json, RANDOM_INTS
+
+~~ Let's capture this moment!
+log Let's capture this moment :)
+shoot DUMP/DATE.png
+
+log ___COMPLETED TESTS___

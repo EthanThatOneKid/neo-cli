@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { constants } from './maps/constants';
 import { keywords } from './maps/keywords';
@@ -17,6 +18,7 @@ import {
   getListValueFromSource,
   getFileExt
 } from './helpers';
+import { fstat } from 'fs';
 
 const Neo = async ({
   instructions: autoInstructions,
@@ -67,7 +69,7 @@ const commands = {
     const waitUntil = "load"; // Consider navigation to be finished when the `load` event is fired
     try {
       await this.page.waitForNavigation({ timeout, waitUntil });
-    } catch (_) {
+    } catch {
       return warnings.NAV_THRESH_BREAK(String(timeout));
     }
     return;
@@ -83,7 +85,7 @@ const commands = {
     const sel = selVar.make(this.scope);
     try {
       await this.page.click(sel);
-    } catch (_) {
+    } catch {
       return errors.ELEMENT_INEXISTENT(sel);
     }
     return;
@@ -136,29 +138,29 @@ const commands = {
   //   \/_____/   \/____/   \/_/     \/_/   
   async [keywords.EDIT.token]({ inlineArguments }) {
     const [listVar, operationVar, elementVar] = inlineArguments;
-    const listName = listVar.make();
+    const listName = listVar.value;
     const list = listVar.make(this.scope);
     const operation = operationVar.make(this.scope);
     if (operation === constants.LIST_PUSH) {
       if (elementVar !== undefined) {
-        list.push(elementVar.make(this.scope));
-        this.scope[listName] = list;
+        list.items.push(elementVar.make(this.scope));
+        this.scope[listName].value = list;
       } else {
         return warnings.LIST_EXPECTS_ELEMENT();
       }
     } else if (operation === constants.LIST_UNSHIFT) {
       if (elementVar !== undefined) {
-        list.unshift(elementVar.make(this.scope));
-        this.scope[listName] = list;
+        list.items.unshift(elementVar.make(this.scope));
+        this.scope[listName].value = list;
       } else {
         return warnings.LIST_EXPECTS_ELEMENT();
       }
     } else if (operation === constants.LIST_POP) {
-      list.pop();
-      this.scope[listName] = list;
+      list.items.pop();
+      this.scope[listName].value = list;
     } else if (operation === constants.LIST_SHIFT) {
-      list.shift();
-      this.scope[listName] = list;
+      list.items.shift();
+      this.scope[listName].value = list;
     } else {
       return errors.LIST_EXPECTS_OPERATION(operation);
     }
@@ -258,7 +260,7 @@ const commands = {
     const url = urlVar.make(this.scope);
     try {
       await this.page.goto(url);
-    } catch (_) {
+    } catch {
       return errors.NAVIGATION_ERROR(url)
     }
     return;
@@ -313,7 +315,7 @@ const commands = {
     const [conditionVar] = inlineArguments;
     const condition = conditionVar.make(this.scope);
     if (condition) {
-      await this.run({ instructions });
+      await this.run(instructions);
     }
     return;
   },
@@ -384,7 +386,7 @@ const commands = {
         let innerText;
         try {
           innerText = await this.page.$eval(targetSel, el => el.innerText);
-        } catch (_) {
+        } catch {
           return errors.ELEMENT_INEXISTENT(targetSel);
         }
         if (innerText.includes(testText)) {
@@ -401,6 +403,33 @@ const commands = {
   //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
   //   \/_____/   \/_/\/_/   \/_/      \/_____/  
   async [keywords.SAVE.token]({ inlineArguments }) {
+    const [savePathVar, listVar] = inlineArguments;
+    const savePath = path.normalize(savePathVar.make(this.scope));
+    const list = listVar.make(this.scope);
+    const fileExists = fs.existsSync(savePath) && fs.statSync(savePath).isFile();
+    const isJSON = getFileExt(savePath).toLowerCase() === "json";
+    let saveData: any[];
+    if (fileExists) {
+      const source = String(fs.readFileSync(savePath));
+      if (isJSON) {
+        try {
+          saveData = [...JSON.parse(source)]
+        } catch {
+          return errors.INVALID_JSON(savePath);
+        }
+      } else {
+        saveData = saveData = source.split(constants.NEW_LINE);
+      }
+      saveData.push(...list.items);
+    } else {
+      const directoryName = path.relative(this.scope["CWD"].make(), path.parse(savePath).dir);
+      fs.mkdirSync(directoryName, { recursive: true });
+      saveData = [...list.items];
+    }
+    const stringifiedSaveData = isJSON
+      ? JSON.stringify(saveData)
+      : saveData.join(constants.NEW_LINE)
+    fs.writeFileSync(savePath, stringifiedSaveData);
     return;
   },
 
@@ -413,14 +442,18 @@ const commands = {
     const [selVar, optionVar] = inlineArguments;
     const sel = selVar.make(this.scope);
     const option = optionVar.make(this.scope);
-    console.log({sel,option})
     try {
       const isNotSelectElement = await this.page.$eval(sel, (el, value) => {
         if (el.options !== undefined) {
-          const optionIndex = value === undefined
-            ? Math.floor((el.options.length - 1) * Math.random() + 1)
-            : [...el.options].map(opt => opt.innerText).indexOf(value);
-          el.value = optionIndex;
+          if (value !== undefined) {
+            for (let i = 0; i < el.options.length; i++) {
+              if (el.options[i].innerText.includes(value)) {
+                el.value = i;
+                return false;
+              }
+            }
+          }
+          el.value = Math.floor((el.options.length - 1) * Math.random() + 1);
           return false;
         }
         return true;
@@ -428,7 +461,7 @@ const commands = {
       if (isNotSelectElement) {
         return errors.NOT_EXPECTED_ELEMENT_TAG("select", sel);
       }
-    } catch (_) {
+    } catch {
       return errors.ELEMENT_INEXISTENT(sel);
     }
     return;
@@ -440,11 +473,11 @@ const commands = {
   //  \/\_____\  \ \_\ \_\  \ \_____\  \ \_____\    \ \_\ 
   //   \/_____/   \/_/\/_/   \/_____/   \/_____/     \/_/
   async [keywords.SHOOT.token]({ inlineArguments }) {
-    const [__savePath] = inlineArguments;
-    const _savePath = __savePath !== undefined
-      ? __savePath.make(this.scope)
-      : `${constants.SHOOT_DEFAULT}_${now()}.png`;
-    const savePath = path.join(this.root, _savePath);
+    const [savePathVar] = inlineArguments;
+    const _savePath = savePathVar !== undefined
+      ? savePathVar.make(this.scope)
+      : `${this.scope["CWD"].make()}/${constants.SHOOT_DEFAULT}_${now()}.png`;
+    const savePath = path.normalize(_savePath);
     try {
       await this.page.screenshot({ path: savePath });
     } catch (genericError) {
@@ -481,7 +514,9 @@ const commands = {
       return errors.NO_SUCH_TYPE(typeString);
     }
     const varName = varNameVar.make();
-    const value = valueVar.make(this.scope);
+    const value = !type.selfDeclarable || valueVar === undefined
+      ? type.empty
+      : valueVar.make(this.scope);
     this.scope[varName] = Variable({ value, type });
     return;
   }

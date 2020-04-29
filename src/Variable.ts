@@ -1,7 +1,9 @@
 import { types, Type } from './maps/types';
 
 const checkIsStringBasedType = ({ token }): boolean => {
-  const nonStringBasedTypeTokens = [types.LIST.token, types.COOKIE.token, types.INTEGER.token];
+  const nonStringBasedTypeTokens = [
+    types.LIST, types.COOKIE, types.INTEGER, types.BOOLEAN
+  ].map(({ token }) => token);
   return !nonStringBasedTypeTokens.some(t => t === token);
 };
 
@@ -13,8 +15,9 @@ const Variable = ({ value, type }: { value: any, type: Type }) => ({
       populatedValue = Object.keys(scope)
         .reduce((result, varName) => {
           if (result.indexOf(varName) > -1) {
-            const varValue = scope[varName].make(scope);
-            return result.replace(varName, varValue);
+            const gimmeVar = scope[varName];
+            const varStringValue = gimmeVar.type.toString(gimmeVar.make(scope));
+            return result.replace(varName, varStringValue);
           }
           return result;
         }, this.type.toString(this.value));

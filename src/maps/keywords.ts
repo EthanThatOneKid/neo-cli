@@ -5,6 +5,7 @@ interface Keyword {
   arguments: Type[],
   required?: boolean[],
   encapsulator?: string,
+  argDescriptions?: string[][]
   description?: string,
   safe?: boolean
 }
@@ -16,7 +17,8 @@ interface Keywords {
 const keywords: Keywords = {
   AWAIT: {
     token: "await",
-    arguments: []
+    arguments: [],
+    safe: false
   },
   CLICK: {
     token: "click",
@@ -60,8 +62,7 @@ const keywords: Keywords = {
   },
   IF: {
     token: "if",
-    arguments: [types.BOOLEAN],
-    required: [true]
+    arguments: []
   },
   LOAD: {
     token: "load",
@@ -75,7 +76,8 @@ const keywords: Keywords = {
   },
   MAYBE: {
     token: "maybe",
-    arguments: [],
+    arguments: [types.BOOLEAN],
+    required: [true],
     encapsulator: "if"
   },
   NEO: {
@@ -90,8 +92,8 @@ const keywords: Keywords = {
   },
   READ: {
     token: "read",
-    arguments: [types.SELECTOR],
-    required: [true]
+    arguments: [types.TEXT, types.TEXT, types.SELECTOR],
+    required: [true, true]
   },
   REPEAT: {
     token: "rep",

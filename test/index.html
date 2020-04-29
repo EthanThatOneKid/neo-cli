@@ -84,6 +84,20 @@
 	</select>
 </section>
 
+<!--
+	Keywords being tested:
+	* read
+	* sav
+-->
+<section>
+	<button id="randomizer" onclick="randomize()">Click me to generate 3 random numbers</button>
+	<ul>
+		<li class="random-number"></li>
+		<li class="random-number"></li>
+		<li class="random-number"></li>
+	</ul>
+</section>
+
 <script>
 
 	let clicks = 0;
@@ -99,6 +113,11 @@
 			const { latitude, longitude } = coords;
 			coordinatesElement.textContent = `(${latitude}°, ${longitude}°)`;
 		});
+	};
+
+	const randomize = () => {
+		[...document.querySelectorAll(".random-number")]
+			.forEach((el, i) => el.textContent = Math.floor(100 * Math.random() + 1));
 	};
 
 </script>
