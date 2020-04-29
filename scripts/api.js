@@ -96,9 +96,7 @@ const document = [
   "",
   "## API 🧠",
   docs.join(constants.NEW_LINE),
-  "---",
   reference,
-  "---",
   "Generated with 💖 by EthanThatOneKid"
 ].join(constants.NEW_LINE);
 

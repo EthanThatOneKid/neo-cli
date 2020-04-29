@@ -216,7 +216,6 @@ Arguments:
 
 ---
 
----
 
 ## Global Variables 🌎
 There are some global variables accessible right out of the box.
@@ -250,5 +249,4 @@ SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
 SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 ```
 
----
 Generated with 💖 by EthanThatOneKid
