@@ -24,7 +24,7 @@ Please refer to the [API docs](docs/API.md).
 
 #### Install Bundled Program 🌌
 > Install the Neo application to your machine.
-1. Visit the [latest release](https://github.com/EthanThatOneKid/neo/releases/latest).
+1. Visit the [latest release][neo_site].
 1. Download the `neo.exe` file and put it in a special place on your machine.
 1. Install the browser binary to go with Neo.
 ```shell
@@ -68,6 +68,6 @@ Edit 4/28/20: I have completed the modern version of the Neo language complete w
 
 Developed with 💖 by EthanThatOneKid
 
-[neo_site]: http://neolang.dev/
+[neo_site]: https://github.com/EthanThatOneKid/neo/releases/latest
 [neo_repo]: https://github.com/EthanThatOneKid/neo
 [bmac]: http://buymeacoff.ee/etok
