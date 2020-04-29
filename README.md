@@ -3,14 +3,14 @@
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo)][neo_repo]
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ethanthatonekid/neo)][neo_repo]
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo)][neo_site]
+[![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo)](https://www.typescriptlang.org/)
 [![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/pulls)
 [![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo/total)](https://github.com/EthanThatOneKid/neo/releases)
-[![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/watchers)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo)][neo_site]
-[![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo)](https://www.typescriptlang.org/)
-[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/fork)
 [![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac]
+[![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/watchers)
+[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/fork)
 
 ---
 
