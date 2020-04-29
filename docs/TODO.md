@@ -44,3 +44,6 @@
 * [ ] allow for JavaScript functions to be instantiated in a neo file or loaded in using a keyword `js`.
   * Created: 4/23/20
   * Completed: TBA
+* [ ] create visual studio code extension for syntax highlighting neo syntax.
+  * Created: 4/29/20
+  * Completed: TBA
