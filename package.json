@@ -10,7 +10,8 @@
   "scripts": {
     "test": "node bin.js test --headful",
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "docs": "node scripts/api.js"
   },
   "repository": {
     "type": "git",
