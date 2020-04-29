@@ -23,7 +23,13 @@ Please refer to the [API docs](docs/API.md).
 ### Installation ⚡
 
 #### Install Bundled Program 🌌
-> Coming soon!
+> Install the Neo application to your machine.
+1. Visit the [latest release](https://github.com/EthanThatOneKid/neo/releases/latest).
+1. Download the `neo.exe` file and put it in a special place on your machine.
+1. Install the browser binary to go with Neo.
+```shell
+neo --download --chromium # Or --firefox or --webkit
+```
 
 #### Build from Source 🏗
 > Install Neo to your machine using [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/)
