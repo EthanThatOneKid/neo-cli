@@ -25,6 +25,7 @@ const errors: ClassifiedMessageMap = classifyMessageMap(constants.ERROR_TOKEN, {
   BAD_URL: (url, status, errCode) => `URL ${url} could not be reached due to status ${status} and error ${errCode}.`,
   KEYWORD_UNSAFE: (keyword) => `Keyword '${keyword}' is deemed unsafe, thus it is currently banned from usage.`,
   INVALID_JSON: (filePath) => `The file ${filePath} is not a valid JSON file.`,
+  BROWSER_REVISION_UNINSTALLED: (browserName) => `Browser ${browserName} is not installed. Run \`neo --download --${browserName}\` to install the browser.`,
   GENERIC_ERROR: (err) => `${err}`
 });
 
