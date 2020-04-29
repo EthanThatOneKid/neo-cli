@@ -62,6 +62,6 @@ Edit 4/28/20: I have completed the modern version of the Neo language complete w
 
 Developed with 💖 by EthanThatOneKid
 
-[neo_site](http://neolang.dev/)
-[neo_repo](https://github.com/EthanThatOneKid/neo)
-[bmac](http://buymeacoff.ee/etok)
+[neo_site]: http://neolang.dev/
+[neo_repo]: https://github.com/EthanThatOneKid/neo
+[bmac]: http://buymeacoff.ee/etok
