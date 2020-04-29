@@ -2,7 +2,7 @@
 > Neo, a scripting language for web automation ~~
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo)][neo_repo]
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ethanthatonekid/neo))][neo_repo]
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ethanthatonekid/neo)][neo_repo]
 [![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/pulls)
 [![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo/total)](https://github.com/EthanThatOneKid/neo/releases)
