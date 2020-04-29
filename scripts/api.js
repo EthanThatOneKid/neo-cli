@@ -6,9 +6,7 @@ const toc = [];
 const docs = [];
 const encapsulatedKeywords = new Set([]);
 
-const introduction = `
-> Welcome to the official Neo language API documentation.
-
+const reference = `
 ## Global Variables 🌎
 There are some global variables accessible right out of the box.
 \`DATE\` provides a very readable date of type \`text\`.
@@ -92,12 +90,14 @@ for (const key of Object.keys(keywords)) {
 
 const document = [
   "# Neo Documentation 🐱‍👤",
-  introduction,
-  "## Keyword Table of Contents",
+  "> Welcome to the official Neo language API documentation.",
+  "## Keyword Table of Contents 🤓",
   toc.join(constants.NEW_LINE),
   "",
-  "## API",
+  "## API 🧠",
   docs.join(constants.NEW_LINE),
+  "---",
+  reference,
   "---",
   "Generated with 💖 by EthanThatOneKid"
 ].join(constants.NEW_LINE);

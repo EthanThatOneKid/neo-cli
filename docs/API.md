@@ -1,40 +1,6 @@
 # Neo Documentation 🐱‍👤
-
 > Welcome to the official Neo language API documentation.
-
-## Global Variables 🌎
-There are some global variables accessible right out of the box.
-`DATE` provides a very readable date of type `text`.
-`CWD` provides the current working directory of type `url` from which the Neo script was ran.
-`NEO_...`: Any variables defined in the `.env` file that are prefaced with "NEO_" will be included as a global variable.
-
-## Native Types ⛄
-There are multiple types natively accessible in the Neo language.
-* `int` holds an integer numeric value.
-* `text` holds a string alphanumeric value.
-* `boo` holds a boolean; a true or false condition.
-* `url` holds text for an absolute URL or path on the current system.
-* `sel` holds text for a CSS selector.
-* `list` holds array data for any of the above types.
-
-## Commenting 🙈
-To comment in a Neo file (text that will be ignored by the compiler), simply type `~~`.
-The following text between the tildas and the next line break will be ignored by the compiler.
-The reason why tildas were chosen to be the comment token of the Neo language is because they symbolize good vibes 🤙.
-
-## CSS Selectors 🎯
-CSS Selectors are strings of text used to target certain HTML elements.
-In the case of this language, they are used to select an element to be operated on or read.
-
-## .env 🔐
-A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
-The contents of the file should look like this:
-```
-SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
-SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
-```
-
-## Keyword Table of Contents
+## Keyword Table of Contents 🤓
 * [click](#click)
 * [dialog](#dialog)
 * [do/foreach](#doforeach)
@@ -54,7 +20,7 @@ SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 * [shoot](#shoot)
 * [var](#var)
 
-## API
+## API 🧠
 ### `click`
 Usage: `click [BUTTON_SELECTOR: sel]*`
 > Clicks an element on the page.
@@ -249,6 +215,40 @@ Arguments:
 1. `VAR_VALUE`: `text` (*required*)... Raw value for variable to take on initially.
 
 ---
+
+---
+
+## Global Variables 🌎
+There are some global variables accessible right out of the box.
+`DATE` provides a very readable date of type `text`.
+`CWD` provides the current working directory of type `url` from which the Neo script was ran.
+`NEO_...`: Any variables defined in the `.env` file that are prefaced with "NEO_" will be included as a global variable.
+
+## Native Types ⛄
+There are multiple types natively accessible in the Neo language.
+* `int` holds an integer numeric value.
+* `text` holds a string alphanumeric value.
+* `boo` holds a boolean; a true or false condition.
+* `url` holds text for an absolute URL or path on the current system.
+* `sel` holds text for a CSS selector.
+* `list` holds array data for any of the above types.
+
+## Commenting 🙈
+To comment in a Neo file (text that will be ignored by the compiler), simply type `~~`.
+The following text between the tildas and the next line break will be ignored by the compiler.
+The reason why tildas were chosen to be the comment token of the Neo language is because they symbolize good vibes 🤙.
+
+## CSS Selectors 🎯
+CSS Selectors are strings of text used to target certain HTML elements.
+In the case of this language, they are used to select an element to be operated on or read.
+
+## .env 🔐
+A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
+The contents of the file should look like this:
+```
+SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
+SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
+```
 
 ---
 Generated with 💖 by EthanThatOneKid
