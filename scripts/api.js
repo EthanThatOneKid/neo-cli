@@ -62,7 +62,7 @@ for (const key of Object.keys(keywords)) {
     name = `${token}/${encapsulator}`;
     encapsulatedKeywords.add(encapsulator);
   }
-  toc.push(`* [${name}](#${name})`);
+  toc.push(`* [${name}](#${name.replace("/", "")})`);
   docs.push(`### \`${name}\``);
   const exampleArgs = arguments.map((type, i) => {
     const { name: argName } = argDescriptions[i];
