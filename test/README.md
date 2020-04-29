@@ -12,9 +12,9 @@
 * [x] maybe/if
 * [x] neo
 * [x] pause
-* [ ] read
+* [x] read
 * [x] rep/until
-* [ ] sav
+* [x] sav
 * [x] select
 * [x] shoot
 * [ ] trav (unsafe)
