@@ -43,7 +43,9 @@ Arguments:
 Usage:
 ```
 do
-	~~ Block of Code
+  ~~ Block
+  ~~ of
+  ~~ Code
 foreach [LOOP_LIST: list]*, [CUR_ITEM_NAME: text], [CUR_INDEX_NAME: text]
 ```
 > Loops through the contents of a list variable.
@@ -121,7 +123,9 @@ Arguments:
 Usage:
 ```
 maybe
-	~~ Block of Code
+  ~~ Block
+  ~~ of
+  ~~ Code
 if [CONDITION: boo]*
 ```
 > Allows internal commands to run hinging on a condition. This is the language's 'if/then' solution.
@@ -164,7 +168,9 @@ Arguments:
 Usage:
 ```
 rep
-	~~ Block of Code
+  ~~ Block
+  ~~ of
+  ~~ Code
 until [MAXIMUM_REPEATS: int]*, [WATCHED_SELECTOR: sel], [TEST_TEXT: text]
 ```
 > Repeats a block of code until a targeted page element's text content matches (or includes) a given text value.
