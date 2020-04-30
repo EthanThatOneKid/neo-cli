@@ -74,7 +74,9 @@ for (const key of Object.keys(keywords)) {
       "Usage:",
       "\`\`\`",
       `${token}`,
-      "\t\~\~ Block of Code",
+      "  \~\~ Block",
+      "  \~\~ of",
+      "  \~\~ Code",
       `${encapsulator} ${exampleArgs}`,
       "\`\`\`"
     );
