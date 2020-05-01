@@ -23,6 +23,7 @@ Please refer to the [API docs](docs/API.md).
 
 #### Install Bundled Program 🌌
 > Install the Neo application to your machine.
+
 1. Visit the [latest release][neo_site].
 1. Download the `neo.exe` file and put it in a special place on your machine.
 1. Install the browser binary to go with Neo.
@@ -32,6 +33,7 @@ neo --download --chromium # Or --firefox or --webkit
 
 #### Build from Source 🏗
 > Install Neo to your machine using [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/)
+
 ```shell
 git clone https://github.com/EthanThatOneKid/neo # Clone this repository
 cd neo # Navigate to this repository
@@ -42,6 +44,7 @@ npm i -g # Globally install Neo module
 
 ### Usage 🐹
 > After following the installation steps, the `neo` keyword should be accessible from anywhere on your machine
+
 ```shell
 neo --help
 neo path/to/neo-file.neo
