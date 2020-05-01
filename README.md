@@ -6,7 +6,7 @@
 ---
 
 ## Documentation 📃
-Please refer to the [API docs](docs/API.md).
+Please refer to the [API docs](https://github.com/EthanThatOneKid/neo/blob/master/docs/API.md).
 
 ---
 
