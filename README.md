@@ -1,15 +1,7 @@
 # Neo 🐱‍👤
 > Neo, a scripting language for web automation ~~
 
-[![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo)][neo_repo]
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo)][neo_site]
-[![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo)](https://www.typescriptlang.org/)
-[![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/pulls)
-[![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo/total)](https://github.com/EthanThatOneKid/neo/releases)
-[![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac]
-[![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/watchers)
-[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/fork)
+[![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo)][neo_repo][![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo)][neo_site][![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo)](https://www.typescriptlang.org/)[![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/issues)[![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/pulls)[![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo/total)](https://github.com/EthanThatOneKid/neo/releases)[![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac][![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/watchers)[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/fork)
 
 ---
 
@@ -69,8 +61,9 @@ Edit 4/28/20: I have completed the modern version of the Neo language complete w
 
 [![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac]
 
-Developed with 💖 by EthanThatOneKid
+Developed with 💖 by [EthanThatOneKid][creator_site]
 
 [neo_site]: https://github.com/EthanThatOneKid/neo/releases/latest
 [neo_repo]: https://github.com/EthanThatOneKid/neo
 [bmac]: http://buymeacoff.ee/etok
+[creator_site]: http://ethandavidson.com/
