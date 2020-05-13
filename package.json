@@ -13,8 +13,7 @@
     "build": "tsc",
     "docs": "node scripts/api.js",
     "dist": "npm run build && pkg . --output dist/neo.exe",
-    "install": "neo --dl",
-    "p": "node bin.js tutorial.neo"
+    "install": "neo --dl"
   },
   "repository": {
     "type": "git",
