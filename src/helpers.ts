@@ -177,15 +177,28 @@ const getTypeObjectFromToken = (targetToken: string): Type => {
 const variablifyArguments = ({ token, inlineArguments }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
-  return inlineArguments.map((value, i) => {
-    const isValueAlreadyVariablified = value.hasOwnProperty("value")
-      && value.hasOwnProperty("type");
+  const variablifiedArguments = [];
+  let rest = false;
+  inlineArguments.forEach((value, i) => {
+    const isValueAlreadyVariablified = value.hasOwnProperty("value") && value.hasOwnProperty("type");
     if (isValueAlreadyVariablified) {
       return value;
     }
-    const type = targetArgTypes[i];
-    return Variable({ value, type });
+    let type = targetArgTypes[i] || types.TEXT;
+    if (type !== undefined && type.token === types.REST.token) {
+      rest = true;
+      type = types.TEXT;
+    }
+    const variablifiedArgument = Variable({ value, type });
+    if (rest) {
+      if (variablifiedArguments[variablifiedArguments.length - 1] instanceof Array) {
+        variablifiedArguments[variablifiedArguments.length - 1].push(variablifiedArgument);
+      } else {
+        variablifiedArguments.push([variablifiedArgument]);
+      }
+    }
   });
+  return variablifiedArguments;
 };
 
 const beforeErrorShoot = ({

@@ -1,4 +1,7 @@
 ~~ Tutorial File
-log Welcome to Neo!
+
+make
+  log Welcome to Neo!, Welcome, Welcome, hello, goodbye
+finsh
 
 ~~ Visit the test directory in the official repository for real-use examples of various keywords.

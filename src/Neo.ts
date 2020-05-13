@@ -298,11 +298,13 @@ const commands = {
   //  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_____/   \/_____/   \/_____/   
   async [keywords.LOG.token]({ inlineArguments }) {
-    const [messageVar] = inlineArguments;
+    const [messageVars] = inlineArguments;
     const token = constants.OK_TOKEN;
-    const operableVariableForm = messageVar.make(this.scope);
-    const message = messageVar.type.toString(operableVariableForm);
-    logMessage({ token, message });
+    for (const messageVar of messageVars) {
+      const operableVariableForm = messageVar.make(this.scope);
+      const message = messageVar.type.toString(operableVariableForm);
+      logMessage({ token, message });
+    }
     return;
   },
 
@@ -318,6 +320,22 @@ const commands = {
       await this.run(instructions);
     }
     return;
+  },
+
+  //  __    __     ______     __  __     ______    
+  // /\ "-./  \   /\  __ \   /\ \/ /    /\  ___\   
+  // \ \ \-./\ \  \ \  __ \  \ \  _"-.  \ \  __\   
+  //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
+  //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
+  async [keywords.MAKE.token]({ inlineArguments, instructions }) {
+    console.log({instructions})
+    const [listVarNameVar] = inlineArguments;
+    const listVarName = listVarNameVar.make();
+    console.log({instructions});
+    this.scope[listVarName] = Variable({
+      value: getListValueFromSource(JSON.stringify(instructions), types.INSTRUCTION),
+      type: types.LIST
+    });
   },
 
   //  __   __     ______     ______    

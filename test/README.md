@@ -10,8 +10,10 @@
 * [x] load
 * [x] log
 * [x] maybe/if
+* [ ] make/finish
 * [x] neo
 * [x] pause
+* [ ] play
 * [x] read
 * [x] rep/until
 * [x] sav
