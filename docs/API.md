@@ -10,7 +10,6 @@
 * [goto](#goto)
 * [load](#load)
 * [log](#log)
-* [make/finish](#makefinish)
 * [maybe/if](#maybeif)
 * [neo](#neo)
 * [pause](#pause)
@@ -112,27 +111,11 @@ Arguments:
 ---
 
 ### `log`
-Usage: `log [MESSAGES...: ...]*`
+Usage: `log [MESSAGE: text]*`
 > Logs a message to the command-line interface.
 
 Arguments:
-1. `MESSAGES...`: `...` (*required*)... Messages to be logged in the command-line interface.
-
----
-
-### `make/finish`
-Usage:
-```
-make
-  ~~ Block
-  ~~ of
-  ~~ Code
-finish [INSTRUCTION_LIST_NAME: text]*
-```
-> Assigns a list of instructions as a variable.
-
-Arguments:
-1. `INSTRUCTION_LIST_NAME`: `text` (*required*)... Name of instruction-filled list variable to be assigned to.
+1. `MESSAGE`: `text` (*required*)... Message to be logged in the command-line interface.
 
 ---
 

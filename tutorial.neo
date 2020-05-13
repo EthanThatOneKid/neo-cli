@@ -1,7 +1,11 @@
 ~~ Tutorial File
+<<<<<<< HEAD
 
 make
   log Welcome to Neo!, Welcome, Welcome, hello, goodbye
-finsh
+finish WELCOME_LOG
+=======
+log Welcome to Neo!
+>>>>>>> parent of 9902379... initialized make keyword
 
 ~~ Visit the test directory in the official repository for real-use examples of various keywords.
