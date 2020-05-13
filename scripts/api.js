@@ -35,8 +35,8 @@ In the case of this language, they are used to select an element to be operated 
 A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
 The contents of the file should look like this:
 \`\`\`
-SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
-SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
+NEO_SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
+NEO_SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
 \`\`\`
 `;
 
