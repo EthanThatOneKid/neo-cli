@@ -68,7 +68,7 @@ const types = {
     toString: JSON.stringify
   },
   REST: {
-    token: "dsfsdfsdfdfsdfsfsdsf",
+    token: "...",
     selfDeclarable: false,
     empty: {},
     make: () => ({}),

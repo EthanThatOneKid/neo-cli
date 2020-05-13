@@ -14,7 +14,7 @@ const constants: Constants = {
   ERROR_TOKEN: "❌",
   ERROR_PREFIX: "NEO ERROR",
   ERROR_COLOR: "red",
-  OK_TOKEN: "√",
+  OK_TOKEN: "✔",
   OK_PREFIX: "NEO",
   OK_COLOR: "green",
   ARGUMENT_DELIMINATOR: ",",

@@ -152,14 +152,30 @@ const keywords: Keywords = {
   },
   LOG: {
     token: "log",
-    arguments: [types.TEXT],
+    arguments: [types.REST],
     required: [true],
     argDescriptions: [{
-      name: "MESSAGE",
-      description: "Message to be logged in the command-line interface."
+      name: "MESSAGES...",
+      description: "Messages to be logged in the command-line interface."
     }],
     description: "Logs a message to the command-line interface.",
     safe: true
+  },
+  MAKE: {
+    token: "make",
+    arguments: [types.TEXT],
+    required: [true],
+    argDescriptions: [{
+      name: "INSTRUCTION_LIST_NAME",
+      description: "Name of instruction-filled list variable to be assigned to."
+    }],
+    description: "Assigns a list of instructions as a variable.",
+    encapsulator: "finish",
+    safe: true
+  },
+  FINISH: {
+    token: "finish",
+    arguments: []
   },
   MAYBE: {
     token: "maybe",
@@ -198,6 +214,21 @@ const keywords: Keywords = {
     }],
     description: "Pauses the script from continuing for a given amount of milliseconds.",
     safe: true
+  },
+  PLAY: {
+    token: "play",
+    arguments: [types.LIST, types.REST],
+    required: [true],
+    argDescriptions: [{
+      name: "INSTRUCTION_LIST",
+      description: "List of instructions determined by the \`make\` keyword."
+    }, {
+      name: "ARGUMENT...",
+      description: "Applies the arguments to the list of instructions."
+
+    }],
+    description: "'Plays' the instructions and applies the arguments.",
+    safe: false
   },
   READ: {
     token: "read",

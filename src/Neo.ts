@@ -27,12 +27,9 @@ const Neo = async ({
   page, root, scope,
   ...commands, ...beforeErrorShoot,
   async run(instructions = autoInstructions) {
-    // console.log(JSON.stringify(instructions, null, 2))
     for (const instruction of instructions) {
-      const variablifiedInstruction = variablifyArguments(instruction);
-      console.log({variablifiedInstruction})
-      // console.log(JSON.stringify(instruction.inlineArguments, null, 2))
-      const error = await this[instruction.token](variablifiedInstruction);
+      instruction.inlineArguments = variablifyArguments(instruction);
+      const error = await this[instruction.token](instruction);
       if (error !== undefined) {
         logMessage(error);
         await this.beforeErrorShoot();
@@ -301,37 +298,16 @@ const commands = {
   //  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_____/   \/_____/   \/_____/   
   async [keywords.LOG.token]({ inlineArguments }) {
-<<<<<<< HEAD
     const [messageVars] = inlineArguments;
-    console.log({inlineArguments})
-=======
-    const [messageVar] = inlineArguments;
->>>>>>> parent of 9902379... initialized make keyword
     const token = constants.OK_TOKEN;
-    const operableVariableForm = messageVar.make(this.scope);
-    const message = messageVar.type.toString(operableVariableForm);
-    logMessage({ token, message });
+    for (const messageVar of messageVars) {
+      const operableVariableForm = messageVar.make(this.scope);
+      const message = messageVar.type.toString(operableVariableForm);
+      logMessage({ token, message });
+    }
     return;
   },
 
-<<<<<<< HEAD
-  //  __    __     ______     __  __     ______    
-  // /\ "-./  \   /\  __ \   /\ \/ /    /\  ___\   
-  // \ \ \-./\ \  \ \  __ \  \ \  _"-.  \ \  __\   
-  //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
-  //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
-  async [keywords.MAKE.token]({ inlineArguments, instructions }) {
-    const [listVarNameVar] = inlineArguments;
-    // console.log({inlineArguments})
-    const listVarName = listVarNameVar.make();
-    this.scope[listVarName] = Variable({
-      value: getListValueFromSource(JSON.stringify(instructions), types.INSTRUCTION),
-      type: types.LIST
-    });
-  },
-
-=======
->>>>>>> parent of 9902379... initialized make keyword
   //  __    __     ______     __  __     ______     ______    
   // /\ "-./  \   /\  __ \   /\ \_\ \   /\  == \   /\  ___\   
   // \ \ \-./\ \  \ \  __ \  \ \____ \  \ \  __<   \ \  __\   
@@ -344,6 +320,22 @@ const commands = {
       await this.run(instructions);
     }
     return;
+  },
+
+  //  __    __     ______     __  __     ______    
+  // /\ "-./  \   /\  __ \   /\ \/ /    /\  ___\   
+  // \ \ \-./\ \  \ \  __ \  \ \  _"-.  \ \  __\   
+  //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
+  //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
+  async [keywords.MAKE.token]({ inlineArguments, instructions }) {
+    console.log({instructions})
+    const [listVarNameVar] = inlineArguments;
+    const listVarName = listVarNameVar.make();
+    console.log({instructions});
+    this.scope[listVarName] = Variable({
+      value: getListValueFromSource(JSON.stringify(instructions), types.INSTRUCTION),
+      type: types.LIST
+    });
   },
 
   //  __   __     ______     ______    
@@ -533,7 +525,6 @@ const commands = {
   //  \ \__|    \ \_\ \_\  \ \_\ \_\  \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
   async [keywords.VARIABLE.token]({ inlineArguments }) {
-    // console.log(inlineArguments.map(a => a.value))
     const [typeStringVar, varNameVar, valueVar] = inlineArguments;
     const typeString = typeStringVar.make();
     const type = getTypeObjectFromToken(typeString);
