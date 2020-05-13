@@ -59,6 +59,20 @@ const types = {
     empty: {},
     make: o => ({ ...o }),
     toString: JSON.stringify
+  },
+  INSTRUCTION: {
+    token: "instrn",
+    selfDeclarable: false,
+    empty: {},
+    make: o => ({ ...o }),
+    toString: JSON.stringify
+  },
+  REST: {
+    token: "...",
+    selfDeclarable: false,
+    empty: {},
+    make: () => ({}),
+    toString: () => "..."
   }
 };
 
