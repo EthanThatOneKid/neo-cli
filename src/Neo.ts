@@ -306,6 +306,21 @@ const commands = {
     return;
   },
 
+  //  __    __     ______     __  __     ______    
+  // /\ "-./  \   /\  __ \   /\ \/ /    /\  ___\   
+  // \ \ \-./\ \  \ \  __ \  \ \  _"-.  \ \  __\   
+  //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
+  //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
+  async [keywords.MAKE.token]({ inlineArguments, instructions }) {
+    const [listVarNameVar] = inlineArguments;
+    const listVarName = listVarNameVar.make();
+    this.scope[listVarName] = Variable({
+      value: getListValueFromSource(JSON.stringify(instructions), types.INSTRUCTION),
+      type: types.LIST
+    });
+    return;
+  },
+
   //  __    __     ______     __  __     ______     ______    
   // /\ "-./  \   /\  __ \   /\ \_\ \   /\  == \   /\  ___\   
   // \ \ \-./\ \  \ \  __ \  \ \____ \  \ \  __<   \ \  __\   
