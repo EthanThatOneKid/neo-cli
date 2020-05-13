@@ -47,3 +47,6 @@
 * [ ] create visual studio code extension for syntax highlighting neo syntax.
   * Created: 4/29/20
   * Completed: TBA
+* [ ] implement `make`, `finish` and `play` keyword. This will be the language's function solution. Toys are created between the keywords `make` and `finsh` using the syntax `make log LOG_MESSAGE finish TOY_NAME, LOG_MESSAGE, ...` Toys can be extracted from neo files using the syntax `load URL, as, TOY_NAME`. Toys will be stored as type `toy`.
+  * Created: 5/12/20
+  * Completed: TBA
