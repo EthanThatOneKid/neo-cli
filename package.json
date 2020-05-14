@@ -14,7 +14,6 @@
     "build": "tsc",
     "docs": "node scripts/api.js",
     "dist": "npm run build && pkg . --output dist/neo.exe",
-    "install": "neo --dl",
     "test:make": "node bin.js test/make.test.neo"
   },
   "repository": {
