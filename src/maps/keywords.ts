@@ -152,7 +152,7 @@ const keywords: Keywords = {
   },
   LOG: {
     token: "log",
-    arguments: [types.TEXT], // [types.REST]
+    arguments: [types.REST],
     required: [true],
     argDescriptions: [{
       name: "MESSAGE",

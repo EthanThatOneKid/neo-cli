@@ -175,20 +175,27 @@ const getTypeObjectFromToken = (targetToken: string): Type => {
 };
 
 const variablifyArguments = ({ token, inlineArguments, instructions }) => {
-  const keywordObject = getKeywordObjectFromToken(token);
-  const { arguments: targetArgTypes } = keywordObject;
-  // for (let argIndex = 0; argIndex < inlineArguments.length; argIndex++) {
-  //   const rawValue = inlineArguments[argIndex];
-  // }
-  const variablifiedArguments = inlineArguments.map((value, i) => {
-    const isValueAlreadyVariablified = value.hasOwnProperty("value")
-      && value.hasOwnProperty("type");
-    if (isValueAlreadyVariablified) {
-      return value;
+  const { arguments: targetArgTypes } = getKeywordObjectFromToken(token);
+  const variablifiedArguments = [];
+  let rest = false;
+  for (let argIndex = 0; argIndex < inlineArguments.length; argIndex++) {
+    let type = targetArgTypes[argIndex] || types.TEXT;
+    if (type.token === types.REST.token) {
+      rest = true;
+      type = types.TEXT;
     }
-    const type = targetArgTypes[i];
-    return Variable({ value, type });
-  });
+    const value = inlineArguments[argIndex];
+    const variablifiedArgument = Variable({ value, type });
+    if (rest) {
+      if (variablifiedArguments[variablifiedArguments.length - 1] instanceof Array) {
+        variablifiedArguments[variablifiedArguments.length - 1].push(variablifiedArgument);
+      } else {
+        variablifiedArguments.push([variablifiedArgument]);
+      }
+    } else {
+      variablifiedArguments.push(variablifiedArgument);
+    }
+  }
   return { token, instructions, inlineArguments: variablifiedArguments };
 };
 

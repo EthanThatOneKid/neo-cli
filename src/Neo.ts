@@ -298,11 +298,13 @@ const commands = {
   //  \ \_____\  \ \_____\  \ \_____\ 
   //   \/_____/   \/_____/   \/_____/   
   async [keywords.LOG.token]({ inlineArguments }) {
-    const [messageVar] = inlineArguments;
+    const [messageVars] = inlineArguments;
     const token = constants.OK_TOKEN;
-    const operableVariableForm = messageVar.make(this.scope);
-    const message = messageVar.type.toString(operableVariableForm);
-    logMessage({ token, message });
+    for (const messageVar of messageVars) {
+      const operableVariableForm = messageVar.make(this.scope);
+      const message = messageVar.type.toString(operableVariableForm);
+      logMessage({ token, message });
+    }
     return;
   },
 
