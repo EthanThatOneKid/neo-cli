@@ -220,6 +220,34 @@ const getListValueFromSource = (source, type) => {
   return list;
 };
 
+const getArgumentsFromArgTypesAndNames = argTypesAndNamesVar => {
+  const argTypesAndNames = argTypesAndNamesVar.map(argVar => argVar.make());
+  const result = [];
+  for (let i = 0; i < argTypesAndNames; i++) {
+    if (i % 2 === 0) {
+      const typeToken = argTypesAndNames[i];
+      const typeObject = getTypeObjectFromToken(typeToken);
+      if (typeObject === undefined) {
+        const error = errors.BAD_MAKE_PATTERN(String(i));
+        return { error };
+      }
+      result.push({ type: typeObject, name: null });
+    } else {
+      const argName = argTypesAndNames[i];
+      if (getTypeObjectFromToken(argName) !== undefined) {
+        const error = errors.BAD_MAKE_PATTERN(String(i));
+        return { error };
+      }
+      result[result.length - 1].name = argName;
+    }
+  }
+  if (result[result.length - 1].name === null) {
+    const error = errors.BAD_MAKE_PATTERN(String(2 * result.length + 3));
+    return { error };
+  }
+  return { arguments: result };
+};
+
 const getBrowserKey = flags => {
   if (flags[constants.CHROMIUM_BROWSER]) {
     return constants.CHROMIUM_BROWSER;
@@ -310,5 +338,6 @@ export {
   getFileExt,
   getBrowserType,
   downloadBrowser,
-  launchBrowser
+  launchBrowser,
+  getArgumentsFromArgTypesAndNames
 };

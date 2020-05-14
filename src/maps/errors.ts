@@ -23,6 +23,7 @@ const errors: ClassifiedMessageMap = classifyMessageMap(constants.ERROR_TOKEN, {
   NON_EXTRACTABLE_TYPE: (varName, type) => `Variable ${varName} of type ${type} is a non-extractable typing.`,
   INABSOLUTE_URL: (url) => `Only absolute URLs are supported, but received ${url}.`,
   BAD_URL: (url, status, errCode) => `URL ${url} could not be reached due to status ${status} and error ${errCode}.`,
+  BAD_MAKE_PATTERN: (badIndex) => `Keyword 'make' expects a pattern of "TOY_NAME, typeName1, argName1, typeName2, argName2, ...", but at argument #${Number(badIndex) + 1}, it recieved a${Number(badIndex) % 2 === 0 ? "n argName" : " typeName"} instead of a${Number(badIndex) % 2 === 0 ? "typeName" : "n argName"}.`,
   KEYWORD_UNSAFE: (keyword) => `Keyword '${keyword}' is deemed unsafe, thus it is currently banned from usage.`,
   INVALID_JSON: (filePath) => `The file ${filePath} is not a valid JSON file.`,
   BROWSER_REVISION_UNINSTALLED: (browserName) => `Browser ${browserName} is not installed. Run \`neo --download --${browserName}\` to install the browser.`,

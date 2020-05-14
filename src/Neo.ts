@@ -16,7 +16,8 @@ import {
   beforeErrorShoot,
   getTypeObjectFromToken,
   getListValueFromSource,
-  getFileExt
+  getFileExt,
+  getArgumentsFromArgTypesAndNames
 } from './helpers';
 import { fstat } from 'fs';
 
@@ -314,8 +315,12 @@ const commands = {
   //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
   //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
   async [keywords.MAKE.token]({ inlineArguments, instructions }) {
-    const [listVarNameVar] = inlineArguments;
+    const [listVarNameVar, argTypesAndNames] = inlineArguments;
     const listVarName = listVarNameVar.make();
+    const { arguments: toyArgs, error } = getArgumentsFromArgTypesAndNames(argTypesAndNames);
+    if (error !== undefined) {
+      return error;
+    } 
     this.scope[listVarName] = Variable({
       value: {
         type: types.INSTRUCTION,
@@ -323,6 +328,8 @@ const commands = {
       },
       type: types.LIST
     });
+    this.scope[listVarName].arguments = toyArgs;
+    console.log(this.scope[listVarName])
     return;
   },
 
@@ -362,6 +369,19 @@ const commands = {
     const [_timeout] = inlineArguments;
     const timeout = _timeout !== undefined ? _timeout.make(this.scope) : 0;
     return await pause(timeout);
+  },
+
+  //  ______   __         ______     __  __    
+  // /\  == \ /\ \       /\  __ \   /\ \_\ \   
+  // \ \  _-/ \ \ \____  \ \  __ \  \ \____ \  
+  //  \ \_\    \ \_____\  \ \_\ \_\  \/\_____\ 
+  //   \/_/     \/_____/   \/_/\/_/   \/_____/
+  async [keywords.PLAY.token]({ inlineArguments }) {
+    const [listVar, argumentValues] = inlineArguments;
+    const { arguments: toyArgs } = listVar;
+    const { items: instructions } = listVar.make(this.scope);
+    console.log({ argumentValues, toyArgs, instructions });
+    return;
   },
   
   //  ______     ______     ______     _____    

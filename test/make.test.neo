@@ -1,3 +1,7 @@
 log ___MAKE_KEYWORD_TEST___
 
+make
+  log _TOY_TEST_
+finish TOY_TEST, text, ARG1, text, ARG2
+
 log ___END_TEST___
