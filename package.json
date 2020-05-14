@@ -1,5 +1,5 @@
 {
-  "name": "neo",
+  "name": "neolang",
   "version": "2020.0.0",
   "description": "Scripting language for web automation",
   "bin": {
