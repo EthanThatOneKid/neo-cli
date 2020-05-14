@@ -68,11 +68,11 @@ const types = {
     toString: JSON.stringify
   },
   REST: {
-    token: "...",
+    token: "[rest...]",
     selfDeclarable: false,
     empty: {},
     make: () => ({}),
-    toString: () => "..."
+    toString: () => "[rest...]"
   }
 };
 

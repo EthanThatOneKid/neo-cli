@@ -11,7 +11,7 @@ const reference = `
 There are some global variables accessible right out of the box.
 \`DATE\` provides a very readable date of type \`text\`.
 \`CWD\` provides the current working directory of type \`url\` from which the Neo script was ran.
-\`NEO_...\`: Any variables defined in the \`.env\` file that are prefaced with "NEO_" will be included as a global variable.
+\`NEO_...\`: Any variables defined in the \`.env\` file that are prefixed with "NEO_" will be included as a global variable.
 
 ## Native Types ⛄
 There are multiple types natively accessible in the Neo language.

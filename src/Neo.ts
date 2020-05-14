@@ -378,7 +378,10 @@ const commands = {
   async [keywords.PLAY.token]({ inlineArguments }) {
     const [listVar, argumentValues] = inlineArguments;
     const { arguments: toyArgs } = listVar;
-    const { items: instructions } = listVar.make(this.scope);
+    const { items: instructions, type: listType } = listVar.make(this.scope);
+    if (listType.token !== types.INSTRUCTION.token) {
+      // TODO: return error for play to only accept lists with items of type instrn
+    }
     for (let i = 0; i < toyArgs.length; i++) {
       const { name, type } = toyArgs[i];
       argumentValues[i].type = type;

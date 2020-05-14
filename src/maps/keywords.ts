@@ -168,8 +168,11 @@ const keywords: Keywords = {
     argDescriptions: [{
       name: "INSTRUCTION_LIST_NAME",
       description: "Name of instruction-filled list variable to be assigned to."
+    }, {
+      name: "TYPE_NAME_OR_ARG_NAME",
+      description: "Name of type for following argument name or argument name. Every odd argument should be a type name and every even argument should be an argument name."
     }],
-    description: "Assigns a list of instructions as a variable.",
+    description: `Assigns a list of instructions as a variable. Example:${constants.NEW_LINE}${constants.NEW_LINE}\`\`\`${constants.NEW_LINE}make${constants.NEW_LINE}  log ARG1, ARG2${constants.NEW_LINE}finish LOG_TOY_TEST, text, ARG1, text, ARG2${constants.NEW_LINE}${constants.NEW_LINE}play LOG_TOY_LIST, Hello, World${constants.NEW_LINE}\`\`\``,
     encapsulator: "finish",
     safe: true
   },
@@ -225,7 +228,6 @@ const keywords: Keywords = {
     }, {
       name: "ARGUMENT...",
       description: "Applies the arguments to the list of instructions."
-
     }],
     description: "'Plays' the instructions and applies the arguments.",
     safe: true

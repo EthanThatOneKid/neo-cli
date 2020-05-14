@@ -10,11 +10,9 @@
 * [goto](#goto)
 * [load](#load)
 * [log](#log)
-* [make/finish](#makefinish)
 * [maybe/if](#maybeif)
 * [neo](#neo)
 * [pause](#pause)
-* [play](#play)
 * [read](#read)
 * [rep/until](#repuntil)
 * [sav](#sav)
@@ -60,11 +58,11 @@ Arguments:
 ---
 
 ### `edit`
-Usage: `edit [EDIT_LIST: text]*, [OPERATION: text]*, [APPENDATION: text]`
+Usage: `edit [EDIT_LIST: list]*, [OPERATION: text]*, [APPENDATION: text]`
 > Manipulates the contents of a list by adding to the front, removing from the front, adding to the end, and removing from the end.
 
 Arguments:
-1. `EDIT_LIST`: `text` (*required*)... Name of list variable to be operated on.
+1. `EDIT_LIST`: `list` (*required*)... Name of list variable to be operated on.
 1. `OPERATION`: `text` (*required*)... Can only be `push`, `pop`, `shift`, or `unshift`. Push appends to the back, pop removes from the back, shift removes from the front, and unshift appends to the front.
 1. `APPENDATION`: `text`... Item to be added to the list.
 
@@ -113,36 +111,11 @@ Arguments:
 ---
 
 ### `log`
-Usage: `log [MESSAGE: [rest...]]*`
+Usage: `log [MESSAGE: text]*`
 > Logs a message to the command-line interface.
 
 Arguments:
-1. `MESSAGE`: `[rest...]` (*required*)... Message to be logged in the command-line interface.
-
----
-
-### `make/finish`
-Usage:
-```
-make
-  ~~ Block
-  ~~ of
-  ~~ Code
-finish [INSTRUCTION_LIST_NAME: text]*, [TYPE_NAME_OR_ARG_NAME: [rest...]]
-```
-> Assigns a list of instructions as a variable. Example:
-
-```
-make
-  log ARG1, ARG2
-finish LOG_TOY_TEST, text, ARG1, text, ARG2
-
-play LOG_TOY_LIST, Hello, World
-```
-
-Arguments:
-1. `INSTRUCTION_LIST_NAME`: `text` (*required*)... Name of instruction-filled list variable to be assigned to.
-1. `TYPE_NAME_OR_ARG_NAME`: `[rest...]`... Name of type for following argument name or argument name. Every odd argument should be a type name and every even argument should be an argument name.
+1. `MESSAGE`: `text` (*required*)... Message to be logged in the command-line interface.
 
 ---
 
@@ -177,16 +150,6 @@ Usage: `pause [TIMEOUT: int]`
 
 Arguments:
 1. `TIMEOUT`: `int`... Timeout for how long to pause the script in milliseconds.
-
----
-
-### `play`
-Usage: `play [INSTRUCTION_LIST: list]*, [ARGUMENT...: [rest...]]`
-> 'Plays' the instructions and applies the arguments.
-
-Arguments:
-1. `INSTRUCTION_LIST`: `list` (*required*)... List of instructions determined by the `make` keyword.
-1. `ARGUMENT...`: `[rest...]`... Applies the arguments to the list of instructions.
 
 ---
 
@@ -264,7 +227,7 @@ Arguments:
 There are some global variables accessible right out of the box.
 `DATE` provides a very readable date of type `text`.
 `CWD` provides the current working directory of type `url` from which the Neo script was ran.
-`NEO_...`: Any variables defined in the `.env` file that are prefixed with "NEO_" will be included as a global variable.
+`NEO_...`: Any variables defined in the `.env` file that are prefaced with "NEO_" will be included as a global variable.
 
 ## Native Types ⛄
 There are multiple types natively accessible in the Neo language.
