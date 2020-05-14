@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/EthanThatOneKid/neo/issues"
   },
-  "homepage": "https://github.com/EthanThatOneKid/neo#readme",
+  "homepage": "https://neolang.dev/",
   "dependencies": {
     "chalk": "^2.4.2",
     "dotenv": "^8.1.0",
