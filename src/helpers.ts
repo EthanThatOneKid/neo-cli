@@ -174,10 +174,13 @@ const getTypeObjectFromToken = (targetToken: string): Type => {
     .find(({ token }) => token === targetToken);
 };
 
-const variablifyArguments = ({ token, inlineArguments }) => {
+const variablifyArguments = ({ token, inlineArguments, instructions }) => {
   const keywordObject = getKeywordObjectFromToken(token);
   const { arguments: targetArgTypes } = keywordObject;
-  return inlineArguments.map((value, i) => {
+  // for (let argIndex = 0; argIndex < inlineArguments.length; argIndex++) {
+  //   const rawValue = inlineArguments[argIndex];
+  // }
+  const variablifiedArguments = inlineArguments.map((value, i) => {
     const isValueAlreadyVariablified = value.hasOwnProperty("value")
       && value.hasOwnProperty("type");
     if (isValueAlreadyVariablified) {
@@ -186,6 +189,7 @@ const variablifyArguments = ({ token, inlineArguments }) => {
     const type = targetArgTypes[i];
     return Variable({ value, type });
   });
+  return { token, instructions, inlineArguments: variablifiedArguments };
 };
 
 const beforeErrorShoot = ({

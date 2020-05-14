@@ -28,8 +28,8 @@ const Neo = async ({
   ...commands, ...beforeErrorShoot,
   async run(instructions = autoInstructions) {
     for (const instruction of instructions) {
-      instruction.inlineArguments = variablifyArguments(instruction);
-      const error = await this[instruction.token](instruction);
+      const variablifiedInstruction = variablifyArguments(instruction);
+      const error = await this[variablifiedInstruction.token](variablifiedInstruction);
       if (error !== undefined) {
         logMessage(error);
         await this.beforeErrorShoot();
