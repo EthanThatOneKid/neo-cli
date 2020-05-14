@@ -7,6 +7,7 @@
     "neo": "bin.js"
   },
   "main": "lib/Neo.js",
+  "types": "lib/Neo.d.ts",
   "scripts": {
     "test": "node bin.js test --headful",
     "dev": "tsc --watch",
