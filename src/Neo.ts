@@ -317,7 +317,10 @@ const commands = {
     const [listVarNameVar] = inlineArguments;
     const listVarName = listVarNameVar.make();
     this.scope[listVarName] = Variable({
-      value: getListValueFromSource(JSON.stringify(instructions), types.INSTRUCTION),
+      value: {
+        type: types.INSTRUCTION,
+        items: [...instructions]
+      },
       type: types.LIST
     });
     return;
