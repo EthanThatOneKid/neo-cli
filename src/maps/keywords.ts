@@ -73,7 +73,7 @@ const keywords: Keywords = {
   },
   EDIT: {
     token: "edit",
-    arguments: [types.LIST, types.TEXT, types.TEXT],
+    arguments: [types.TEXT, types.TEXT, types.TEXT],
     required: [true, true, false],
     argDescriptions: [{
       name: "EDIT_LIST",
@@ -228,7 +228,7 @@ const keywords: Keywords = {
 
     }],
     description: "'Plays' the instructions and applies the arguments.",
-    safe: false
+    safe: true
   },
   READ: {
     token: "read",

@@ -29,7 +29,7 @@ const Neo = async ({
   ...commands, ...beforeErrorShoot,
   async run(instructions = autoInstructions) {
     for (const instruction of instructions) {
-      const variablifiedInstruction = variablifyArguments(instruction);
+      const variablifiedInstruction = variablifyArguments(this.scope, instruction);
       const error = await this[variablifiedInstruction.token](variablifiedInstruction);
       if (error !== undefined) {
         logMessage(error);
@@ -140,7 +140,7 @@ const commands = {
   async [keywords.EDIT.token]({ inlineArguments }) {
     const [listVar, operationVar, elementVar] = inlineArguments;
     const listName = listVar.value;
-    const list = listVar.make(this.scope);
+    const list = this.scope[listName].value;
     const operation = operationVar.make(this.scope);
     if (operation === constants.LIST_PUSH) {
       if (elementVar !== undefined) {
@@ -379,7 +379,13 @@ const commands = {
     const [listVar, argumentValues] = inlineArguments;
     const { arguments: toyArgs } = listVar;
     const { items: instructions } = listVar.make(this.scope);
-    console.log({ argumentValues, toyArgs, instructions });
+    for (let i = 0; i < toyArgs.length; i++) {
+      const { name, type } = toyArgs[i];
+      argumentValues[i].type = type;
+      const value = argumentValues[i].make(this.scope);
+      this.scope[name] = Variable({ type, value });
+    }
+    await this.run(instructions);
     return;
   },
   

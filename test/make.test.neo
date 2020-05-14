@@ -4,6 +4,6 @@ make
   log ARG1, ARG2
 finish LOG_TOY_TEST, text, ARG1, text, ARG2
 
-~~ play LOG_TOY_TEST, Hello, World
+play LOG_TOY_TEST, Hello, World
 
 log ___END_TEST___

@@ -174,7 +174,7 @@ const getTypeObjectFromToken = (targetToken: string): Type => {
     .find(({ token }) => token === targetToken);
 };
 
-const variablifyArguments = ({ token, inlineArguments, instructions }) => {
+const variablifyArguments = (scope, { token, inlineArguments, instructions }) => {
   const { arguments: targetArgTypes } = getKeywordObjectFromToken(token);
   const variablifiedArguments = [];
   let rest = false;
@@ -185,7 +185,10 @@ const variablifyArguments = ({ token, inlineArguments, instructions }) => {
       type = types.TEXT;
     }
     const value = inlineArguments[argIndex];
-    const variablifiedArgument = Variable({ value, type });
+    let variablifiedArgument = Variable({ value, type });
+    if (scope.hasOwnProperty(value) && scope[value].type.token === type.token) {
+      variablifiedArgument = scope[value];
+    }
     if (rest) {
       if (variablifiedArguments[variablifiedArguments.length - 1] instanceof Array) {
         variablifiedArguments[variablifiedArguments.length - 1].push(variablifiedArgument);
@@ -228,7 +231,6 @@ const getArgumentsFromArgTypesAndNames = argTypesAndNameVars => {
       const typeToken = argTypesAndNames[i];
       const typeObject = getTypeObjectFromToken(typeToken);
       if (typeObject === undefined) {
-        console.log("SUPPOSED TO BE TYPE")
         const error = errors.BAD_MAKE_PATTERN(String(i));
         return { error };
       }
@@ -236,7 +238,6 @@ const getArgumentsFromArgTypesAndNames = argTypesAndNameVars => {
     } else {
       const argName = argTypesAndNames[i];
       if (getTypeObjectFromToken(argName) !== undefined) {
-        console.log(i, "SUPPOSED TO BE ARGNAME")
         const error = errors.BAD_MAKE_PATTERN(String(i));
         return { error };
       }
