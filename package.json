@@ -1,6 +1,6 @@
 {
   "name": "neolang",
-  "version": "2020.0.0",
+  "version": "2020.0.1",
   "description": "Scripting language for web automation",
   "bin": {
     "@EthanThatOneKid/neo": "bin.js",
