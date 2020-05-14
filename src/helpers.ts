@@ -10,8 +10,6 @@ import { types, Type } from './maps/types';
 import Variable from './Variable';
 import errors from './maps/errors';
 import warnings from './maps/warnings';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const getReadableDate = () => {
   const gimmeDate = new Date();
@@ -139,14 +137,7 @@ const loadGlobalScope = () => {
   const DATE = Variable({ value: getReadableDate(), type: types.TEXT });
   const CWD = Variable({ value: process.cwd(), type: types.URL });
   const FILE_PREFIX = Variable({ value: constants.FILE_URL_PREFIX, type: types.TEXT });
-  const enviromentVariables = Object.keys(process.env)
-    .reduce((result, key) => {
-      if (key.indexOf(constants.ENV_VARIABLE_PREFIX) === 0) {
-        result[key] = Variable({ value: process.env[key], type: types.TEXT });
-      }
-      return result;
-    }, {});
-  return { DATE, CWD, FILE_PREFIX, ...enviromentVariables };
+  return { DATE, CWD, FILE_PREFIX };
 };
 
 const logMessage = ({ token, message }) => {

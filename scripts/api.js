@@ -11,7 +11,6 @@ const reference = `
 There are some global variables accessible right out of the box.
 \`DATE\` provides a very readable date of type \`text\`.
 \`CWD\` provides the current working directory of type \`url\` from which the Neo script was ran.
-\`NEO_...\`: Any variables defined in the \`.env\` file that are prefixed with "NEO_" will be included as a global variable.
 
 ## Native Types ⛄
 There are multiple types natively accessible in the Neo language.
@@ -30,14 +29,6 @@ The reason why tildas were chosen to be the comment token of the Neo language is
 ## CSS Selectors 🎯
 CSS Selectors are strings of text used to target certain HTML elements.
 In the case of this language, they are used to select an element to be operated on or read.
-
-## .env 🔐
-A .env file (literally named ".env") is a file that contains secret information that should not be committed to a git repository.
-The contents of the file should look like this:
-\`\`\`
-NEO_SECRET_USERNAME=YOUR_NEOPETS_USERNAME_HERE
-NEO_SECRET_PASSWORD=YOUR_NEOPETS_PASSWORD_HERE
-\`\`\`
 `;
 
 for (const key of Object.keys(keywords)) {
