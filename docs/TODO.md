@@ -23,9 +23,9 @@
 * [ ] implement `swipe` and `bake` keywords; `swipe` apply current page cookies to variable; `bake` apply variable value of type cook to current page. This is meant to save an authentication state; [example](https://github.com/microsoft/playwright/blob/master/docs/examples/authentication.js).
   * Created: 4/13/20
   * Completed: TBA
-* [ ] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
+* [x] implement `maybe` and `if` keywords; `maybe` instantiates a block. `if` runs the block only if the condition is true.
   * Created: 4/13/20
-  * Completed: TBA
+  * Completed: 5/14/20
 * [x] implement `do` and `foreach` keywords.
   * Created: 4/19/20
   * Completed: 4/22/20
@@ -47,6 +47,6 @@
 * [ ] create visual studio code extension for syntax highlighting neo syntax.
   * Created: 4/29/20
   * Completed: TBA
-* [ ] implement `make`, `finish` and `play` keyword. This will be the language's function solution. Toys are created between the keywords `make` and `finsh` using the syntax `make log LOG_MESSAGE finish TOY_NAME, LOG_MESSAGE, ...` Toys can be extracted from neo files using the syntax `load URL, as, TOY_NAME`. Toys will be stored as type `toy`.
+* [x] implement `make`, `finish` and `play` keyword. This will be the language's function solution. Toys are created between the keywords `make` and `finsh` using the syntax `make log LOG_MESSAGE finish TOY_NAME, LOG_MESSAGE, ...` Toys can be extracted from neo files using the syntax `load URL, as, TOY_NAME`. Toys will be stored as type `toy`.
   * Created: 5/12/20
-  * Completed: TBA
+  * Completed: 5/14/20
