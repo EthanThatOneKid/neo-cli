@@ -6,4 +6,4 @@ finish LOG_TOY_TEST, text, ARG1, text, ARG2
 
 play LOG_TOY_TEST, Hello, World
 
-log ___END_TEST___
+log ___COMPLETED_MAKE_KEYWORD_TEST___
