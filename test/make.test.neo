@@ -1,7 +1,9 @@
 log ___MAKE_KEYWORD_TEST___
 
 make
-  log _TOY_TEST_
-finish TOY_TEST, text, ARG1, text, ARG2
+  log ARG1, ARG2
+finish LOG_TOY_TEST, text, ARG1, text, ARG2
+
+~~ play LOG_TOY_TEST, Hello, World
 
 log ___END_TEST___

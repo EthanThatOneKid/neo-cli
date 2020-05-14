@@ -204,7 +204,7 @@ const beforeErrorShoot = ({
     const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
     const instruction = {
       keyword: keywords.SHOOT.token,
-      arguments: [Variable({ value: screenshotPath, type: types.URL })]
+      inlineArguments: [Variable({ value: screenshotPath, type: types.URL })]
     };
     await this[keywords.SHOOT.token](instruction);
   }
@@ -220,14 +220,15 @@ const getListValueFromSource = (source, type) => {
   return list;
 };
 
-const getArgumentsFromArgTypesAndNames = argTypesAndNamesVar => {
-  const argTypesAndNames = argTypesAndNamesVar.map(argVar => argVar.make());
+const getArgumentsFromArgTypesAndNames = argTypesAndNameVars => {
+  const argTypesAndNames = argTypesAndNameVars.map(argVar => argVar.make());
   const result = [];
-  for (let i = 0; i < argTypesAndNames; i++) {
+  for (let i = 0; i < argTypesAndNames.length; i++) {
     if (i % 2 === 0) {
       const typeToken = argTypesAndNames[i];
       const typeObject = getTypeObjectFromToken(typeToken);
       if (typeObject === undefined) {
+        console.log("SUPPOSED TO BE TYPE")
         const error = errors.BAD_MAKE_PATTERN(String(i));
         return { error };
       }
@@ -235,14 +236,15 @@ const getArgumentsFromArgTypesAndNames = argTypesAndNamesVar => {
     } else {
       const argName = argTypesAndNames[i];
       if (getTypeObjectFromToken(argName) !== undefined) {
+        console.log(i, "SUPPOSED TO BE ARGNAME")
         const error = errors.BAD_MAKE_PATTERN(String(i));
         return { error };
       }
       result[result.length - 1].name = argName;
     }
   }
-  if (result[result.length - 1].name === null) {
-    const error = errors.BAD_MAKE_PATTERN(String(2 * result.length + 3));
+  if (result[result.length - 1] !== undefined && result[result.length - 1].name === null) {
+    const error = errors.BAD_MAKE_PATTERN(String(2 * result.length - 1), String(true));
     return { error };
   }
   return { arguments: result };

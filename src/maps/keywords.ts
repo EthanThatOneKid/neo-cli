@@ -163,7 +163,7 @@ const keywords: Keywords = {
   },
   MAKE: {
     token: "make",
-    arguments: [types.TEXT],
+    arguments: [types.TEXT, types.REST],
     required: [true],
     argDescriptions: [{
       name: "INSTRUCTION_LIST_NAME",
@@ -171,7 +171,7 @@ const keywords: Keywords = {
     }],
     description: "Assigns a list of instructions as a variable.",
     encapsulator: "finish",
-    safe: false
+    safe: true
   },
   FINISH: {
     token: "finish",

@@ -315,9 +315,9 @@ const commands = {
   //  \ \_\ \ \_\  \ \_\ \_\  \ \_\ \_\  \ \_____\ 
   //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
   async [keywords.MAKE.token]({ inlineArguments, instructions }) {
-    const [listVarNameVar, argTypesAndNames] = inlineArguments;
+    const [listVarNameVar, argTypesAndNameVars] = inlineArguments;
     const listVarName = listVarNameVar.make();
-    const { arguments: toyArgs, error } = getArgumentsFromArgTypesAndNames(argTypesAndNames);
+    const { arguments: toyArgs, error } = getArgumentsFromArgTypesAndNames(argTypesAndNameVars);
     if (error !== undefined) {
       return error;
     } 
@@ -329,7 +329,6 @@ const commands = {
       type: types.LIST
     });
     this.scope[listVarName].arguments = toyArgs;
-    console.log(this.scope[listVarName])
     return;
   },
 
