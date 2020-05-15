@@ -13,8 +13,7 @@
     "dev": "tsc --watch",
     "build": "tsc",
     "docs": "node scripts/api.js",
-    "dist": "npm run build && pkg . --output dist/neo.exe",
-    "test:make": "node bin.js test/make.test.neo"
+    "dist": "npm run build && pkg . --output dist/neo.exe"
   },
   "repository": {
     "type": "git",
