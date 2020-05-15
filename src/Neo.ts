@@ -392,7 +392,7 @@ const commands = {
     const { arguments: toyArgs } = listVar;
     const { items: instructions, type: listType } = listVar.make(this.scope);
     if (listType.token !== types.INSTRUCTION.token) {
-      // TODO: return error for play to only accept lists with items of type instrn
+      return errors.BAD_PLAY_LIST(listType.token);
     }
     for (let i = 0; i < toyArgs.length; i++) {
       const { name, type } = toyArgs[i];
