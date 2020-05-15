@@ -18,7 +18,6 @@ import {
   getFileExt,
   getArgumentsFromArgTypesAndNames
 } from './helpers';
-import { runInContext } from 'vm';
 
 const Neo = async ({
   instructions: autoInstructions,
