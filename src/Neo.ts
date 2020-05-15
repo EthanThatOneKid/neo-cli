@@ -19,7 +19,7 @@ import {
   getArgumentsFromArgTypesAndNames
 } from './helpers';
 
-const Neo = async ({
+const Neo = /* (commands = { ...defaultCommands, ...allowWriteCommands }) => */ async ({
   instructions: autoInstructions,
   root, page, scope = loadGlobalScope()
 }) => ({
@@ -48,7 +48,7 @@ const Neo = async ({
 
   },
 
-  ...commands, ...allowWriteCommands
+  ...defaultCommands, ...allowWriteCommands
 
 });
 
@@ -70,7 +70,7 @@ Neo.parse = async ({ source, root, page }) => {
   return await Neo({ instructions, root, page });
 };
 
-const commands = {
+const defaultCommands = {
 
   //  ______     __     __     ______     __     ______
   // /\  __ \   /\ \  _ \ \   /\  __ \   /\ \   /\__  _\
