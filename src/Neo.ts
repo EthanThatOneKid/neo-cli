@@ -13,20 +13,29 @@ import {
   loadGlobalScope,
   variablifyArguments,
   logMessage,
-  beforeErrorShoot,
   getTypeObjectFromToken,
   getListValueFromSource,
   getFileExt,
   getArgumentsFromArgTypesAndNames
 } from './helpers';
-import { fstat } from 'fs';
+import { runInContext } from 'vm';
 
 const Neo = async ({
   instructions: autoInstructions,
   root, page, scope = loadGlobalScope()
 }) => ({
+
   page, root, scope,
-  ...commands, ...beforeErrorShoot,
+
+  async beforeErrorShoot() {
+    const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
+    const instruction = {
+      keyword: keywords.SHOOT.token,
+      inlineArguments: [Variable({ value: screenshotPath, type: types.URL })]
+    };
+    await this[keywords.SHOOT.token](instruction);
+  },
+
   async run(instructions = autoInstructions) {
     for (const instruction of instructions) {
       const variablifiedInstruction = variablifyArguments(this.scope, instruction);
@@ -37,7 +46,11 @@ const Neo = async ({
         return;
       }
     }
-  }
+
+  },
+
+  ...commands, ...allowWriteCommands
+
 });
 
 Neo.load = async ({ path, page }) => {
@@ -445,42 +458,6 @@ const commands = {
     return;
   },
 
-  //  ______     ______     __   __   ______    
-  // /\  ___\   /\  __ \   /\ \ / /  /\  ___\   
-  // \ \___  \  \ \  __ \  \ \ \'/   \ \  __\   
-  //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
-  //   \/_____/   \/_/\/_/   \/_/      \/_____/  
-  async [keywords.SAVE.token]({ inlineArguments }) {
-    const [savePathVar, listVar] = inlineArguments;
-    const savePath = path.normalize(savePathVar.make(this.scope));
-    const list = listVar.make(this.scope);
-    const fileExists = fs.existsSync(savePath) && fs.statSync(savePath).isFile();
-    const isJSON = getFileExt(savePath).toLowerCase() === "json";
-    let saveData: any[];
-    if (fileExists) {
-      const source = String(fs.readFileSync(savePath));
-      if (isJSON) {
-        try {
-          saveData = [...JSON.parse(source)]
-        } catch {
-          return errors.INVALID_JSON(savePath);
-        }
-      } else {
-        saveData = saveData = source.split(constants.NEW_LINE);
-      }
-      saveData.push(...list.items);
-    } else {
-      const directoryName = path.relative(this.scope["CWD"].make(), path.parse(savePath).dir);
-      fs.mkdirSync(directoryName, { recursive: true });
-      saveData = [...list.items];
-    }
-    const stringifiedSaveData = isJSON
-      ? JSON.stringify(saveData)
-      : saveData.join(constants.NEW_LINE)
-    fs.writeFileSync(savePath, stringifiedSaveData);
-    return;
-  },
-
   //  ______     ______     __         ______     ______     ______  
   // /\  ___\   /\  ___\   /\ \       /\  ___\   /\  ___\   /\__  _\ 
   // \ \___  \  \ \  __\   \ \ \____  \ \  __\   \ \ \____  \/_/\ \/ 
@@ -566,6 +543,46 @@ const commands = {
       ? type.empty
       : valueVar.make(this.scope);
     this.scope[varName] = Variable({ value, type });
+    return;
+  }
+
+};
+
+const allowWriteCommands = {
+
+  //  ______     ______     __   __   ______    
+  // /\  ___\   /\  __ \   /\ \ / /  /\  ___\   
+  // \ \___  \  \ \  __ \  \ \ \'/   \ \  __\   
+  //  \/\_____\  \ \_\ \_\  \ \__|    \ \_____\ 
+  //   \/_____/   \/_/\/_/   \/_/      \/_____/  
+  async [keywords.SAVE.token]({ inlineArguments }) {
+    const [savePathVar, listVar] = inlineArguments;
+    const savePath = path.normalize(savePathVar.make(this.scope));
+    const list = listVar.make(this.scope);
+    const fileExists = fs.existsSync(savePath) && fs.statSync(savePath).isFile();
+    const isJSON = getFileExt(savePath).toLowerCase() === "json";
+    let saveData: any[];
+    if (fileExists) {
+      const source = String(fs.readFileSync(savePath));
+      if (isJSON) {
+        try {
+          saveData = [...JSON.parse(source)]
+        } catch {
+          return errors.INVALID_JSON(savePath);
+        }
+      } else {
+        saveData = saveData = source.split(constants.NEW_LINE);
+      }
+      saveData.push(...list.items);
+    } else {
+      const directoryName = path.relative(this.scope["CWD"].make(), path.parse(savePath).dir);
+      fs.mkdirSync(directoryName, { recursive: true });
+      saveData = [...list.items];
+    }
+    const stringifiedSaveData = isJSON
+      ? JSON.stringify(saveData)
+      : saveData.join(constants.NEW_LINE)
+    fs.writeFileSync(savePath, stringifiedSaveData);
     return;
   }
 

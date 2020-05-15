@@ -2,8 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import fetch from 'node-fetch';
 import chalk from 'chalk';
-import ora from 'ora';
-import ProgressBar from 'progress';
 import { constants } from './maps/constants';
 import { keywords, Keyword } from './maps/keywords';
 import { types, Type } from './maps/types';
@@ -111,7 +109,7 @@ const loadSource = async (targetPath, targetFileExt) => {
             }
             return result;
           }, [])
-          .join("\n");
+          .join(constants.NEW_LINE);
         return { source, root: resolvedPath };
       } else if (stats.isFile()) {
         const ext = getFileExt(resolvedPath);
@@ -193,17 +191,6 @@ const variablifyArguments = (scope, { token, inlineArguments, instructions }) =>
   return { token, instructions, inlineArguments: variablifiedArguments };
 };
 
-const beforeErrorShoot = ({
-  async beforeErrorShoot() {
-    const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
-    const instruction = {
-      keyword: keywords.SHOOT.token,
-      inlineArguments: [Variable({ value: screenshotPath, type: types.URL })]
-    };
-    await this[keywords.SHOOT.token](instruction);
-  }
-});
-
 const getListValueFromSource = (source, type) => {
   const list = { type, items: [] };
   try {
@@ -242,76 +229,6 @@ const getArgumentsFromArgTypesAndNames = argTypesAndNameVars => {
   return { arguments: result };
 };
 
-const getBrowserKey = flags => {
-  if (flags[constants.CHROMIUM_BROWSER]) {
-    return constants.CHROMIUM_BROWSER;
-  } else if (flags[constants.FIREFOX_BROWSER]) {
-    return constants.FIREFOX_BROWSER;
-  } else if (flags[constants.WEBKIT_BROWSER]) {
-    return constants.WEBKIT_BROWSER;
-  } else {
-    return constants.DEFAULT_BROWSER;
-  }
-};
-
-const beginBrowserLaunch = browserKey => {
-  const text = constants.LAUNCHING(browserKey);
-  const spinner = ora({ text }).start();
-  return () => spinner.succeed(constants.LAUNCH_COMPLETE(browserKey));
-};
-
-const getBrowserType = async (browserName: string, options): Promise<any> => {
-  const browserType = (await import('playwright'))[browserName];
-  if (!options.dev) {
-    browserType._projectRoot = constants.DIST_DIR;
-  }
-  return browserType;
-};
-
-const toMegabytes = (bytes) => {
-  const mb = bytes / 1024 / 1024;
-  return `${Math.round(mb * 10) / 10} Mb`;
-};
-
-const downloadBrowser = async (browserType): Promise<void> => {
-  let progressBar = null, lastDownloadedBytes = 0;
-  const fetcher = browserType._createBrowserFetcher();
-  const revisionInfo = fetcher.revisionInfo();
-  if (revisionInfo.local) {
-    return;
-  }
-  await browserType.downloadBrowserIfNeeded((downloadedBytes, total) => {
-    if (!progressBar) {
-      progressBar = new ProgressBar(`Downloading ${browserType._revision} - ${toMegabytes(total)} [:bar] :percent :etas `, {
-        complete: '=',
-        incomplete: ' ',
-        width: 20,
-        total
-      });
-    }
-    const delta = downloadedBytes - lastDownloadedBytes;
-    lastDownloadedBytes = downloadedBytes;
-    progressBar.tick(delta);
-  });
-  return;
-};
-
-const launchBrowser = async (browserKey, browserType, headless) => {
-  let page;
-  try {
-    const completeBrowserLaunch = beginBrowserLaunch(browserKey);
-    const browser = await browserType.launch({ headless });
-    const context = await browser.newContext();
-    page = await context.newPage();
-    completeBrowserLaunch();
-  } catch {
-    const error = errors.BROWSER_REVISION_UNINSTALLED(browserKey);
-    logMessage(error);
-    return process.exit();
-  }
-  return page;
-};
-
 const now = () => +new Date();
 
 export {
@@ -325,13 +242,7 @@ export {
   getKeywordObjectFromToken,
   getTypeObjectFromToken,
   variablifyArguments,
-  beforeErrorShoot,
   getListValueFromSource,
-  getBrowserKey,
-  beginBrowserLaunch,
   getFileExt,
-  getBrowserType,
-  downloadBrowser,
-  launchBrowser,
   getArgumentsFromArgTypesAndNames
 };
