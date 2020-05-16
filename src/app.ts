@@ -2,6 +2,7 @@ import Neo from './Neo';
 import 'source-map-support/register';
 import { getBrowserKey, getBrowserType, launchBrowser } from './playwright/helpers';
 import downloadBrowser from './playwright/downloadBrowser';
+import { defaultCommands, allowReadWriteCommands } from './commands';
 
 const app = async ({ input, flags }) => {
   const headless = !flags.headful, dev = !!process.env.NODE;
@@ -13,7 +14,8 @@ const app = async ({ input, flags }) => {
   }
   const page = await launchBrowser(browserKey, browserType, headless);
   const [path] = input;
-  const neo = await Neo.load({ path, page });
+  const commands = { ...defaultCommands, ...allowReadWriteCommands };
+  const neo = await Neo.load({ path, page, commands });
   await neo.run();
   return process.exit();
 };
