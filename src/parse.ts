@@ -50,6 +50,7 @@ const parseTokens = tokens => {
         const endingEncapsulatorToken = keyword.encapsulator;
         const endingEncapsulatorIndex = findEndingEncapsulatorIndex(tokens, i, keyword.token, endingEncapsulatorToken);
         if (endingEncapsulatorIndex === -1) {
+          // TODO: Return no closed encapsulator error
           return;
         }
         const { instructions: gimmeInstructions, error } = parseTokens(tokens.slice(i + 1, endingEncapsulatorIndex));
