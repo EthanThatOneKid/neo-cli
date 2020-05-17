@@ -3,7 +3,8 @@ import 'source-map-support/register';
 import { getBrowserKey, getBrowserType, launchBrowser } from './playwright/helpers';
 import downloadBrowser from './playwright/downloadBrowser';
 import { loadSource as sourceLoader } from './loadSource/loadSourceAllowReadWrite';
-import { defaultCommands, allowReadWriteCommands } from './commands';
+import { defaultCommands } from './commands/defaultCommands';
+import { allowReadWriteCommands } from './commands/allowReadWriteCommands';
 
 const app = async ({ input, flags }) => {
   const headless = !flags.headful, dev = !!process.env.NODE;

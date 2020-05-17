@@ -3,7 +3,7 @@ import { keywords } from './maps/keywords';
 import { types } from './maps/types';
 import parse from './parse';
 import Variable from './Variable';
-import { defaultCommands } from './commands';
+import { defaultCommands } from './commands/defaultCommands';
 import {
   loadGlobalScope,
   variablifyArguments,
