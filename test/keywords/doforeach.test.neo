@@ -1,0 +1,12 @@
+log ___DO/FOREACH_KEYWORD_TEST___
+
+~~ Iterate loaded jokes
+do
+  var sel, JOKE_SEL, #jokeJOKE_INDEX
+  field JOKE_SEL, JOKE_ITEM
+  var sel, PL_SEL, #plJOKE_INDEX
+  extract PL_ITEM, PUNCHLINES, JOKE_INDEX
+  field PL_SEL, PL_ITEM
+foreach JOKES, JOKE_ITEM, JOKE_INDEX
+
+log ___COMPLETED_DO/FOREACH_KEYWORD_TEST___

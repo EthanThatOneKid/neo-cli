@@ -242,10 +242,8 @@ export const defaultCommands = {
     if (error !== undefined) {
       return error;
     }
-    this.scope[varName] = Variable({
-      value: getListValueFromSource(source, type),
-      type: types.LIST
-    });
+    const value = getListValueFromSource(source, type);
+    this.scope[varName] = Variable({ value, type: types.LIST });
     return;
   },
 

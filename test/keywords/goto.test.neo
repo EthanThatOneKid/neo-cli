@@ -1,0 +1,8 @@
+log ___GOTO_KEYWORD_TEST___
+
+~~ Going to the test site
+var url, PLAYGROUND_URL, file:///CWD/test/index.html
+log Navigating to PLAYGROUND_URL
+goto PLAYGROUND_URL
+
+log ___COMPLETED_GOTO_KEYWORD_TEST___

@@ -12,6 +12,11 @@
 log ____RUNNING TESTS____
 var url, DUMP, CWD/test/dump
 
+~~ neo ../log.test.neo
+~~ neo ../goto.test.neo
+~~ neo ../load.test.neo
+~~ neo ../doforeach.test.neo
+
 ~~ Obligatory "Hello, World" Test
 log Hello World
 

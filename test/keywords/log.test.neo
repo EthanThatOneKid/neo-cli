@@ -1,0 +1,6 @@
+log ___LOG_KEYWORD_TEST___
+
+~~ Obligatory "Hello, World" Test
+log Hello World
+
+log ___COMPLETED_LOG_KEYWORD_TEST___
