@@ -8,7 +8,7 @@
 * [x] documentation for using the language in the command line
   * Created: 1/18/20
   * Completed: 2/18/20
-* [x] rewrite puppeteer to [playwrite](https://github.com/microsoft/playwright)
+* [x] rewrite puppeteer to [playwright](https://github.com/microsoft/playwright)
   * Created: 2/23/20
   * Completed: 3/19/20
 * [ ] rewrite codebase to [TypeScript](https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project)
@@ -32,9 +32,9 @@
 * [ ] implement `pdf` keyword. [notes](https://github.com/microsoft/playwright/blob/master/docs/api.md#pagepdfoptions)
   * Created: 4/20/20
   * Completed: TBA
-* [ ] error-handle for browser-launch
+* [x] error-handle for browser-launch
   * Created: 4/20/20
-  * Completed: TBA
+  * Completed: 5/17/20
 * [x] implement `extract` keyword. Some variable types are *extractable* (list, cookie). demo: `extract <VAR_NAME>, <LIST/COOKIE VARIABLE NAME>, <KEY/INDEX>`
   * Created: 4/22/20
   * Completed: 4/23/20
