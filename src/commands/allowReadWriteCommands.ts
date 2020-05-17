@@ -64,6 +64,6 @@ export const allowReadWriteCommands = {
     } catch (genericError) {
       return errors.GENERIC_ERROR(genericError);
     }
-  },
+  }
 
 };
