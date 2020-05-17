@@ -1,3 +1,4 @@
+import path from 'path';
 import { keywords } from '../maps/keywords';
 import { constants } from '../maps/constants';
 import { types } from '../maps/types';
@@ -5,7 +6,7 @@ import warnings from '../maps/warnings';
 import errors from '../maps/errors';
 import Variable from '../Variable';
 import {
-  loadSource,
+  now,
   logMessage,
   getTypeObjectFromToken,
   getListValueFromSource,
@@ -237,7 +238,7 @@ export const defaultCommands = {
     const varName = varNameVar.make();
     const url = urlVar.make(this.scope);
     const fileExt = getFileExt(url)
-    const { source, error } = await loadSource(url, fileExt);
+    const { source, error } = await this.sourceLoader(url, fileExt);
     if (error !== undefined) {
       return error;
     }
@@ -432,6 +433,22 @@ export const defaultCommands = {
       return errors.ELEMENT_INEXISTENT(sel);
     }
     return;
+  },
+
+  //  ______     __  __     ______     ______     ______  
+  // /\  ___\   /\ \_\ \   /\  __ \   /\  __ \   /\__  _\ 
+  // \ \___  \  \ \  __ \  \ \ \/\ \  \ \ \/\ \  \/_/\ \/ 
+  //  \/\_____\  \ \_\ \_\  \ \_____\  \ \_____\    \ \_\ 
+  //   \/_____/   \/_/\/_/   \/_____/   \/_____/     \/_/
+  // This is the non-allowReadWrite version of the shoot keyword.
+  // It is overwritten when the allowReadWrite commands are specified.
+  async [keywords.SHOOT.token]() {
+    try {
+      const pngBuffer = await this.page.screenshot();
+      this.beforeErrorShot = pngBuffer;
+    } catch (genericError) {
+      return errors.GENERIC_ERROR(genericError);
+    }
   },
 
   //  ______   ______     ______     __   __   ______     __           

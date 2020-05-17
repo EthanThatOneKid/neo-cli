@@ -5,19 +5,21 @@ import parse from './parse';
 import Variable from './Variable';
 import { defaultCommands } from './commands';
 import {
-  loadSource,
   loadGlobalScope,
   variablifyArguments,
-  logMessage
+  logMessage,
+  loadSourceFromURL
 } from './helpers';
 
 const Neo = (commands = { ...defaultCommands }) => async ({
   instructions: autoInstructions,
   root, page, scope = loadGlobalScope(),
-  beforeErrorShot = Buffer.from("")
+  beforeErrorShot = Buffer.from(""),
+  sourceLoader = loadSourceFromURL
 }) => ({
 
-  page, root, scope, beforeErrorShot,
+  page, root, scope,
+  beforeErrorShot, sourceLoader,
 
   async beforeErrorShoot() {
     const screenshotPath = `${constants.BEFORE_ERROR_NAME}_${+new Date()}.png`;
@@ -48,22 +50,22 @@ const Neo = (commands = { ...defaultCommands }) => async ({
 
 });
 
-Neo.load = async ({ path, page, commands }) => {
-  const { source, root, error } = await loadSource(path, constants.NEO_FILE_EXTENTION);
+Neo.load = async ({ path, page, commands, sourceLoader }) => {
+  const { source, root, error } = await sourceLoader(path, constants.NEO_FILE_EXTENTION);
   if (error !== undefined) {
     logMessage(error);
     return;
   }
-  return await Neo.parse({ source, root, page, commands });
+  return await Neo.parse({ source, root, page, commands, sourceLoader });
 };
 
-Neo.parse = async ({ source, root, page, commands }) => {
+Neo.parse = async ({ source, root, page, commands, sourceLoader }) => {
   const { instructions, error } = parse(source);
   if (error !== undefined) {
     logMessage(error);
     return;
   }
-  return await Neo(commands)({ instructions, root, page });
+  return await Neo(commands)({ instructions, root, page, sourceLoader });
 };
 
 export default Neo;
