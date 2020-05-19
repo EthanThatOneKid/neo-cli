@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const meow = require('meow');
-const { app } = require('./lib/app');
+const { app } = require('../lib/app');
 
 const help = `
 Usage
