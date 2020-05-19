@@ -7,7 +7,23 @@ const checkIsStringBasedType = ({ token }): boolean => {
   return !nonStringBasedTypeTokens.some(t => t === token);
 };
 
-const Variable = ({ value, type }: { value: any, type: Type }) => ({
+interface Scope {
+  [k: string]: VariableType
+}
+
+interface VariableArgument {
+  value: any,
+  type: Type
+}
+
+interface VariableType {
+  value: any,
+  type: Type,
+  make: (scope?: Scope) => any,
+  arguments?: { name: string, type: Type }[] // `play` keyword
+}
+
+const Variable = ({ value, type }: VariableArgument): VariableType => ({
   value, type,
   make(scope = {}) {
     let populatedValue;
@@ -31,3 +47,9 @@ const Variable = ({ value, type }: { value: any, type: Type }) => ({
 });
 
 export default Variable;
+
+export {
+  Scope,
+  VariableArgument,
+  VariableType
+};

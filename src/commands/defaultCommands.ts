@@ -4,7 +4,7 @@ import { constants } from '../maps/constants';
 import { types } from '../maps/types';
 import warnings from '../maps/warnings';
 import errors from '../maps/errors';
-import Variable from '../Variable';
+import Variable, { VariableType } from '../Variable';
 import {
   now,
   logMessage,
@@ -13,8 +13,9 @@ import {
   getFileExt,
   getArgumentsFromArgTypesAndNames
 } from '../helpers';
+import { Commands } from '.';
 
-export const defaultCommands = {
+export const defaultCommands: Commands = {
 
   //  ______     __     __     ______     __     ______
   // /\  __ \   /\ \  _ \ \   /\  __ \   /\ \   /\__  _\
@@ -39,7 +40,7 @@ export const defaultCommands = {
   //   \/_____/   \/_____/   \/_/   \/_____/   \/_/\/_/ 
   async [keywords.CLICK.token]({ inlineArguments }) {
     const [selVar] = inlineArguments;
-    const sel = selVar.make(this.scope);
+    const sel = (selVar as VariableType).make(this.scope);
     try {
       await this.page.click(sel);
     } catch {
@@ -55,7 +56,7 @@ export const defaultCommands = {
   //   \/____/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
   async [keywords.DIALOG.token]({ inlineArguments }) {
     const [choiceVar] = inlineArguments;
-    const _choice = choiceVar.make(this.scope);
+    const _choice = (choiceVar as VariableType).make(this.scope);
     const choice = [constants.ACCEPT, constants.DISMISS].includes(_choice)
       ? _choice
       : constants.ACCEPT;
@@ -74,14 +75,14 @@ export const defaultCommands = {
   //   \/____/   \/_____/  
   async [keywords.DO.token]({ inlineArguments, instructions }) {
     const [listVar, currentVarNameVar, indexVarNameVar] = inlineArguments;
-    const { items, type } = listVar.make(this.scope);
+    const { items, type } = (listVar as VariableType).make(this.scope);
     for (let i = 0; i < items.length; i++) {
       if (currentVarNameVar !== undefined) {
-        const currentVarName = currentVarNameVar.make();
+        const currentVarName = (currentVarNameVar as VariableType).make();
         this.scope[currentVarName] = Variable({ value: items[i], type });
       }
       if (indexVarNameVar !== undefined) {
-        const indexVarName = indexVarNameVar.make();
+        const indexVarName = (indexVarNameVar as VariableType).make();
         this.scope[indexVarName] = Variable({ value: i, type: types.INTEGER });
       }
       await this.run(instructions);
@@ -95,19 +96,19 @@ export const defaultCommands = {
   //   \/_____/   \/____/   \/_/     \/_/   
   async [keywords.EDIT.token]({ inlineArguments }) {
     const [listVar, operationVar, elementVar] = inlineArguments;
-    const listName = listVar.value;
+    const listName = (listVar as VariableType).value;
     const list = this.scope[listName].value;
-    const operation = operationVar.make(this.scope);
+    const operation = (operationVar as VariableType).make(this.scope);
     if (operation === constants.LIST_PUSH) {
       if (elementVar !== undefined) {
-        list.items.push(elementVar.make(this.scope));
+        list.items.push((elementVar as VariableType).make(this.scope));
         this.scope[listName].value = list;
       } else {
         return warnings.LIST_EXPECTS_ELEMENT();
       }
     } else if (operation === constants.LIST_UNSHIFT) {
       if (elementVar !== undefined) {
-        list.items.unshift(elementVar.make(this.scope));
+        list.items.unshift((elementVar as VariableType).make(this.scope));
         this.scope[listName].value = list;
       } else {
         return warnings.LIST_EXPECTS_ELEMENT();
@@ -132,9 +133,9 @@ export const defaultCommands = {
   async [keywords.EXTRACT.token]({ inlineArguments }) {
     const nonExtractableTypeTokens = [types.INTEGER.token, types.BOOLEAN.token];
     const [newVarNameVar, oldVarNameVar, keyVar, endKeyVar] = inlineArguments;
-    const newVarName = newVarNameVar.make();
-    const oldVarName = oldVarNameVar.make();
-    const key = keyVar.make(this.scope);
+    const newVarName = (newVarNameVar as VariableType).make();
+    const oldVarName = (oldVarNameVar as VariableType).make();
+    const key = (keyVar as VariableType).make(this.scope);
     const oldVar = this.scope[oldVarName];
     if (!nonExtractableTypeTokens.includes(oldVar.type.token)) {
       if (oldVar.type.token === types.COOKIE) {
@@ -150,7 +151,7 @@ export const defaultCommands = {
         const index = types.INTEGER.make(key);
         if (oldVar.type.token === types.LIST.token) {
           if (endKeyVar !== undefined) {
-            const endIndex = types.INTEGER.make(endKeyVar.make(this.scope));
+            const endIndex = types.INTEGER.make((endKeyVar as VariableType).make(this.scope));
             this.scope[newVarName] = Variable({
               value: {
                 items: oldVar.value.items.slice(index, endIndex),
@@ -169,7 +170,7 @@ export const defaultCommands = {
         } else {
           const extractableText = oldVar.make(this.scope);
           if (endKeyVar !== undefined) {
-            const endIndex = types.INTEGER.make(endKeyVar.make(this.scope));
+            const endIndex = types.INTEGER.make((endKeyVar as VariableType).make(this.scope));
             this.scope[newVarName] = Variable({
               value: extractableText.slice(index, endIndex),
               type: oldVar.type
@@ -196,8 +197,8 @@ export const defaultCommands = {
   //   \/_/     \/_/   \/_____/   \/_____/   \/____/ 
   async [keywords.FIELD.token]({ inlineArguments }) {
     const [selVar, inputVar] = inlineArguments;
-    const sel = selVar.make(this.scope);
-    const input = inputVar.make(this.scope);
+    const sel = (selVar as VariableType).make(this.scope);
+    const input = (inputVar as VariableType).make(this.scope);
     try {
       await this.page.focus(sel);
       await this.page.keyboard.type(input);
@@ -214,7 +215,7 @@ export const defaultCommands = {
   //   \/_____/   \/_____/     \/_/   \/_____/
   async [keywords.GOTO.token]({ inlineArguments }) {
     const [urlVar] = inlineArguments;
-    const url = urlVar.make(this.scope);
+    const url = (urlVar as VariableType).make(this.scope);
     try {
       await this.page.goto(url);
     } catch {
@@ -230,13 +231,13 @@ export const defaultCommands = {
   //   \/_____/   \/_____/   \/_/\/_/   \/____/  
   async [keywords.LOAD.token]({ inlineArguments }) {
     const [urlVar, typeStringVar, varNameVar] = inlineArguments;
-    const typeString = typeStringVar.make();
+    const typeString = (typeStringVar as VariableType).make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {
       return errors.NO_SUCH_TYPE(typeString);
     }
-    const varName = varNameVar.make();
-    const url = urlVar.make(this.scope);
+    const varName = (varNameVar as VariableType).make();
+    const url = (urlVar as VariableType).make(this.scope);
     const fileExt = getFileExt(url)
     const { source, error } = await this.sourceLoader(url, fileExt);
     if (error !== undefined) {
@@ -255,7 +256,7 @@ export const defaultCommands = {
   async [keywords.LOG.token]({ inlineArguments }) {
     const [messageVars] = inlineArguments;
     const token = constants.OK_TOKEN;
-    for (const messageVar of messageVars) {
+    for (const messageVar of messageVars as VariableType[]) {
       const operableVariableForm = messageVar.make(this.scope);
       const message = messageVar.type.toString(operableVariableForm);
       logMessage({ token, message });
@@ -270,7 +271,7 @@ export const defaultCommands = {
   //   \/_/  \/_/   \/_/\/_/   \/_/\/_/   \/_____/   
   async [keywords.MAKE.token]({ inlineArguments, instructions }) {
     const [listVarNameVar, argTypesAndNameVars] = inlineArguments;
-    const listVarName = listVarNameVar.make();
+    const listVarName = (listVarNameVar as VariableType).make();
     const { arguments: toyArgs, error } = getArgumentsFromArgTypesAndNames(argTypesAndNameVars);
     if (error !== undefined) {
       return error;
@@ -293,7 +294,7 @@ export const defaultCommands = {
   //   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/   
   async [keywords.MAYBE.token]({ inlineArguments, instructions }) {
     const [conditionVar] = inlineArguments;
-    const condition = conditionVar.make(this.scope);
+    const condition = (conditionVar as VariableType).make(this.scope);
     if (condition) {
       await this.run(instructions);
     }
@@ -307,7 +308,7 @@ export const defaultCommands = {
   //   \/_/ \/_/   \/_____/   \/_____/   
   async [keywords.NEO.token]({ inlineArguments, Neo }) {
     const [pathVar] = inlineArguments;
-    const path = pathVar.make(this.scope);
+    const path = (pathVar as VariableType).make(this.scope);
     const neo = await Neo.load({ path, page: this.page });
     return await neo.run();
   },
@@ -320,7 +321,7 @@ export const defaultCommands = {
   async [keywords.PAUSE.token]({ inlineArguments }) {
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     const [_timeout] = inlineArguments;
-    const timeout = _timeout !== undefined ? _timeout.make(this.scope) : 0;
+    const timeout = _timeout !== undefined ? (_timeout as VariableType).make(this.scope) : 0;
     return await pause(timeout);
   },
 
@@ -331,8 +332,8 @@ export const defaultCommands = {
   //   \/_/     \/_____/   \/_/\/_/   \/_____/
   async [keywords.PLAY.token]({ inlineArguments }) {
     const [listVar, argumentValues] = inlineArguments;
-    const { arguments: toyArgs } = listVar;
-    const { items: instructions, type: listType } = listVar.make(this.scope);
+    const { arguments: toyArgs } = listVar as VariableType;
+    const { items: instructions, type: listType } = (listVar as VariableType).make(this.scope);
     if (listType.token !== types.INSTRUCTION.token) {
       return errors.BAD_PLAY_LIST(listType.token);
     }
@@ -353,13 +354,13 @@ export const defaultCommands = {
   //   \/_/ /_/   \/_____/   \/_/\/_/   \/____/   
   async [keywords.READ.token]({ inlineArguments }) {
     const [typeStringVar, varNameVar, selVar] = inlineArguments;
-    const typeString = typeStringVar.make();
+    const typeString = (typeStringVar as VariableType).make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {
       return errors.NO_SUCH_TYPE(typeString);
     }
-    const varName = varNameVar.make();
-    const sel = selVar.make(this.scope);
+    const varName = (varNameVar as VariableType).make();
+    const sel = (selVar as VariableType).make(this.scope);
     let value;
     try {
       value = await this.page.$eval(sel, el => el.innerText);
@@ -378,13 +379,13 @@ export const defaultCommands = {
   async [keywords.REPEAT.token]({ inlineArguments, instructions }) {
     const [maxRepeatsVar, selVar, testTextVar] = inlineArguments;
     let targetSel, testText,
-        currentRepeats = 0, maxRepeats = maxRepeatsVar.make(this.scope);
+        currentRepeats = 0, maxRepeats = (maxRepeatsVar as VariableType).make(this.scope);
     while (currentRepeats++ <= maxRepeats) {
       await this.run(instructions);
-      maxRepeats = maxRepeatsVar.make(this.scope);
+      maxRepeats = (maxRepeatsVar as VariableType).make(this.scope);
       if (selVar !== undefined) {
-        testText = testTextVar.make(this.scope);
-        targetSel = selVar.make(this.scope);
+        testText = (testTextVar as VariableType).make(this.scope);
+        targetSel = (selVar as VariableType).make(this.scope);
         let innerText;
         try {
           innerText = await this.page.$eval(targetSel, el => el.innerText);
@@ -406,8 +407,8 @@ export const defaultCommands = {
   //   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/     \/_/  
   async [keywords.SELECT.token]({ inlineArguments }) {
     const [selVar, optionVar] = inlineArguments;
-    const sel = selVar.make(this.scope);
-    const option = optionVar.make(this.scope);
+    const sel = (selVar as VariableType).make(this.scope);
+    const option = (optionVar as VariableType).make(this.scope);
     try {
       const isNotSelectElement = await this.page.$eval(sel, (el, value) => {
         if (el.options !== undefined) {
@@ -457,8 +458,8 @@ export const defaultCommands = {
   async [keywords.TRAVEL.token]({ inlineArguments }) {
     const [latStringVar, lonStringVar] = inlineArguments;
     if (latStringVar !== undefined && lonStringVar !== undefined) {
-      const latitude = Number(latStringVar.make(this.scope));
-      const longitude = Number(lonStringVar.make(this.scope));
+      const latitude = Number((latStringVar as VariableType).make(this.scope));
+      const longitude = Number((lonStringVar as VariableType).make(this.scope));
       await this.page._browserContext.setGeolocation({ latitude, longitude });
     }
     await this.page._browserContext.grantPermissions(["geolocation"]);
@@ -472,15 +473,15 @@ export const defaultCommands = {
   //   \/_/      \/_/\/_/   \/_/ /_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_____/  
   async [keywords.VARIABLE.token]({ inlineArguments }) {
     const [typeStringVar, varNameVar, valueVar] = inlineArguments;
-    const typeString = typeStringVar.make();
+    const typeString = (typeStringVar as VariableType).make();
     const type = getTypeObjectFromToken(typeString);
     if (type === undefined) {
       return errors.NO_SUCH_TYPE(typeString);
     }
-    const varName = varNameVar.make();
+    const varName = (varNameVar as VariableType).make();
     const value = !type.selfDeclarable || valueVar === undefined
       ? type.empty
-      : valueVar.make(this.scope);
+      : (valueVar as VariableType).make(this.scope);
     this.scope[varName] = Variable({ value, type });
     return;
   }

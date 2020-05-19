@@ -2,7 +2,8 @@ import { constants } from './maps/constants';
 import { keywords } from './maps/keywords';
 import { types } from './maps/types';
 import parse from './parse';
-import Variable from './Variable';
+import Variable, { Scope } from './Variable';
+import { Instruction, Commands } from './commands'
 import { defaultCommands } from './commands/defaultCommands';
 import {
   loadGlobalScope,
@@ -11,7 +12,51 @@ import {
   loadSourceFromURL
 } from './helpers';
 
-const Neo = (commands = { ...defaultCommands }) => async ({
+type SourceLoader = any;
+
+interface RawInstruction {
+  token: string,
+  inlineArguments: string[],
+  instructions: RawInstruction[]
+}
+
+interface NeoArguments {
+  instructions: RawInstruction[],
+  root: string,
+  page: any,
+  scope?: Scope,
+  beforeErrorShot?: Buffer,
+  sourceLoader: SourceLoader
+}
+
+interface NeoType {
+  page: any,
+  root: string,
+  scope: Scope,
+  beforeErrorShot: Buffer,
+  sourceLoader: SourceLoader,
+  beforeErrorShoot: () => Promise<void>,
+  run: (x?: RawInstruction[]) => Promise<void>
+}
+
+interface NeoFactory {
+  (commands: Commands): ((details: NeoArguments) => NeoType),
+  load: (x: {
+    path: string,
+    page: any,
+    commands: Commands,
+    sourceLoader: SourceLoader
+  }) => Promise<NeoType>,
+  parse: (x: {
+    source: string,
+    root: string,
+    page: any,
+    commands: Commands,
+    sourceLoader: SourceLoader
+  }) => Promise<NeoType>
+}
+
+const Neo: NeoFactory = (commands = { ...defaultCommands }) => ({
   instructions: autoInstructions,
   root, page, scope = loadGlobalScope(),
   beforeErrorShot = Buffer.from(""),
