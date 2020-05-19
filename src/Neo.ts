@@ -3,7 +3,7 @@ import { keywords } from './maps/keywords';
 import { types } from './maps/types';
 import parse from './parse';
 import Variable, { Scope } from './Variable';
-import { Instruction, Commands } from './commands'
+import { Commands } from './commands'
 import { defaultCommands } from './commands/defaultCommands';
 import {
   loadGlobalScope,
