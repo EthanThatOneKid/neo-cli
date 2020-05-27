@@ -50,3 +50,6 @@
 * [x] implement `make`, `finish` and `play` keyword. This will be the language's function solution. Toys are created between the keywords `make` and `finsh` using the syntax `make log LOG_MESSAGE finish TOY_NAME, LOG_MESSAGE, ...` Toys can be extracted from neo files using the syntax `load URL, as, TOY_NAME`. Toys will be stored as type `toy`.
   * Created: 5/12/20
   * Completed: 5/14/20
+* [ ] utilize [GitBook](https://www.gitbook.com/) for neo documentation
+  * Created: 5/27/20
+  * Completed: TBA
