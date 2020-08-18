@@ -1,12 +1,12 @@
 # Neo 🐱‍👤
 > Neo, a scripting language for web automation ~~ https://neolang.dev/
 
-[![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo)][neo_repo][![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo)][neo_site][![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo)](https://www.typescriptlang.org/)[![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/issues)[![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo)](https://github.com/EthanThatOneKid/neo/pulls)[![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo/total)](https://github.com/EthanThatOneKid/neo/releases)[![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac][![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/watchers)[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo?style=social)](https://github.com/EthanThatOneKid/neo/fork)
+[![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo-cli)][neo_repo][![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo-cli)][neo_site][![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo-cli)](https://www.typescriptlang.org/)[![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo-cli)](https://github.com/EthanThatOneKid/neo-cli/issues)[![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo-cli)](https://github.com/EthanThatOneKid/neo-cli/pulls)[![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo-cli/total)](https://github.com/EthanThatOneKid/neo-cli/releases)[![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac][![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo-cli?style=social)](https://github.com/EthanThatOneKid/neo-cli/watchers)[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo-cli?style=social)](https://github.com/EthanThatOneKid/neo-cli/fork)
 
 ---
 
 ## Documentation 📃
-Please refer to the [API docs](https://github.com/EthanThatOneKid/neo/blob/master/docs/API.md).
+Please refer to the [API docs](https://github.com/EthanThatOneKid/neo-cli/blob/master/docs/API.md).
 
 ---
 
@@ -27,7 +27,7 @@ neo --download --chromium # Or --firefox or --webkit
 > Install Neo to your machine using [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/)
 
 ```shell
-git clone https://github.com/EthanThatOneKid/neo # Clone this repository
+git clone https://github.com/EthanThatOneKid/neo-cli # Clone this repository
 cd neo # Navigate to this repository
 npm i # Install dependencies
 npm run build # Compile TypeScript to JavaScript
@@ -63,7 +63,7 @@ Edit 4/28/20: I have completed the modern version of the Neo language complete w
 
 Developed with 💖 by [EthanThatOneKid][creator_site]
 
-[neo_site]: https://github.com/EthanThatOneKid/neo/releases/latest
-[neo_repo]: https://github.com/EthanThatOneKid/neo
+[neo_site]: https://github.com/EthanThatOneKid/neo-cli/releases/latest
+[neo_repo]: https://github.com/EthanThatOneKid/neo-cli
 [bmac]: http://buymeacoff.ee/etok
 [creator_site]: http://ethandavidson.com/
