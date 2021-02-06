@@ -27,7 +27,7 @@ goto PLAYGROUND_URL
 
 ~~ Load some jokes
 var url, JOKES_URL,      ./test/data/jokes.txt
-var url, PUNCHLINES_URL, https://raw.githubusercontent.com/EthanThatOneKid/neo/master/test/data/punchlines.json
+var url, PUNCHLINES_URL, https://raw.githubusercontent.com/EthanThatOneKid/neo-cli/master/test/data/punchlines.json
 load JOKES_URL,      text, JOKES
 load PUNCHLINES_URL, text, PUNCHLINES
 

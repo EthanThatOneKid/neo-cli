@@ -3,7 +3,7 @@
   "version": "2020.0.5",
   "description": "Scripting language for web automation",
   "bin": {
-    "@EthanThatOneKid/neo": "scripts/bin.js",
+    "@EthanThatOneKid/neo-cli": "scripts/bin.js",
     "neo": "scripts/bin.js"
   },
   "main": "lib/Neo.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EthanThatOneKid/neo.git"
+    "url": "git+https://github.com/EthanThatOneKid/neo-cli.git"
   },
   "keywords": [
     "neopets"
@@ -25,7 +25,7 @@
   "author": "EthanThatOneKid",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/EthanThatOneKid/neo/issues"
+    "url": "https://github.com/EthanThatOneKid/neo-cli/issues"
   },
   "homepage": "https://neolang.dev/",
   "dependencies": {
