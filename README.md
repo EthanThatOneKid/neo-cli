@@ -2,7 +2,7 @@
 
 > Neo, a scripting language for web automation ~~ https://neolang.dev/
 
-[![O'Reily Handbook](docs/media/cover.png)](https://dev.to/rly)
+[![O'Reily Handbook][cover_img]](https://dev.to/rly)
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/ethanthatonekid/neo-cli)][neo_repo][![GitHub release (latest by date)](https://img.shields.io/github/v/release/ethanthatonekid/neo-cli)][neo_site][![GitHub top language](https://img.shields.io/github/languages/top/ethanthatonekid/neo-cli)](https://www.typescriptlang.org/)[![GitHub issues](https://img.shields.io/github/issues/ethanthatonekid/neo-cli)](https://github.com/EthanThatOneKid/neo-cli/issues)[![GitHub pull requests](https://img.shields.io/github/issues-pr/ethanthatonekid/neo-cli)](https://github.com/EthanThatOneKid/neo-cli/pulls)[![GitHub All Releases](https://img.shields.io/github/downloads/ethanthatonekid/neo-cli/total)](https://github.com/EthanThatOneKid/neo-cli/releases)[![Buy me a Coffee](https://img.shields.io/badge/buy%20me%20a-coffee-%23FF813F)][bmac][![GitHub watchers](https://img.shields.io/github/watchers/ethanthatonekid/neo-cli?style=social)](https://github.com/EthanThatOneKid/neo-cli/watchers)[![GitHub forks](https://img.shields.io/github/forks/ethanthatonekid/neo-cli?style=social)](https://github.com/EthanThatOneKid/neo-cli/fork)
 
@@ -73,6 +73,7 @@ Edit 4/28/20: I have completed the modern version of the Neo language complete w
 
 Developed with 💖 by [EthanThatOneKid][creator_site]
 
+[cover_img]: https://github.com/EthanThatOneKid/neo-cli/raw/master/docs/media/cover.png
 [neo_site]: https://github.com/EthanThatOneKid/neo-cli/releases/latest
 [neo_repo]: https://github.com/EthanThatOneKid/neo-cli
 [bmac]: http://buymeacoff.ee/etok
